@@ -11,21 +11,13 @@ export class Boot extends Scene {
     }
 
     getTime() {
-        //make a new date object
         let d = new Date();
-
-        //return the number of milliseconds since 1 January 1970 00:00:00.
         return d.getTime();
     }
 
     getDelta() {
-        //subtract the start time from the time now
-        // 
         let elapsed = this.getTime() - this.start;
-
-        //reset the start time
         this.start = this.getTime();
-
         return elapsed / 1000;
     }
 
@@ -66,8 +58,13 @@ export class Boot extends Scene {
 
     update() {
         let deltaTime = this.getDelta();
-        deltaX = this.joyStick.forceX / 60;
-        deltaY = -this.joyStick.forceY / 60;
+        if (this.joyStick.forceX != this.joyStick.pointerX) {
+            deltaX = this.joyStick.forceX / 60;
+            deltaY = -this.joyStick.forceY / 60;
+        } else {
+            deltaX = 0;
+            deltaY = 0;
+        }
         if (deltaX > 1) {
             deltaX = 1
         }
@@ -82,7 +79,8 @@ export class Boot extends Scene {
         }
         bubble.setPosition(bubble.x + (deltaX * deltaTime * frameSpeed), bubble.y - (deltaY * deltaTime * frameSpeed));
         this.cameras.main.centerOn(bubble.x, bubble.y);
-        console.log('deltaX: ', deltaX, 'deltaY: ', deltaY, 'deltaTime: ', deltaTime)
+        // console.log('deltaX: ', this.joyStick.pointerX, 'deltaY: ', this.joyStick.forceX, 'deltaTime: ', deltaTime)
+        // console.log(this.joyStick)
     }
 }
 
