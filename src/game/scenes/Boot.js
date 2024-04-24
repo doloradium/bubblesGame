@@ -1,22 +1,40 @@
 import { Scene } from 'phaser';
 
-export class Boot extends Scene
-{
-    constructor ()
-    {
+export class Boot extends Scene {
+    constructor() {
         super('Boot');
     }
 
-    preload ()
-    {
-        //  The Boot Scene is typically used to load in any assets you require for your Preloader, such as a game logo or background.
-        //  The smaller the file size of the assets, the better, as the Boot Scene itself has no preloader.
-
-        this.load.image('background', 'assets/bg.png');
+    preload() {
+        let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
+        this.load.plugin('rexvirtualjoystickplugin', url, true);
     }
 
-    create ()
-    {
-        this.scene.start('Preloader');
+    create() {
+        this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+            x: window.innerWidth * 0.8,
+            y: window.innerHeight * 0.85,
+            base: this.add.circle(0, 0, window.innerWidth * 0.18, 0x888888),
+            thumb: this.add.circle(0, 0, window.innerWidth * 0.08, 0xcccccc),
+        });
+        this.joystickCursors = this.joyStick.createCursorKeys();
+    }
+
+    update() {
+        // if (this.joystickCursors.up.isDown) {
+        //     jugador.setVelocityY(-200);
+        // }
+        // else if (this.joystickCursors.down.isDown) {
+        //     jugador.setVelocityY(200);
+        // }
+        // else if (this.joystickCursors.left.isDown) {
+        //     jugador.setVelocityX(-200);
+        // }
+        // else if (this.joystickCursors.right.isDown) {
+        //     jugador.setVelocityX(200);
+        // }
+        // else {
+        //     jugador.setVelocity(0);
+        // }
     }
 }
