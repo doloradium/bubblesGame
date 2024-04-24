@@ -66,8 +66,6 @@ export class Boot extends Scene {
 
     update() {
         let deltaTime = this.getDelta();
-        console.log(deltaTime)
-        this.cameras.main.centerOn(bubble.x, bubble.y);
         deltaX = this.joyStick.forceX / 60;
         deltaY = -this.joyStick.forceY / 60;
         if (deltaX > 1) {
@@ -82,8 +80,9 @@ export class Boot extends Scene {
         if (deltaY < -1) {
             deltaY = -1
         }
-        // console.log('deltaX: ', deltaX, 'deltaY: ', deltaY)
         bubble.setPosition(bubble.x + (deltaX * deltaTime * frameSpeed), bubble.y - (deltaY * deltaTime * frameSpeed));
+        this.cameras.main.centerOn(bubble.x, bubble.y);
+        console.log('deltaX: ', deltaX, 'deltaY: ', deltaY, 'deltaTime: ', deltaTime)
     }
 }
 
