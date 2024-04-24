@@ -8,14 +8,23 @@ export class Boot extends Scene {
     preload() {
         let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
         this.load.plugin('rexvirtualjoystickplugin', url, true);
+        this.load.image('thumb', '../../../public/assets/thumb.png');
+        this.load.image('base', '../../../public/assets/base.png');
     }
 
     create() {
+        let base = this.add.image(0, 0, 'base');
+        let thumb = this.add.image(0, 0, 'thumb');
+        base.displayHeight = window.innerWidth / 3;
+        base.displayWidth = window.innerWidth / 3;
+        thumb.displayHeight = window.innerWidth / 6;
+        thumb.displayWidth = window.innerWidth / 6;
         this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-            x: window.innerWidth * 0.8,
+            x: window.innerWidth * 0.75,
             y: window.innerHeight * 0.85,
-            base: this.add.circle(0, 0, window.innerWidth * 0.18, 0x888888),
-            thumb: this.add.circle(0, 0, window.innerWidth * 0.08, 0xcccccc),
+            radius: 60,
+            base: base,
+            thumb: thumb,
         });
         this.joystickCursors = this.joyStick.createCursorKeys();
     }

@@ -8,7 +8,7 @@ const config = {
     width: window.innerWidth,
     height: window.innerHeight,
     parent: 'game-container',
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     scene: [
         Boot
     ]
