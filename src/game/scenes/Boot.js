@@ -1,12 +1,32 @@
 import { Scene } from 'phaser';
 
 let bubble;
+let frameSpeed = 200;
 let joyStickX, joyStickY;
 let deltaX, deltaY;
 
 export class Boot extends Scene {
     constructor() {
         super('Boot');
+    }
+
+    getTime() {
+        //make a new date object
+        let d = new Date();
+
+        //return the number of milliseconds since 1 January 1970 00:00:00.
+        return d.getTime();
+    }
+
+    getDelta() {
+        //subtract the start time from the time now
+        // 
+        let elapsed = this.getTime() - this.start;
+
+        //reset the start time
+        this.start = this.getTime();
+
+        return elapsed / 1000;
     }
 
     preload() {
@@ -20,7 +40,7 @@ export class Boot extends Scene {
     }
 
     create() {
-
+        this.start = this.getTime();
         const background = this.add.tileSprite(0, 0, 5800, 10000, 'background').setOrigin(0, 0);
         background.setScale(0.3, 0.3)
         bubble = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'bubble');
@@ -45,7 +65,8 @@ export class Boot extends Scene {
     }
 
     update() {
-        // this.background.tilePositionX = this.cameras.main.scrollX;
+        let deltaTime = this.getDelta();
+        console.log(deltaTime)
         this.cameras.main.centerOn(bubble.x, bubble.y);
         deltaX = this.joyStick.forceX / 60;
         deltaY = -this.joyStick.forceY / 60;
@@ -61,8 +82,8 @@ export class Boot extends Scene {
         if (deltaY < -1) {
             deltaY = -1
         }
-        console.log('deltaX: ', deltaX, 'deltaY: ', deltaY)
-        bubble.setPosition(bubble.x + deltaX, bubble.y - deltaY);
+        // console.log('deltaX: ', deltaX, 'deltaY: ', deltaY)
+        bubble.setPosition(bubble.x + (deltaX * deltaTime * frameSpeed), bubble.y - (deltaY * deltaTime * frameSpeed));
     }
 }
 
