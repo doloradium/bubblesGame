@@ -12,11 +12,11 @@ export class Boot extends Scene {
     preload() {
         let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
         this.load.plugin('rexvirtualjoystickplugin', url, true);
-        this.load.image('thumb', '../../../public/assets/thumb.png');
-        this.load.image('base', '../../../public/assets/base.png');
-        this.load.image('bubble', '../../../public/assets/bubble.png');
-        this.load.image('food', '../../../public/assets/food.png');
-        this.load.image('background', '../../../public/assets/tile.png');
+        this.load.image('thumb', '/public/assets/thumb.png');
+        this.load.image('base', '/public/assets/base.png');
+        this.load.image('bubble', '/public/assets/bubble.png');
+        this.load.image('food', '/public/assets/food.png');
+        this.load.image('background', '/public/assets/tile.png');
     }
 
     create() {
@@ -24,6 +24,7 @@ export class Boot extends Scene {
         const background = this.add.tileSprite(0, 0, 5800, 10000, 'background').setOrigin(0, 0);
         background.setScale(0.3, 0.3)
         bubble = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'bubble');
+        bubble.setScale(0.5, 0.5)
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');
         base.displayHeight = window.innerWidth / 3;
