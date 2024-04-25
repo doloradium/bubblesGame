@@ -50,6 +50,9 @@ function App() {
         setCanMoveSprite(scene.scene.key !== "MainMenu");
     };
 
+    const tele = window.Telegram.WebApp;
+    tele.expand();
+
     return (
         <div id="app">
             <Button
@@ -59,7 +62,7 @@ function App() {
                     let app = document.querySelector("#app");
                     let main = document.querySelector("#main");
                     app.style.display = "none";
-                    main.style.display = "block";
+                    main.style.display = "flex";
                 }}
             />
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />

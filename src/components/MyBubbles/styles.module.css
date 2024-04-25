@@ -5,6 +5,10 @@
     justify-content: space-between;
 }
 
+.bubblesHeader {
+    margin: 0;
+}
+
 .slideImage {
     width: 50%;
     position: absolute;
