@@ -6,6 +6,7 @@ let joyStickX, joyStickY;
 let deltaX, deltaY;
 let radius = 110;
 let newX, newY;
+let eject, split;
 
 export class Boot extends Scene {
     constructor() {
@@ -42,6 +43,8 @@ export class Boot extends Scene {
         this.load.image('background', 'assets/tile.png');
         this.load.image('halo', 'assets/halo.png');
         this.load.image('pointer', 'assets/pointer.png');
+        this.load.image('eject', 'assets/button1.png');
+        this.load.image('split', 'assets/button2.png');
     }
 
     create() {
@@ -56,6 +59,18 @@ export class Boot extends Scene {
         pointer = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'pointer');
         pointer.setScale(0.65, 0.65)
         pointer.setTint(0x00ff00)
+        eject = this.add.sprite(window.innerWidth * 0.18, window.innerHeight * 0.89, 'eject').setInteractive();
+        eject.setScrollFactor(0)
+        eject.setScale(0.3);
+        split = this.add.sprite(window.innerWidth * 0.18, window.innerHeight * 0.73, 'split').setInteractive();
+        split.setScrollFactor(0)
+        split.setScale(0.3);
+        eject.on('pointerdown', function () {
+            console.log('Eject');
+        });
+        split.on('pointerdown', function () {
+            console.log('Split');
+        });
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');
         base.displayHeight = window.innerWidth / 3;
