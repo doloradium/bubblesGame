@@ -67,7 +67,7 @@ const MyBubbles = () => {
                                     color={"green"}
                                     image={info}
                                     className={styles.slideButton}
-                                    onClick={}
+                                    // onClick={}
                                 />
                             </div>
                         </SwiperSlide>
