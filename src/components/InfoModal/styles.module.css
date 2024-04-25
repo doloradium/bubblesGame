@@ -1,0 +1,38 @@
+.modalContainer {
+    position: absolute;
+    display: flex;
+    border-radius: 0.5rem;
+    background-color: #ffffff30;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    padding: 1rem 0;
+    top: 50%;
+    left: 50%;
+    width: calc(100vw - 4rem);
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    overflow: none;
+}
+
+.invisible {
+    display: none;
+}
+
+.modalBlock {
+    border-right: 1px solid #fff;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    width: calc(100vw / 3);
+}
+
+.modalBlock span {
+    font-weight: 700;
+}
+
+.modalBlock:last-child {
+    border-right: none;
+}

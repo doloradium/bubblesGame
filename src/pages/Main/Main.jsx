@@ -42,8 +42,9 @@ const Main = () => {
             <div className={styles.pageContainer} id="main">
                 <Header name={"VP"} balance={"100 TON"} />
                 <MyBubbles />
-                <Button text={"BUY MORE"} image={coin} />
+                <Button text={"BUY MORE"} image={coin} color={"blue"} />
                 <Button
+                    color={"blue"}
                     text={"START GAME"}
                     onClick={() => {
                         let app = document.querySelector("#app");
