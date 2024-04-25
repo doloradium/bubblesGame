@@ -14,8 +14,16 @@ const Header = ({ name, balance }) => {
                 My balance <br />
                 <span>{balance}</span>
             </div>
-            <Button color={"green"} image={arrows} />
-            <Button color={"purple"} text={"Legion"} />
+            <Button
+                color={"green"}
+                image={arrows}
+                className={styles.redeemButton}
+            />
+            <Button
+                color={"purple"}
+                text={"Legion"}
+                className={styles.legionButton}
+            />
         </div>
     );
 };

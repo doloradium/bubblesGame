@@ -42,7 +42,7 @@ let data = [
 
 const MyBubbles = () => {
     return (
-        <>
+        <div className={styles.bubblesWrapper}>
             <h1 className={styles.bubblesHeader}>My Bubbles</h1>
             <div className={styles.bubblesContainer}>
                 <div className={styles.bubblesBackground}></div>
@@ -67,13 +67,14 @@ const MyBubbles = () => {
                                     color={"green"}
                                     image={info}
                                     className={styles.slideButton}
+                                    onClick={}
                                 />
                             </div>
                         </SwiperSlide>
                     ))}
                 </Swiper>
             </div>
-        </>
+        </div>
     );
 };
 

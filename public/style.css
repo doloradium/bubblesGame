@@ -7,9 +7,17 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 html,
 body {
     touch-action: none;
+}
+
+#root {
+    height: 100svh;
 }
 
 .swiper-pagination-bullet-active {
