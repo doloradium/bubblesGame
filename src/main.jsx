@@ -5,6 +5,7 @@ import Main from "./pages/Main/Main.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
+        <Main />
         <App />
     </React.StrictMode>
 );

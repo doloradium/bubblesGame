@@ -16,6 +16,12 @@ body {
     background-color: #fff !important;
 }
 
+.buttonAbsolute {
+    position: absolute;
+    width: fit-content !important;
+    display: inline-block;
+}
+
 .swiper-pagination {
     bottom: 10px;
 }
@@ -29,9 +35,10 @@ body {
 
 #app {
     width: 100%;
+    position: absolute;
     height: 100vh;
     overflow: hidden;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }

@@ -11,14 +11,17 @@ import styles from "./styles.module.css";
 const Main = () => {
     return (
         <>
-            <div className={styles.pageContainer}>
+            <div className={styles.pageContainer} id="main">
                 <Header name={"VP"} balance={"100 ton"} />
                 <MyBubbles />
                 <Button text={"BUY MORE"} image={coin} />
                 <Button
                     text={"START GAME"}
                     onClick={() => {
-                        navigate("/game");
+                        let app = document.querySelector("#app");
+                        let main = document.querySelector("#main");
+                        app.style.display = "block";
+                        main.style.display = "none";
                     }}
                 />
                 <p className={styles.clanName}>MY SQUAD</p>

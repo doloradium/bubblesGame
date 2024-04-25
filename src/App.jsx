@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
-
-import Phaser from "phaser";
 import { PhaserGame } from "./game/PhaserGame";
+import Phaser from "phaser";
+
+import Button from "./components/Button/Button";
+
+import arrowBack from "../public/assets/arrowBack.svg";
 
 function App() {
     const [canMoveSprite, setCanMoveSprite] = useState(true);
@@ -49,6 +52,16 @@ function App() {
 
     return (
         <div id="app">
+            <Button
+                image={arrowBack}
+                className="buttonAbsolute"
+                onClick={() => {
+                    let app = document.querySelector("#app");
+                    let main = document.querySelector("#main");
+                    app.style.display = "none";
+                    main.style.display = "block";
+                }}
+            />
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
         </div>
     );
