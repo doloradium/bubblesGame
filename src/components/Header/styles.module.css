@@ -1,0 +1,25 @@
+.headerContainer {
+    display: flex;
+    gap: 1rem;
+}
+
+.balanceContainer {
+    display: flex;
+    flex-direction: column;
+    color: #696a74;
+}
+
+.balanceContainer span {
+    color: #fff;
+}
+
+.avatar {
+    height: 5rem;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    background-color: #2c1a9d;
+    font-size: 2rem;
+}
