@@ -7,6 +7,11 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+html,
+body {
+    touch-action: none;
+}
+
 .swiper-pagination-bullet-active {
     background: #fff !important;
     opacity: 1 !important;
