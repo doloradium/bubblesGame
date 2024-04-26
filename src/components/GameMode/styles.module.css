@@ -1,0 +1,91 @@
+.gamemodeContainer {
+    background: linear-gradient(360deg, #632c71, #171042);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid #282675;
+}
+
+.gamemodeOptions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+}
+
+.gamemodeOptions:first-child {
+    border-bottom: 1px solid #ffffff20;
+}
+
+.counter {
+    display: flex;
+}
+
+.checkbox {
+    height: 2rem;
+    width: 2rem;
+    background-color: #00dc65;
+    border: 1px solid #fff;
+}
+
+.gamemodeSelection {
+    display: flex;
+    flex-direction: column;
+}
+
+.gamemodeInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.counterItem {
+    background-color: #fff;
+    color: #000;
+    padding: 1rem;
+    border: none;
+    font-size: 1rem;
+    width: 4rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.counterItem:first-child {
+    border-radius: 0.5rem 0 0 0.5rem;
+    border-right: #c5c5c5 solid 1px;
+    width: 2.5rem;
+}
+
+.counterItem:last-child {
+    border-radius: 0 0.5rem 0.5rem 0;
+    border-left: #c5c5c5 solid 1px;
+    width: 2.5rem;
+}
+
+.gamemodeInfo span {
+    font-weight: 700;
+}
+
+.gamemodeBet {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #5855ff50;
+    gap: 1rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.gamemodeHeading {
+    grid-column: span 2;
+    text-align: center;
+    margin: 0;
+    font-weight: 400;
+    font-size: 1rem;
+}

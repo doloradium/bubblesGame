@@ -11,6 +11,37 @@ body {
     box-sizing: border-box;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+    background-color: #45456a;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-position: center;
+    background-size: 1rem;
+    background-repeat: no-repeat;
+    height: 2rem !important;
+    width: 2rem !important;
+}
+
+.swiper-button-prev {
+    background-image: url("assets/arrowLeft.svg");
+    margin-left: -10px !important;
+}
+
+.swiper-button-next {
+    background-image: url("assets/arrowRight.svg");
+    margin-right: -10px !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    content: "" !important;
+}
+
+.swiper-pagination-bullet {
+    background-color: #fff;
+}
+
 html,
 body {
     touch-action: none;
@@ -45,6 +76,7 @@ body {
     display: grid;
     grid-auto-flow: column;
     height: 110%;
+    width: 120% !important;
 }
 
 #app {

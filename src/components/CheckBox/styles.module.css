@@ -1,0 +1,18 @@
+.checkboxActive {
+    background-color: #00dc65;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+}
+
+.checkboxInactive {
+    width: 2rem;
+    height: 2rem;
+    background-color: #dfdfdf40;
+    border-radius: 0.5rem;
+    border: 1px solid #fff;
+}

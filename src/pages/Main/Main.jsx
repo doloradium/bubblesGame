@@ -47,9 +47,9 @@ const Main = () => {
                     color={"blue"}
                     text={"START GAME"}
                     onClick={() => {
-                        let app = document.querySelector("#app");
                         let main = document.querySelector("#main");
-                        app.style.display = "block";
+                        let setup = document.querySelector("#setup");
+                        setup.style.display = "flex";
                         main.style.display = "none";
                     }}
                 />

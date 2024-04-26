@@ -1,0 +1,66 @@
+.slideContainer {
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.imageContainer {
+}
+
+.gradientRight {
+    height: 100%;
+    width: 15vw;
+    background: linear-gradient(90deg, #151645, #15164500);
+    position: absolute;
+    z-index: 100;
+    left: 10px;
+}
+
+.gradientLeft {
+    height: 100%;
+    width: 15vw;
+    background: linear-gradient(270deg, #151645, #15164500);
+    position: absolute;
+    z-index: 2;
+    right: 10px;
+}
+
+.colorInactive {
+    color: #7a7a87;
+}
+
+.colorActive {
+    color: #fff;
+}
+
+.swiperHeading {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.slideImage {
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bubblesContainer {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid #282675;
+    height: 100%;
+    background-color: #151645;
+    padding: 1rem;
+}
+
+.swiperHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
