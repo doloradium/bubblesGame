@@ -54,7 +54,7 @@ const ChooseBubble = () => {
                 modules={[Navigation, Pagination]}
                 navigation
                 pagination={{ clickable: true }}
-                slidesPerView={5}
+                slidesPerView={4}
                 spaceBetween={10}
             >
                 {data.map((item) =>
