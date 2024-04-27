@@ -7,6 +7,14 @@
 }
 
 .imageContainer {
+    background-color: #5855ff50;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 0.5rem;
+    border: 1px solid #aaa8ff;
 }
 
 .gradientRight {
@@ -63,4 +71,14 @@
     display: flex;
     justify-content: space-between;
     gap: 1rem;
+}
+
+.checkbox {
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(130%, 130%);
+    width: 1.5rem;
+    height: 1.5rem;
+    justify-content: center;
 }

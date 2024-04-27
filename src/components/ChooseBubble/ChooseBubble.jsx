@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import CheckBox from "../CheckBox/CheckBox";
+
 import styles from "./styles.module.css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -11,6 +13,7 @@ import data from "../../data/data";
 
 const ChooseBubble = () => {
     const [colorToggle, setColorToggle] = useState("gold");
+    const [bubbleId, setBubbleId] = useState(0);
 
     return (
         <div className={styles.bubblesContainer}>
@@ -52,16 +55,27 @@ const ChooseBubble = () => {
                 navigation
                 pagination={{ clickable: true }}
                 slidesPerView={5}
-                spaceBetween={0}
+                spaceBetween={10}
             >
-                {data.map((item, key) =>
+                {data.map((item) =>
                     item.color == colorToggle ? (
-                        <SwiperSlide key={key}>
-                            <div className={styles.imageContainer}>
+                        <SwiperSlide key={item.id}>
+                            <div
+                                className={
+                                    item.id == bubbleId
+                                        ? styles.imageContainer
+                                        : null
+                                }
+                            >
                                 <img
                                     className={styles.slideImage}
                                     src={item.image}
                                     alt="Bubble"
+                                />
+                                <CheckBox
+                                    className={styles.checkbox}
+                                    isChecked={item.id == bubbleId}
+                                    onClick={() => setBubbleId(item.id)}
                                 />
                             </div>
                         </SwiperSlide>
