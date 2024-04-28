@@ -13,24 +13,27 @@ const GameMode = () => {
         setCounter(e.target.value);
     };
 
-    const handleClick = () => {
-        mode == "pay" ? setMode("free") : setMode("pay");
-    };
-
     return (
         <div className={styles.gamemodeContainer}>
             <h2 className={styles.gamemodeHeading}>GAME MODE</h2>
             <div className={styles.gamemodeSelection}>
-                <div className={styles.gamemodeOptions}>
+                <div
+                    className={styles.gamemodeOptions}
+                    onClick={() => {
+                        mode == "pay" ? setMode("free") : null;
+                    }}
+                >
                     <div className={styles.gamemodeName}>FREE</div>
-                    <CheckBox
-                        onClick={handleClick}
-                        isChecked={mode == "free"}
-                    />
+                    <CheckBox isChecked={mode == "free"} />
                 </div>
-                <div className={styles.gamemodeOptions}>
+                <div
+                    className={styles.gamemodeOptions}
+                    onClick={() => {
+                        mode == "free" ? setMode("pay") : null;
+                    }}
+                >
                     <div className={styles.gamemodeName}>PAY</div>
-                    <CheckBox onClick={handleClick} isChecked={mode == "pay"} />
+                    <CheckBox isChecked={mode == "pay"} />
                 </div>
             </div>
             <div className={styles.gamemodeBet}>

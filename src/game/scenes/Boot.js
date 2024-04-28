@@ -1,5 +1,9 @@
 import { Scene } from 'phaser';
 
+let webSocket = new WebSocket(
+    "ws://br4mn1-185-3-33-151.ru.tuna.am/game/online?token=2222&telegram_id=3333"
+);
+
 let bubble, halo, pointer;
 let frameSpeed = 200;
 let joyStickX, joyStickY;
@@ -7,6 +11,28 @@ let deltaX, deltaY;
 let radius = 110;
 let newX, newY;
 let eject, split;
+let websocketState
+let message;
+let receivedMessage = ''
+
+
+webSocket.onopen = function (event) {
+    console.log("WebSocket is connected");
+    websocketState = 1;
+};
+
+webSocket.onmessage = function (event) {
+    receivedMessage = JSON.parse(event.data);
+    console.log(receivedMessage);
+};
+
+webSocket.onerror = function (error) {
+    console.error("WebSocket Error: ", error);
+};
+
+webSocket.onclose = function (event) {
+    console.log("Connection is closed");
+};
 
 export class Boot extends Scene {
     constructor() {
@@ -53,6 +79,13 @@ export class Boot extends Scene {
         background.setScale(0.3, 0.3)
         bubble = this.add.image(window.innerWidth / 2 + 2, window.innerHeight / 2 + 2, 'bubble');
         bubble.setScale(0.5, 0.5)
+        // receivedMessage.players.map((item) => {
+        //     console.log(receivedMessage.telegram_id)
+        //     if (receivedMessage.telegram_id != item.player_id) {
+        //         window['bubble' + item.player_id] = this.add.image(window.innerWidth / 2 + 2, window.innerHeight / 2 + 2, 'bubble');
+        //         window['bubble' + item.player_id].setScale(0.5, 0.5)
+        //     }
+        // })
         halo = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'halo');
         halo.setScale(0.65, 0.65)
         halo.setTint(0x00ff00)
@@ -123,9 +156,11 @@ export class Boot extends Scene {
             pointer.setAlpha(0)
         }
         this.cameras.main.centerOn(bubble.x, bubble.y);
+        // message = JSON.stringify({ 'Action': "sigma", 'DeltaX': deltaX, 'DeltaY': deltaY })
+        // websocketState === 1 ? webSocket.send(message) : null
+        // websocketState === 1 ? console.log(receivedMessage.telegram_id) : null
     }
 }
-
 
 
 

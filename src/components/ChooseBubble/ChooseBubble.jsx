@@ -59,12 +59,15 @@ const ChooseBubble = () => {
             >
                 {data.map((item) =>
                     item.color == colorToggle ? (
-                        <SwiperSlide key={item.id}>
+                        <SwiperSlide
+                            key={item.id}
+                            onClick={() => setBubbleId(item.id)}
+                        >
                             <div
                                 className={
                                     item.id == bubbleId
                                         ? styles.imageContainer
-                                        : null
+                                        : styles.imageInactive
                                 }
                             >
                                 <img
@@ -75,7 +78,6 @@ const ChooseBubble = () => {
                                 <CheckBox
                                     className={styles.checkbox}
                                     isChecked={item.id == bubbleId}
-                                    onClick={() => setBubbleId(item.id)}
                                 />
                             </div>
                         </SwiperSlide>
