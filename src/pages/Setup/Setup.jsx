@@ -13,7 +13,18 @@ const Setup = () => {
             <div className={styles.pageContainer} id="setup">
                 <ChooseBubble />
                 <GameMode />
-                <Button text={"BUY MORE BUBBLES"} image={cart} color={"blue"} />
+                <Button
+                    text={"BUY MORE BUBBLES"}
+                    image={cart}
+                    color={"blue"}
+                    onClick={() => {
+                        let bubblesShop =
+                            document.querySelector("#bubbles-shop");
+                        let setup = document.querySelector("#setup");
+                        bubblesShop.style.display = "grid";
+                        setup.style.display = "none";
+                    }}
+                />
                 <Button
                     color={"blue"}
                     text={"START GAME"}

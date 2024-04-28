@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Main />
         <App />
         <Setup />
-        {/* <BubblesShop /> */}
+        <BubblesShop />
     </React.StrictMode>
 );
 

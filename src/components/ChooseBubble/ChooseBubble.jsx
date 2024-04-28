@@ -11,14 +11,22 @@ import "swiper/css";
 
 import data from "../../data/data";
 
-const ChooseBubble = () => {
+const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
     const [colorToggle, setColorToggle] = useState("gold");
     const [bubbleId, setBubbleId] = useState(0);
 
     return (
-        <div className={styles.bubblesContainer}>
+        <div
+            className={
+                noBackground
+                    ? styles.bubblesNoBackground
+                    : styles.bubblesContainer
+            }
+        >
             <div className={styles.swiperHeader}>
-                <h2 className={styles.swiperHeading}>Choose bubble</h2>
+                {noTitle ? null : (
+                    <h2 className={styles.swiperHeading}>Choose bubble</h2>
+                )}
                 <div className={styles.colorToggle}>
                     <span
                         className={

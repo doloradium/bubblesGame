@@ -1,8 +1,25 @@
 import { Scene } from 'phaser';
 
-let webSocket = new WebSocket(
-    "ws://br4mn1-185-3-33-151.ru.tuna.am/game/online?token=2222&telegram_id=3333"
-);
+async function sendFormData() {
+    try {
+        const response = await fetch('https://595ffe397d5c11c5444aff2946388f42.serveo.net/api/join?token=2222&telegram_id=3333', {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            console.log(response)
+            throw new Error('Network response was not ok');
+        }
+
+        const responseJson = await response.json();
+        room = responseJson['room_id']
+        webSocketPath = 'ws://595ffe397d5c11c5444aff2946388f42.serveo.net/game/online?token=2222&telegram_id=3333&room_id=' + room
+        newWebSocket()
+        console.log(webSocketPath)
+    } catch (error) {
+        console.error('Error sending form data:', error);
+    }
+}
 
 let bubble, halo, pointer;
 let frameSpeed = 200;
@@ -11,28 +28,48 @@ let deltaX, deltaY;
 let radius = 110;
 let newX, newY;
 let eject, split;
-let websocketState
+// let websocketState
 let message;
-let receivedMessage = ''
+let receivedMessage = '';
+let room;
+let webSocketPath;
+let webSocket
 
+sendFormData()
 
-webSocket.onopen = function (event) {
-    console.log("WebSocket is connected");
-    websocketState = 1;
-};
+function newWebSocket() {
+    webSocket = new WebSocket(
+        webSocketPath
+    );
 
-webSocket.onmessage = function (event) {
-    receivedMessage = JSON.parse(event.data);
-    console.log(receivedMessage);
-};
+    webSocket.onopen = function (event) {
+        console.log("WebSocket is connected");
+        // websocketState = 1;
+        setInterval(() => {
+            message = JSON.stringify({ 'action': 'move', 'delta_x': deltaX, 'delta_y': deltaY })
+            // websocketState === 1 ? webSocket.send(message) : null
+            webSocket.send(message)
+            // console.log(receivedMessage)
+        }, 100)
+    };
 
-webSocket.onerror = function (error) {
-    console.error("WebSocket Error: ", error);
-};
+    webSocket.onmessage = function (event) {
+        receivedMessage = JSON.parse(event.data);
+        console.log(receivedMessage);
+        // receivedMessage.room.players.map((item) => {
+        //     window['bubble' + item.player_id] = this.add.image(window.innerWidth / 2 + 2, window.innerHeight / 2 + 2, 'bubble');
+        //     window['bubble' + item.player_id].setScale(0.5, 0.5)
+        // })
+    };
 
-webSocket.onclose = function (event) {
-    console.log("Connection is closed");
-};
+    webSocket.onerror = function (error) {
+        console.error("WebSocket Error: ", error);
+    };
+
+    webSocket.onclose = function (event) {
+        console.log("Connection is closed");
+    };
+}
 
 export class Boot extends Scene {
     constructor() {
@@ -79,13 +116,6 @@ export class Boot extends Scene {
         background.setScale(0.3, 0.3)
         bubble = this.add.image(window.innerWidth / 2 + 2, window.innerHeight / 2 + 2, 'bubble');
         bubble.setScale(0.5, 0.5)
-        // receivedMessage.players.map((item) => {
-        //     console.log(receivedMessage.telegram_id)
-        //     if (receivedMessage.telegram_id != item.player_id) {
-        //         window['bubble' + item.player_id] = this.add.image(window.innerWidth / 2 + 2, window.innerHeight / 2 + 2, 'bubble');
-        //         window['bubble' + item.player_id].setScale(0.5, 0.5)
-        //     }
-        // })
         halo = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'halo');
         halo.setScale(0.65, 0.65)
         halo.setTint(0x00ff00)
@@ -123,6 +153,7 @@ export class Boot extends Scene {
     }
 
     update() {
+        // console.log(receivedMessage.telegram_id)
         let deltaTime = this.getDelta();
         if (this.joyStick.forceX != this.joyStick.pointerX) {
             deltaX = this.joyStick.forceX / 60;
@@ -156,9 +187,6 @@ export class Boot extends Scene {
             pointer.setAlpha(0)
         }
         this.cameras.main.centerOn(bubble.x, bubble.y);
-        // message = JSON.stringify({ 'Action': "sigma", 'DeltaX': deltaX, 'DeltaY': deltaY })
-        // websocketState === 1 ? webSocket.send(message) : null
-        // websocketState === 1 ? console.log(receivedMessage.telegram_id) : null
     }
 }
 

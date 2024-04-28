@@ -1,0 +1,45 @@
+.infoContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+}
+
+.infoName {
+    position: absolute;
+    top: 1rem;
+}
+
+.infoImage {
+    display: block;
+    width: 40vw;
+    height: 40vw;
+}
+
+.infoStatistics {
+    display: flex;
+    flex-direction: column;
+}
+
+.infoBlock {
+    display: flex;
+    flex-direction: column;
+    color: #c5c5c5;
+    padding: 0.5rem 0;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+}
+
+.infoBlock:nth-child(3) {
+    border-bottom: 1px solid #ffffff40;
+}
+
+.infoBlock span {
+    font-weight: 700;
+    color: #fff;
+}
+
+.infoPrice {
+    padding: 0.5rem 0;
+}
