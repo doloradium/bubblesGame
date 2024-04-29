@@ -84,12 +84,6 @@ function onMessage(event) {
             window['object' + item.id].setOrigin(0.5, 0.5)
             localObjects.push({ name: item.id, x: item.x, y: item.y, object: window['object' + item.id] })
         }
-        if (item.type == 'player') {
-            if (item.player_id == receivedMessage.tid) {
-                scene.cameras.main.centerOn(item.x, item.y);
-                console.log('player_id: ' + item.player_id, 'x: ', item.x, 'y: ', item.y)
-            }
-        }
     })
 
     localObjects.forEach((localItem) => {
@@ -193,7 +187,14 @@ export class Boot extends Scene {
     }
 
     update() {
-        // console.log(receivedMessage.telegram_id)
+        localObjects.forEach((item) => {
+            if (item.type == 'player') {
+                window['object' + item.id].setPosition(Phaser.Math.Linear(window['object' + item.id].x, item.x, 0.08), Phaser.Math.Linear(window['object' + item.id].y, item.y, 0.08))
+                if (item.player_id == receivedMessage.tid) {
+                    this.cameras.main.centerOn(item.x, item.y);
+                }
+            }
+        })
         let deltaTime = this.getDelta();
         if (this.joyStick.forceX != this.joyStick.pointerX) {
             deltaX = this.joyStick.forceX / 60;
