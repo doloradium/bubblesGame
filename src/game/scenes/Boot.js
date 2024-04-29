@@ -1,8 +1,23 @@
 import { Scene } from 'phaser';
 
+let bubble, halo, pointer;
+let frameSpeed = 200;
+let joyStickX, joyStickY;
+let deltaX, deltaY;
+let radius = 110;
+let newX, newY;
+let eject, split;
+let message;
+let room;
+let webSocketPath;
+let webSocket;
+let localObjects = []
+let deleteObjects = []
+let scene
+
 async function sendFormData() {
     try {
-        const response = await fetch('https://595ffe397d5c11c5444aff2946388f42.serveo.net/api/join?token=2222&telegram_id=3333', {
+        const response = await fetch('http://192.168.137.1:9000/api/join?token=2222&telegram_id=1111', {
             method: 'GET',
         });
 
@@ -13,29 +28,13 @@ async function sendFormData() {
 
         const responseJson = await response.json();
         room = responseJson['room_id']
-        webSocketPath = 'ws://595ffe397d5c11c5444aff2946388f42.serveo.net/game/online?token=2222&telegram_id=3333&room_id=' + room
+        webSocketPath = 'ws://192.168.137.1:9000/game/online?token=2222&telegram_id=1111&room_id=' + room
         newWebSocket()
         console.log(webSocketPath)
     } catch (error) {
         console.error('Error sending form data:', error);
     }
 }
-
-let bubble, halo, pointer;
-let frameSpeed = 200;
-let joyStickX, joyStickY;
-let deltaX, deltaY;
-let radius = 110;
-let newX, newY;
-let eject, split;
-// let websocketState
-let message;
-let receivedMessage = '';
-let room;
-let webSocketPath;
-let webSocket
-
-sendFormData()
 
 function newWebSocket() {
     webSocket = new WebSocket(
@@ -46,21 +45,15 @@ function newWebSocket() {
         console.log("WebSocket is connected");
         // websocketState = 1;
         setInterval(() => {
-            message = JSON.stringify({ 'action': 'move', 'delta_x': deltaX, 'delta_y': deltaY })
+            message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
             // websocketState === 1 ? webSocket.send(message) : null
             webSocket.send(message)
+            // console.log(message)
             // console.log(receivedMessage)
         }, 100)
     };
 
-    webSocket.onmessage = function (event) {
-        receivedMessage = JSON.parse(event.data);
-        console.log(receivedMessage);
-        // receivedMessage.room.players.map((item) => {
-        //     window['bubble' + item.player_id] = this.add.image(window.innerWidth / 2 + 2, window.innerHeight / 2 + 2, 'bubble');
-        //     window['bubble' + item.player_id].setScale(0.5, 0.5)
-        // })
-    };
+    webSocket.onmessage = onMessage
 
     webSocket.onerror = function (error) {
         console.error("WebSocket Error: ", error);
@@ -71,9 +64,57 @@ function newWebSocket() {
     };
 }
 
+function onMessage(event) {
+    let receivedMessage = JSON.parse(event.data);
+    console.log(receivedMessage);
+    receivedMessage.p_obj.forEach((item) => {
+        let have = false
+        localObjects.forEach((localItem) => {
+            if (localItem.name == item.id) {
+                localItem.x = item.x
+                localItem.y = item.y
+                // localItem.object.setPosition(localItem.x, localItem.y);
+                have = true
+            }
+        })
+        if (have == false) {
+            window['object' + item.id] = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
+            window['object' + item.id].setDisplaySize(item.size, item.size)
+            window['object' + item.id].setSize(item.size, item.size)
+            window['object' + item.id].setOrigin(0.5, 0.5)
+            localObjects.push({ name: item.id, x: item.x, y: item.y, object: window['object' + item.id] })
+        }
+        if (item.type == 'player') {
+            if (item.player_id == receivedMessage.tid) {
+                scene.cameras.main.centerOn(item.x, item.y);
+                console.log('player_id: ' + item.player_id, 'x: ', item.x, 'y: ', item.y)
+            }
+        }
+    })
+
+    localObjects.forEach((localItem) => {
+        let have = false
+        receivedMessage.p_obj.forEach((item) => {
+            if (localItem.name == item.id) {
+                have = true
+            }
+        })
+        if (have == false) {
+            deleteObjects.push(localItem)
+        }
+    })
+    deleteObjects.forEach((item) => {
+        let index = localObjects.indexOf(item);
+        localObjects.splice(index, 1)
+    })
+    deleteObjects = []
+}
+
+
 export class Boot extends Scene {
     constructor() {
         super('Boot');
+        scene = this;
     }
 
     getTime() {
@@ -102,26 +143,25 @@ export class Boot extends Scene {
         this.load.image('thumb', 'assets/thumb.png');
         this.load.image('base', 'assets/base.png');
         this.load.image('bubble', 'assets/bubble.png');
-        this.load.image('food', 'assets/food.png');
+        this.load.image('point', 'assets/food.png');
         this.load.image('background', 'assets/tile.png');
         this.load.image('halo', 'assets/halo.png');
         this.load.image('pointer', 'assets/pointer.png');
         this.load.image('eject', 'assets/button1.png');
         this.load.image('split', 'assets/button2.png');
+        sendFormData()
     }
 
     create() {
         this.start = this.getTime();
         const background = this.add.tileSprite(0, 0, 5800, 10000, 'background').setOrigin(0, 0);
         background.setScale(0.3, 0.3)
-        bubble = this.add.image(window.innerWidth / 2 + 2, window.innerHeight / 2 + 2, 'bubble');
-        bubble.setScale(0.5, 0.5)
-        halo = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'halo');
-        halo.setScale(0.65, 0.65)
-        halo.setTint(0x00ff00)
-        pointer = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'pointer');
-        pointer.setScale(0.65, 0.65)
-        pointer.setTint(0x00ff00)
+        // halo = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'halo');
+        // halo.setScale(0.65, 0.65)
+        // halo.setTint(0x00ff00)
+        // pointer = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'pointer');
+        // pointer.setScale(0.65, 0.65)
+        // pointer.setTint(0x00ff00)
         eject = this.add.sprite(window.innerWidth * 0.18, window.innerHeight * 0.89, 'eject').setInteractive();
         eject.setScrollFactor(0)
         eject.setScale(0.3);
@@ -157,7 +197,7 @@ export class Boot extends Scene {
         let deltaTime = this.getDelta();
         if (this.joyStick.forceX != this.joyStick.pointerX) {
             deltaX = this.joyStick.forceX / 60;
-            deltaY = -this.joyStick.forceY / 60;
+            deltaY = this.joyStick.forceY / 60;
         }
         else {
             deltaX = 0;
@@ -175,18 +215,16 @@ export class Boot extends Scene {
         if (deltaY < -1) {
             deltaY = -1
         }
-        bubble.setPosition(bubble.x + (deltaX * deltaTime * frameSpeed), bubble.y - (deltaY * deltaTime * frameSpeed));
-        pointer.setAlpha(1)
-        let angle = this.calculateAngleInRadians(joyStickX, joyStickY, this.joyStick.thumb.x, this.joyStick.thumb.y)
-        halo.setPosition(halo.x + (deltaX * deltaTime * frameSpeed), halo.y - (deltaY * deltaTime * frameSpeed));
-        newX = bubble.x + radius * Math.cos(angle);
-        newY = bubble.y + radius * Math.sin(angle);
-        pointer.setPosition(newX, newY);
-        pointer.setAngle(angle * 180 / Math.PI)
-        if (angle / Math.PI == 0) {
-            pointer.setAlpha(0)
-        }
-        this.cameras.main.centerOn(bubble.x, bubble.y);
+        // pointer.setAlpha(1)
+        // let angle = this.calculateAngleInRadians(joyStickX, joyStickY, this.joyStick.thumb.x, this.joyStick.thumb.y)
+        // halo.setPosition(halo.x + (deltaX * deltaTime * frameSpeed), halo.y - (deltaY * deltaTime * frameSpeed));
+        // newX = bubble.x + radius * Math.cos(angle);
+        // newY = bubble.y + radius * Math.sin(angle);
+        // pointer.setPosition(newX, newY);
+        // pointer.setAngle(angle * 180 / Math.PI)
+        // if (angle / Math.PI == 0) {
+        //     pointer.setAlpha(0)
+        // }
     }
 }
 

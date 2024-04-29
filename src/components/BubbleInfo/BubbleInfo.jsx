@@ -1,9 +1,5 @@
 import React from "react";
 
-import arrows from "../../../public/assets/arrowsTwo.svg";
-
-import Button from "../Button/Button";
-
 import bubble from "../../../public/assets/bubble.png";
 
 import styles from "./styles.module.css";
