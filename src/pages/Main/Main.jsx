@@ -3,6 +3,7 @@ import React from "react";
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import MyBubbles from "../../components/MyBubbles/MyBubbles";
+import StartupModal from "../../components/StartupModal/StartupModal";
 
 import coin from "../../../public/assets/coin.svg";
 
@@ -27,6 +28,7 @@ const Main = () => {
                 />
                 <p className={styles.clanName}></p>
             </div>
+            <StartupModal />
         </>
     );
 };

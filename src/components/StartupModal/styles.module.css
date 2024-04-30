@@ -1,0 +1,33 @@
+.startupWrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000080;
+    padding: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.startupContainer {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: calc(100vw - 2rem);
+    border-radius: 0.5rem;
+    border: 1px solid #3f3e8f;
+    overflow: hidden;
+}
+
+.startupImage {
+    width: 100%;
+    display: block;
+}
+
+.startupButton {
+    position: absolute;
+    bottom: 1rem;
+    width: calc(100% - 2rem);
+    left: 50%;
+    transform: translateX(-50%);
+}
