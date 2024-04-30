@@ -18,6 +18,12 @@ const Header = ({ name, balance }) => {
                 color={"green"}
                 image={arrows}
                 className={styles.redeemButton}
+                onClick={() => {
+                    let transactions = document.querySelector("#transactions");
+                    let main = document.querySelector("#main");
+                    transactions.style.display = "flex";
+                    main.style.display = "none";
+                }}
             />
             <Button
                 color={"purple"}

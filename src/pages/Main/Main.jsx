@@ -5,7 +5,7 @@ import Header from "../../components/Header/Header";
 import MyBubbles from "../../components/MyBubbles/MyBubbles";
 import StartupModal from "../../components/StartupModal/StartupModal";
 
-import coin from "../../../public/assets/coin.svg";
+import cart from "../../../public/assets/cart.svg";
 
 import styles from "./styles.module.css";
 
@@ -15,7 +15,18 @@ const Main = () => {
             <div className={styles.pageContainer} id="main">
                 <Header name={"VP"} balance={"100 TON"} />
                 <MyBubbles />
-                <Button text={"BUY MORE"} image={coin} color={"blue"} />
+                <Button
+                    text={"BUY MORE BUBBLES"}
+                    image={cart}
+                    color={"blue"}
+                    onClick={() => {
+                        let bubblesShop =
+                            document.querySelector("#bubbles-shop");
+                        let main = document.querySelector("#main");
+                        bubblesShop.style.display = "grid";
+                        main.style.display = "none";
+                    }}
+                />
                 <Button
                     color={"blue"}
                     text={"START GAME"}

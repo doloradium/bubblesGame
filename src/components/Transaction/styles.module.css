@@ -1,0 +1,15 @@
+.transactionContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #ffffff20;
+    border-radius: 0.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.transactionInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}

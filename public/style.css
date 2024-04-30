@@ -45,10 +45,12 @@ body {
 html,
 body {
     touch-action: none;
+    overflow: hidden;
 }
 
 #root {
     height: 100svh;
+    overflow: hidden;
 }
 
 .swiper-pagination-bullet-active {
