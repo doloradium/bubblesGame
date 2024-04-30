@@ -17,7 +17,7 @@ let scene
 
 async function sendFormData() {
     try {
-        const response = await fetch('http://192.168.137.1:9000/api/join?token=2222&telegram_id=1111', {
+        const response = await fetch('http://agario.crypto-loto.xyz/api/join?token=2222&telegram_id=1111', {
             method: 'GET',
         });
 
@@ -28,7 +28,7 @@ async function sendFormData() {
 
         const responseJson = await response.json();
         room = responseJson['room_id']
-        webSocketPath = 'ws://192.168.137.1:9000/game/online?token=2222&telegram_id=1111&room_id=' + room
+        webSocketPath = 'ws://agario.crypto-loto.xyz/game/online?token=2222&telegram_id=1111&room_id=' + room
         newWebSocket()
         console.log(webSocketPath)
     } catch (error) {

@@ -37,7 +37,7 @@ const Main = () => {
                         main.style.display = "none";
                     }}
                 />
-                <p className={styles.clanName}></p>
+                <p className={styles.clanName}>MY SQUAD</p>
             </div>
             <StartupModal />
         </>

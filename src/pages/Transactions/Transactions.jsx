@@ -32,11 +32,25 @@ const Transactions = () => {
                         text={"Deposit"}
                         image={incoming}
                         className={clsx(styles.buttonOperation, styles.green)}
+                        onClick={() => {
+                            let transactions =
+                                document.querySelector("#transactions");
+                            let receive = document.querySelector("#receive");
+                            receive.style.display = "flex";
+                            transactions.style.display = "none";
+                        }}
                     />
                     <Button
                         text={"Withdraw"}
                         image={outcoming}
                         className={clsx(styles.buttonOperation, styles.red)}
+                        onClick={() => {
+                            let transactions =
+                                document.querySelector("#transactions");
+                            let send = document.querySelector("#send");
+                            send.style.display = "flex";
+                            transactions.style.display = "none";
+                        }}
                     />
                 </div>
                 <div className={styles.historyContainer}>
