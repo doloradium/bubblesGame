@@ -12,15 +12,15 @@ import Legion from "./pages/Legion/Legion.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <Main />
+        {/* <Main />
         <App />
         <Setup />
         <BubblesShop />
         <Transactions />
         <Receive />
         <Send />
-        <DefaultModal />
-        {/* <Legion /> */}
+        <DefaultModal /> */}
+        <Legion/>
     </React.StrictMode>
 );
 

@@ -100,3 +100,46 @@ canvas {
     height: 100vh;
 }
 
+.noMargin {
+    margin-bottom: 0;
+}
+
+.ratePagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.buttonNext {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100px;
+    background-color: #3e405a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: -0.5rem;
+    right: -0.5rem;
+    z-index: 1;
+}
+
+.buttonPrev {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100px;
+    background-color: #3e405a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(180deg);
+    position: absolute;
+    bottom: -0.5rem;
+    left: -0.5rem;
+    z-index: 1;
+}
+
+.swiper-button-disabled {
+    display: none;
+}
+

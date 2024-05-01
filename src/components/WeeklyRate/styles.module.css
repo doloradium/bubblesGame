@@ -1,5 +1,19 @@
-.rateWrapper {
+.ratePlace {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    z-index: 1;
+}
+
+.rateContainer {
     background-color: #5855ff40;
     border-radius: 0.5rem;
     border: 1px solid #282675;
+    position: relative;
+}
+
+.rateHeading {
+    margin: 0.5rem 0 0;
+    font-size: 1.25rem;
+    text-align: center;
 }

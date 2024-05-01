@@ -4,6 +4,7 @@
     padding: 1rem;
     align-items: center;
     gap: 1rem;
+    overflow: hidden;
 }
 
 .rateInfo {
@@ -14,11 +15,14 @@
 
 .rateAvatar {
     aspect-ratio: 1 / 1;
-    height: 100%;
+    width: 100%;
+    display: block;
+    min-width: 10px;
 }
 
-.rateHeading {
-    margin: 0;
+.rateImage {
+    width: 10px;
+    display: block;
 }
 
 .rateStatisctics {
@@ -32,6 +36,7 @@
     font-weight: 700;
     border-right: 1px solid #ffffff40;
     padding: 0 1rem;
+    text-wrap: nowrap;
 }
 
 .rateItem:last-child {

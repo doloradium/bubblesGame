@@ -4,30 +4,26 @@ import Button from "../Button/Button";
 
 import styles from "./styles.module.css";
 
-import legionAvatar from "../../../public/assets/legionAvatar.png";
-
-const RateItem = () => {
+const RateItem = ({ image, score, users, win }) => {
     return (
         <div className={styles.rateContainer}>
-            <img
-                src={legionAvatar}
-                alt="Avatar"
-                className={styles.rateAvatar}
-            />
+            <img src={image} alt="Avatar" className={styles.rateAvatar} />
             <div className={styles.rateInfo}>
-                <h2 className={styles.rateHeading}>Weekly Rate</h2>
                 <div className={styles.rateStatisctics}>
                     <div className={styles.rateItem}>
-                        525,512<span>score</span>
+                        {score}
+                        <span>score</span>
                     </div>
                     <div className={styles.rateItem}>
-                        245,056<span>users</span>
+                        {users}
+                        <span>users</span>
                     </div>
                     <div className={styles.rateItem}>
-                        23035<span>win (TON)</span>
+                        {win}
+                        <span>win (TON)</span>
                     </div>
                 </div>
-                <Button text={"JOIN THE LEGION"} />
+                <Button text={"JOIN THE LEGION"} color={"orange"} />
             </div>
         </div>
     );

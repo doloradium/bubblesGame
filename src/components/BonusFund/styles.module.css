@@ -1,0 +1,74 @@
+.bonusText {
+    color: #5855ff;
+}
+
+.bonusWrapper {
+    position: relative;
+    height: 100%;
+}
+
+.bonusCircle {
+    width: 35%;
+    height: 35%;
+    border-radius: 500px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: sizeChange 3s linear infinite;
+}
+
+.delayOne {
+    animation-delay: 1s;
+}
+
+.delayTwo {
+    animation-delay: 2s;
+}
+
+@keyframes sizeChange {
+    from {
+        width: 30vw;
+        height: 30vw;
+        border: 2px solid #5855ff;
+    }
+    to {
+        width: 60vw;
+        height: 60vw;
+        border: 2px solid #5855ff00;
+    }
+}
+
+.bonusAmount {
+    text-align: center;
+    border: 1px solid #5855ff;
+    border-radius: 0.5rem;
+    padding: 0.25rem 1.5rem;
+    background-color: #171644;
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    top: 40%;
+    height: fit-content;
+    transform: translate(-50%, 150%);
+}
+
+.bonusImage {
+    width: 35%;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bonusCounter {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    padding: 0.5rem 0;
+    background-color: #ffffff20;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
