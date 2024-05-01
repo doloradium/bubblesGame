@@ -8,6 +8,7 @@ import Transactions from "./pages/Transactions/Transactions.jsx";
 import Receive from "./pages/Receive/Receive.jsx";
 import Send from "./pages/Send/Send.jsx";
 import DefaultModal from "./components/DefaultModal/DefaultModal.jsx";
+import Legion from "./pages/Legion/Legion.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Receive />
         <Send />
         <DefaultModal />
+        {/* <Legion /> */}
     </React.StrictMode>
 );
 
