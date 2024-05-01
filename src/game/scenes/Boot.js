@@ -53,9 +53,12 @@ function newWebSocket() {
         console.log("WebSocket is connected");
         // websocketState = 1;
         setInterval(() => {
-            message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
-            // websocketState === 1 ? webSocket.send(message) : null
-            webSocket.send(message)
+
+            try {
+                message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
+                // websocketState === 1 ? webSocket.send(message) : null
+                webSocket.send(message)
+            } catch (e) { }
             // console.log(message)
             // console.log(receivedMessage)
         }, 100)
@@ -78,7 +81,7 @@ function onMessage(event) {
     receivedMessage.p_obj.forEach((item) => {
         let have = false
         localObjects.forEach((localItem) => {
-            if (localItem.name == item.id) {
+            if (localItem.id == item.id) {
                 localItem.x = item.x
                 localItem.y = item.y
                 // localItem.object.setPosition(localItem.x, localItem.y);
@@ -86,18 +89,21 @@ function onMessage(event) {
             }
         })
         if (have == false) {
-            window['object' + item.id] = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
-            window['object' + item.id].setDisplaySize(item.size, item.size)
-            window['object' + item.id].setSize(item.size, item.size)
-            window['object' + item.id].setOrigin(0.5, 0.5)
-            localObjects.push({ name: item.id, x: item.x, y: item.y, object: window['object' + item.id] })
+            var object = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
+            object.setDisplaySize(item.size, item.size)
+            object.setSize(item.size, item.size)
+            object.setOrigin(0.5, 0.5)
+            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, object: object })
+            if (item.type == "player") {
+                localObjects[localObjects.length - 1].player_id = item.player_id;
+            }
         }
     })
 
     localObjects.forEach((localItem) => {
         let have = false
         receivedMessage.p_obj.forEach((item) => {
-            if (localItem.name == item.id) {
+            if (localItem.id == item.id) {
                 have = true
             }
         })
@@ -195,15 +201,16 @@ export class Boot extends Scene {
     }
 
     update() {
+        let deltaTime = this.getDelta();
         localObjects.forEach((item) => {
             if (item.type == 'player') {
-                window['object' + item.id].setPosition(Phaser.Math.Linear(window['object' + item.id].x, item.x, 0.08), Phaser.Math.Linear(window['object' + item.id].y, item.y, 0.08))
-                if (item.player_id == receivedMessage.tid) {
-                    this.cameras.main.centerOn(item.x, item.y);
+                item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
+                if (item.player_id.toString() == telegram_id) {
+                    this.cameras.main.centerOn(item.object.x, item.object.y);
                 }
             }
         })
-        let deltaTime = this.getDelta();
+
         if (this.joyStick.forceX != this.joyStick.pointerX) {
             deltaX = this.joyStick.forceX / 60;
             deltaY = this.joyStick.forceY / 60;
