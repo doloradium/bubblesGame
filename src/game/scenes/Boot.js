@@ -19,10 +19,13 @@ const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
 const telegram_id = searchParams.get('telegram_id')
 
+const fetchString = 'https://agario.crypto-loto.xyz/api/join?token=' + token + '&telegram_id=' + telegram_id
+console.log(fetchString)
+
 
 async function sendFormData() {
     try {
-        const response = await fetch('https://agario.crypto-loto.xyz/api/join?token=' + token + '&telegram_id=' + telegram_id, {
+        const response = await fetch(fetchString, {
             method: 'GET',
         });
 
