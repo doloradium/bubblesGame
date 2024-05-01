@@ -10,7 +10,7 @@ const Legion = () => {
     return (
         <div className={styles.legionContainer}>
             <WeeklyRate />
-            <BonusFund />
+            <BonusFund incomingTime={5304} />
             <WeeklyResults />
         </div>
     );

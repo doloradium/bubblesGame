@@ -8,8 +8,9 @@
 }
 
 .bonusCircle {
-    width: 35%;
-    height: 35%;
+    width: 50%;
+    height: 50%;
+    aspect-ratio: 1 / 1 !important;
     border-radius: 500px;
     position: absolute;
     top: 45%;
@@ -28,13 +29,13 @@
 
 @keyframes sizeChange {
     from {
-        width: 30vw;
-        height: 30vw;
+        width: 40vw;
+        height: 40vw;
         border: 2px solid #5855ff;
     }
     to {
-        width: 60vw;
-        height: 60vw;
+        width: 70vw;
+        height: 70vw;
         border: 2px solid #5855ff00;
     }
 }
@@ -48,13 +49,13 @@
     position: absolute;
     bottom: 1rem;
     left: 50%;
-    top: 40%;
+    top: 50%;
     height: fit-content;
-    transform: translate(-50%, 150%);
+    transform: translate(-50%, 100%);
 }
 
 .bonusImage {
-    width: 35%;
+    width: 50%;
     position: absolute;
     top: 45%;
     left: 50%;
