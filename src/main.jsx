@@ -7,6 +7,7 @@ import BubblesShop from "./pages/BubblesShop/BubblesShop.jsx";
 import Transactions from "./pages/Transactions/Transactions.jsx";
 import Receive from "./pages/Receive/Receive.jsx";
 import Send from "./pages/Send/Send.jsx";
+import DefaultModal from "./components/DefaultModal/DefaultModal.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Transactions />
         <Receive />
         <Send />
+        <DefaultModal />
     </React.StrictMode>
 );
 

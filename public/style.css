@@ -64,9 +64,10 @@ body {
 
 .buttonAbsolute {
     position: absolute;
-    width: fit-content !important;
+    width: 2.2rem !important;
     display: inline-block;
     margin: 1rem;
+    height: 2.2rem !important;
 }
 
 .swiper-pagination {

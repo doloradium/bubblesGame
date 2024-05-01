@@ -59,10 +59,8 @@ function App() {
                 image={arrowBack}
                 className="buttonAbsolute"
                 onClick={() => {
-                    let app = document.querySelector("#app");
-                    let main = document.querySelector("#main");
-                    app.style.display = "none";
-                    main.style.display = "flex";
+                    let defaultModal = document.querySelector("#defaultModal");
+                    defaultModal.style.display = "block";
                 }}
             />
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />

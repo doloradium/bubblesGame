@@ -1,5 +1,135 @@
 .modalContainer {
     width: 100vw;
     height: 100vh;
-    background-color: red;
+    padding: 1rem;
+    display: none;
+    backdrop-filter: blur(5px);
+}
+
+.modalGrid {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    width: calc(100vw - 2.5rem);
+    top: -0.15rem;
+    left: calc(50% - 1.4rem);
+    transform: translateX(-50%);
+    position: relative;
+    position: absolute;
+}
+
+.modalBet {
+    border: 1px solid #fff;
+    border-radius: 0.5rem;
+    width: fit-content;
+    display: block;
+    margin: auto !important;
+    padding: 0.5rem 1.5rem;
+    background-color: #ffffff20;
+}
+
+.modalItem {
+    position: relative;
+    min-height: 3rem;
+}
+
+.cornerTop {
+    height: 30%;
+    aspect-ratio: 1 / 1;
+    display: block;
+    position: absolute;
+    bottom: -0.05rem;
+    left: 0.7rem;
+    fill: #5855ff;
+}
+
+.cornerBottom {
+    width: 30%;
+    aspect-ratio: 1 / 1;
+    display: block;
+    position: absolute;
+    right: -0.05rem;
+    top: 0.75rem;
+    fill: #5855ff;
+}
+
+.modalImage {
+    grid-column: span 2;
+    display: block;
+    margin: auto;
+    width: 3rem;
+}
+
+.modalInfo {
+    grid-column: span 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #fff;
+}
+
+.modalHeading,
+.modalSubheading {
+    margin: 0;
+}
+
+.modalCross {
+    display: block;
+    width: fit-content;
+    font-size: 2rem;
+    width: 100%;
+    position: absolute;
+    aspect-ratio: 1 / 1;
+    bottom: -0.75rem;
+    right: -0.75rem;
+    z-index: 1;
+    padding: 0.4rem;
+    border-radius: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.closeButton {
+    height: 2.2rem;
+    background-color: #ffffff40;
+}
+
+.modalBlock {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem 1rem 1rem;
+    row-gap: 2rem;
+    column-gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.modalButton {
+    background-color: #fff !important;
+}
+
+.modalColor_purple {
+    background-color: #5855ff;
+    color: #5855ff;
+}
+
+.modalColor_red {
+    background-color: #ff4141;
+    color: #ff4141;
+}
+
+.corner_purple {
+    fill: #5855ff;
+}
+
+.corner_red {
+    fill: #ff4141;
+}
+
+.background_purple {
+    background-color: #04061620;
+}
+
+.background_red {
+    background-color: #ff424240;
 }
