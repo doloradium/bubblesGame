@@ -23,7 +23,7 @@ const Setup = () => {
                     }}
                 />
                 <ChooseBubble />
-                <GameMode />
+                {/* <GameMode /> */}
                 <Button
                     text={"BUY MORE BUBBLES"}
                     image={cart}
