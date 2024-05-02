@@ -15,15 +15,9 @@ const BubblesShop = () => {
                 className={styles.buttonBack}
                 onClick={() => {
                     let bubblesShop = document.querySelector("#bubbles-shop");
-                    let setup = document.querySelector("#setup");
                     bubblesShop.style.display = "none";
-                    setup.style.display = "flex";
                 }}
             />
-            <div className={styles.shopType}>
-                <div className={styles.shopItem}>Bubbles</div>
-                <div className={styles.shopItem}>Boosts</div>
-            </div>
             <div className={styles.shopBlock}>
                 <div className={styles.shopBackground}></div>
                 <BubbleInfo />

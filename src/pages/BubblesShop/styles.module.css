@@ -11,11 +11,13 @@
     overflow: hidden;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto 1fr;
+    background: linear-gradient(180deg, #040616, #26246f);
+    z-index: 1;
 }
 
 .buttonBack {
-    width: fit-content !important;
-    display: flex;
+    width: 2.2rem !important;
+    height: 2.2rem !important;
 }
 
 .shopType {

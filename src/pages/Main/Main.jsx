@@ -24,7 +24,7 @@ const Main = () => {
                             document.querySelector("#bubbles-shop");
                         let main = document.querySelector("#main");
                         bubblesShop.style.display = "grid";
-                        main.style.display = "none";
+                        // main.style.display = "none";
                     }}
                 />
                 <Button

@@ -1,7 +1,7 @@
 .ratePlace {
     position: absolute;
-    top: -3px;
-    left: 0;
+    top: -1rem;
+    left: -1rem;
     z-index: 1;
 }
 
@@ -16,4 +16,8 @@
     margin: 0.5rem 0 0;
     font-size: 1.25rem;
     text-align: center;
+}
+
+.rateWrapper {
+    position: relative;
 }

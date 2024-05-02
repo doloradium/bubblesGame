@@ -29,6 +29,12 @@ const Header = ({ name, balance }) => {
                 color={"purple"}
                 text={"Legion"}
                 className={styles.legionButton}
+                onClick={() => {
+                    let legions = document.querySelector("#legions");
+                    let main = document.querySelector("#main");
+                    legions.style.display = "flex";
+                    main.style.display = "none";
+                }}
             />
         </div>
     );

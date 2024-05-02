@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Receive />
         <Send />
         <DefaultModal />
-        {/* <Legion/> */}
+        <Legion />
     </React.StrictMode>
 );
 

@@ -2,6 +2,7 @@ import React from "react";
 
 import Button from "../../components/Button/Button";
 import cart from "../../../public/assets/cart.svg";
+import arrowBack from "../../../public/assets/arrowBack.svg";
 
 import styles from "./styles.module.css";
 import GameMode from "../../components/GameMode/GameMode";
@@ -11,6 +12,16 @@ const Setup = () => {
     return (
         <>
             <div className={styles.pageContainer} id="setup">
+                <Button
+                    image={arrowBack}
+                    className={styles.buttonBack}
+                    onClick={() => {
+                        let setup = document.querySelector("#setup");
+                        let main = document.querySelector("#main");
+                        setup.style.display = "none";
+                        main.style.display = "flex";
+                    }}
+                />
                 <ChooseBubble />
                 <GameMode />
                 <Button
@@ -22,7 +33,7 @@ const Setup = () => {
                             document.querySelector("#bubbles-shop");
                         let setup = document.querySelector("#setup");
                         bubblesShop.style.display = "grid";
-                        setup.style.display = "none";
+                        // setup.style.display = "none";
                     }}
                 />
                 <Button

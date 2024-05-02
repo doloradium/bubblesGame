@@ -13,12 +13,13 @@
     gap: 1rem;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 0;
+    padding: 1rem 0 0;
     font-size: 1.5rem;
 }
 
 .gamemodeOptions:first-child {
     border-bottom: 1px solid #ffffff20;
+    padding: 0 0 1rem;
 }
 
 .counter {
