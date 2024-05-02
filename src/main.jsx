@@ -11,6 +11,7 @@ import Send from "./pages/Send/Send.jsx";
 import DefaultModal from "./components/DefaultModal/DefaultModal.jsx";
 import Legion from "./pages/Legion/Legion.jsx";
 import Referral from "./pages/Referral/Referral.jsx";
+import ModalWeekly from "./components/ModalWeekly/ModalWeekly.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <DefaultModal />
         <Legion />
         <Referral />
+        <ModalWeekly />
     </React.StrictMode>
 );
 
