@@ -8,15 +8,15 @@
 }
 
 .bonusCircle {
-    width: 50%;
-    height: 50%;
-    aspect-ratio: 1 / 1 !important;
-    border-radius: 500px;
     position: absolute;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation: sizeChange 3s linear infinite;
+    border-radius: 500px;
+    aspect-ratio: 1 / 1 !important;
+    width: 50%;
+    height: 50%;
 }
 
 .delayOne {
@@ -29,48 +29,48 @@
 
 @keyframes sizeChange {
     from {
+        border: 2px solid #5855ff;
         width: 40vw;
         height: 40vw;
-        border: 2px solid #5855ff;
     }
     to {
+        border: 2px solid #5855ff00;
         width: 70vw;
         height: 70vw;
-        border: 2px solid #5855ff00;
     }
 }
 
 .bonusAmount {
-    text-align: center;
-    border: 1px solid #5855ff;
-    border-radius: 0.5rem;
-    padding: 0.25rem 1.5rem;
-    background-color: #171644;
     position: absolute;
+    top: 50%;
     bottom: 1rem;
     left: 50%;
-    top: 50%;
-    height: fit-content;
     transform: translate(-50%, 100%);
+    border: 1px solid #5855ff;
+    border-radius: 0.5rem;
+    background-color: #171644;
+    padding: 0.25rem 1.5rem;
+    height: fit-content;
+    text-align: center;
 }
 
 .bonusImage {
-    width: 50%;
     position: absolute;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 50%;
 }
 
 .bonusCounter {
     position: absolute;
     bottom: 0;
-    text-align: center;
-    width: 100%;
-    padding: 0.5rem 0;
-    background-color: #ffffff20;
+    backdrop-filter: blur(px);
     border-radius: 0.5rem;
-    font-size: 1.5rem;
+    background-color: #ffffff20;
+    padding: 0.5rem 0;
+    width: 100%;
     font-weight: 700;
-    backdrop-filter: blur(2px);
+    font-size: 1.5rem;
+    text-align: center;
 }

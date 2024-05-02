@@ -1,7 +1,117 @@
-.modalContainer {
-    display: none;
+.modalWrapper {
     position: absolute;
     top: 0;
     left: 0;
+    background-color: #00000080;
+    width: 100%;
+    height: 100%;
+}
+
+.modalContainer {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    flex-direction: column;
+    gap: 1rem;
+    transform: translate(-50%, -50%);
     z-index: 100;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: calc(100% - 2rem);
+    height: fit-content;
+    overflow: hidden;
+}
+
+.modalBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-25%);
+    z-index: -1;
+    background: radial-gradient(
+        closest-side,
+        #ffbe40,
+        #ff7a00,
+        #632c71,
+        #171748
+    );
+    width: 200%;
+    height: 200%;
+}
+
+.closeButton {
+    position: absolute;
+    right: 1rem;
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+.modalImage {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.modalHeading {
+    margin: 0;
+    text-align: center;
+}
+
+.modalHeading:nth-of-type(2n) {
+    border-bottom: 1px solid #ffffff40;
+    padding-bottom: 1rem;
+}
+
+.bonusContainer {
+    border-radius: 0.5rem;
+    background-color: #ffffff22;
+    padding: 1rem;
+}
+
+.bonusGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: auto;
+    width: fit-content;
+}
+
+.bonusAmount {
+    grid-column: span 2;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.bonusInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bonusNumbers {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.bonusDescription {
+    text-wrap: nowrap;
+    font-size: 0.8rem;
+}
+
+.legionContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.legionItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legionImage {
+    width: 2rem;
 }

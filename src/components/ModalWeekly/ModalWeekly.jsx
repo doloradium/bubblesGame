@@ -18,47 +18,57 @@ let legions = [
 
 const ModalWeekly = () => {
     return (
-        <div className={styles.modalContainer}>
-            <div className={styles.modalBackground}></div>
-            <Button image={cross} color={"blue"} />
-            <img src={cup} alt="Cup" />
-            <h2 className={styles.modalHeading}>
-                Сongratulations! Your weekly bonus is:
-            </h2>
-            <div className={styles.bonusContainer}>
-                <div className={styles.bonusGrid}>
-                    <h1 className={styles.bonusAmount}>100 TON</h1>
-                    <div className={styles.bonusInfo}>
-                        <div className={styles.bonusNumbers}>2</div>
-                        <div className={styles.bonusDescription}>
-                            Your Legion Number
+        <div className={styles.modalWrapper} id="weekly-modal">
+            <div className={styles.modalContainer}>
+                <div className={styles.modalBackground}></div>
+                <Button
+                    className={styles.closeButton}
+                    image={cross}
+                    color={"blue"}
+                    onClick={() => {
+                        let weeklyModal =
+                            document.querySelector("#weekly-modal");
+                        weeklyModal.style.display = "none";
+                    }}
+                />
+                <img className={styles.modalImage} src={cup} alt="Cup" />
+                <h2 className={styles.modalHeading}>
+                    Сongratulations! <br /> Your weekly bonus is:
+                </h2>
+                <div className={styles.bonusContainer}>
+                    <div className={styles.bonusGrid}>
+                        <h1 className={styles.bonusAmount}>100 TON</h1>
+                        <div className={styles.bonusInfo}>
+                            <div className={styles.bonusNumbers}>2</div>
+                            <div className={styles.bonusDescription}>
+                                Your Legion <br /> Number
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.bonusInfo}>
-                        <div className={styles.bonusNumbers}>98</div>
-                        <div className={styles.bonusDescription}>
-                            Your Score
+                        <div className={styles.bonusInfo}>
+                            <div className={styles.bonusNumbers}>98</div>
+                            <div className={styles.bonusDescription}>
+                                Your <br />
+                                Score
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <h2 className={styles.modalHeading}>Bonus Rate (TON)</h2>
-            <div className={styles.legionContainer}>
-                <div className={styles.legionItem}>
+                <h2 className={styles.modalHeading}>Bonus Rate (TON)</h2>
+                <div className={styles.legionContainer}>
                     {legions.map((item) => (
-                        <>
+                        <div className={styles.legionItem}>
                             <h2 className={styles.modalHeading}>
                                 {item.place}
                             </h2>
                             <img
                                 src={item.image}
-                                alt=""
-                                className="legionImage"
+                                alt="Legion"
+                                className={styles.legionImage}
                             />
                             <div className={styles.legionNumbers}>
                                 {item.score}
                             </div>
-                        </>
+                        </div>
                     ))}
                 </div>
             </div>
