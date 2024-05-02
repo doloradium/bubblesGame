@@ -1,9 +1,9 @@
 .infoContainer {
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    gap: 1rem;
     align-items: center;
+    gap: 1rem;
+    width: 100%;
 }
 
 .infoName {
@@ -25,9 +25,9 @@
 .infoBlock {
     display: flex;
     flex-direction: column;
-    color: #c5c5c5;
-    padding: 0.5rem 0;
     gap: 0.25rem;
+    padding: 0.5rem 0;
+    color: #c5c5c5;
     font-size: 0.8rem;
 }
 
@@ -36,8 +36,8 @@
 }
 
 .infoBlock span {
-    font-weight: 700;
     color: #fff;
+    font-weight: 700;
 }
 
 .infoPrice {

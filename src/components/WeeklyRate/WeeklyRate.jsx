@@ -40,7 +40,7 @@ const WeeklyRate = () => {
                     id="outerPagination"
                 >
                     {rating.map((item) => (
-                        <SwiperSlide>
+                        <SwiperSlide key={item.id}>
                             <RateItem
                                 image={item.image}
                                 score={item.score}

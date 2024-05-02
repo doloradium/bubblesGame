@@ -57,6 +57,7 @@ const Transactions = () => {
                     <span>History</span>
                     {transactions.map((item) => (
                         <Transaction
+                            key={item.id}
                             image={item.image}
                             name={item.name}
                             amount={item.amount}
@@ -66,7 +67,15 @@ const Transactions = () => {
                     ))}
                 </div>
             </div>
-            <div className={styles.squadName}>MY SQUAD</div>
+            <div
+                className={styles.squadName}
+                onClick={() => {
+                    let referral = document.querySelector("#referral");
+                    referral.style.display = "flex";
+                }}
+            >
+                MY SQUAD
+            </div>
         </div>
     );
 };

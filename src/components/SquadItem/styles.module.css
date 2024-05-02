@@ -1,0 +1,38 @@
+.squadContainer {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0 0;
+    width: 100%;
+}
+
+.infoContainer {
+    justify-content: end;
+    text-align: right;
+}
+
+.imageList {
+    display: flex;
+}
+
+.infoText {
+    color: #ffffff40;
+}
+
+.infoAmount {
+    font-size: 1rem;
+}
+
+.imageItem {
+    width: 3rem;
+}
+
+.imageItem:nth-child(2) {
+    margin-left: -1rem;
+}
+
+.imageItem:last-child {
+    z-index: 1;
+    margin-left: -0.75rem;
+}

@@ -58,6 +58,7 @@ const Send = () => {
                             Wallet adress <span>Add</span>
                         </div>
                         <input
+                            readOnly
                             type="text"
                             className={styles.inputSingle}
                             value={"ar235sxnca1829ec193e260a5400ds54xdjfaq1a82"}
@@ -80,7 +81,15 @@ const Send = () => {
                     </p>
                 </div>
             </div>
-            <div className={styles.squadName}>MY SQUAD</div>
+            <div
+                className={styles.squadName}
+                onClick={() => {
+                    let referral = document.querySelector("#referral");
+                    referral.style.display = "flex";
+                }}
+            >
+                MY SQUAD
+            </div>
         </div>
     );
 };

@@ -37,7 +37,15 @@ const Main = () => {
                         main.style.display = "none";
                     }}
                 />
-                <p className={styles.clanName}>MY SQUAD</p>
+                <p
+                    className={styles.clanName}
+                    onClick={() => {
+                        let referral = document.querySelector("#referral");
+                        referral.style.display = "flex";
+                    }}
+                >
+                    MY SQUAD
+                </p>
             </div>
             <StartupModal />
         </>

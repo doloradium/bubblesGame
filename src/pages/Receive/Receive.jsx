@@ -47,10 +47,19 @@ const Receive = () => {
                         type="text"
                         value="1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF"
                         className={styles.receiveInput}
+                        readOnly
                     />
                 </div>
             </div>
-            <div className={styles.squadName}>MY SQUAD</div>
+            <div
+                className={styles.squadName}
+                onClick={() => {
+                    let referral = document.querySelector("#referral");
+                    referral.style.display = "flex";
+                }}
+            >
+                MY SQUAD
+            </div>
         </div>
     );
 };

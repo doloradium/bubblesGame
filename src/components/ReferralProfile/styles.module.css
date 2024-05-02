@@ -1,53 +1,80 @@
-.rateContainer {
+.profileContainer {
     display: flex;
-    justify-content: space-between;
-    padding: 1rem;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
-    overflow: hidden;
+    margin-top: 2.2rem;
+    width: 100%;
 }
 
-.rateInfo {
+.avatarContainer {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    background-color: #2c1a9d;
+    aspect-ratio: 1 / 1;
+    width: 30vw;
+    font-size: 2.5rem;
+}
+
+.avatarCounter {
+    display: flex;
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: #f55800;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+}
+
+.avatarLegion {
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.infoContainer {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.rateAvatar {
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    display: block;
-    min-width: 10px;
+.infoName {
+    margin: 0;
+    text-align: center;
 }
 
-.rateImage {
-    width: 10px;
-    display: block;
-}
-
-.rateStatisctics {
+.statsContainer {
     display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.rateItem {
+.statsItem {
     display: flex;
     flex-direction: column;
-    font-size: 0.8rem;
-    font-weight: 700;
+    gap: 0.5rem;
     border-right: 1px solid #ffffff40;
-    padding: 0 1rem;
-    text-wrap: nowrap;
+    padding: 0 1.5rem;
+    text-align: center;
 }
 
-.rateItem:last-child {
-    border-right: none;
-    padding: 0 0 0 1rem;
+.statsItem:last-child {
+    border: none;
+    padding: 0 0 0 1.5rem;
 }
 
-.rateItem:first-child {
-    padding: 0 1rem 0 0;
+.statsItem:first-child {
+    padding: 0 1.5rem 0 0;
 }
 
-.rateItem span {
-    font-weight: 400;
+.statsItem span {
+    font-weight: 700;
 }
