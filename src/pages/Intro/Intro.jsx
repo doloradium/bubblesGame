@@ -29,10 +29,13 @@ const Intro = () => {
                 className={styles.video}
                 autoPlay
                 muted
-                playsInline
-                name="VIDEO"
+                name="media"
             >
-                <source src={intro} type="video/mp4" />
+                <source
+                    src="http://www.html5rocks.com/en/tutorials/video/basics/devstories.mp4"
+                    type="video/mp4"
+                    codecs="avc1.42E01E, mp4a.40.2"
+                />
             </video>
         </div>
     );
