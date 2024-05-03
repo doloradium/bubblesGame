@@ -1,0 +1,34 @@
+.videoContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    animation: disappear 9s linear;
+    background-color: #000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+}
+
+@keyframes disappear {
+    0% {
+        display: block;
+        opacity: 1;
+    }
+    95% {
+        opacity: 1;
+    }
+    100% {
+        /* display: none; */
+        opacity: 0;
+    }
+}
