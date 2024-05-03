@@ -34,7 +34,6 @@ const Intro = () => {
                 <source
                     src="https://powerful-fusion.ru/static/img/video1.mp4"
                     type="video/mp4"
-                    codecs="avc1.42E01E, mp4a.40.2"
                 />
             </video>
         </div>
