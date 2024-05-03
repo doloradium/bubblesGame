@@ -32,7 +32,7 @@ const Intro = () => {
                 name="media"
             >
                 <source
-                    src="http://www.html5rocks.com/en/tutorials/video/basics/devstories.mp4"
+                    src="https://www.youtube.com/watch?v=F7mKD2Un65I"
                     type="video/mp4"
                     codecs="avc1.42E01E, mp4a.40.2"
                 />
