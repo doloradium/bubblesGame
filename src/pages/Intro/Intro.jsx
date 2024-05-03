@@ -12,17 +12,17 @@ const Intro = () => {
         video.addEventListener("ended", (event) => {
             videoContainer.style.display = "none";
         });
+
+        setInterval(() => {
+            videoContainer.style.display = "none";
+        }, 8000);
     }, []);
 
     return (
         <div className={styles.videoContainer} id="videoContainer">
-            <video
-                className={styles.video}
-                src={intro}
-                muted
-                autoPlay
-                id="video"
-            ></video>
+            <video className={styles.video} muted autoPlay id="video">
+                <source src={intro} type="video/mp4" />
+            </video>
         </div>
     );
 };
