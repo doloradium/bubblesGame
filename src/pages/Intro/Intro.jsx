@@ -6,10 +6,9 @@ import styles from "./styles.module.css";
 
 const Intro = () => {
     useEffect(() => {
-        const video = document.querySelector("#video");
-        const videoContainer = document.querySelector("#videoContainer");
-
         window.addEventListener("load", (event) => {
+            const video = document.querySelector("#video");
+            const videoContainer = document.querySelector("#videoContainer");
             video.muted;
             video.play();
         });
