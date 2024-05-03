@@ -8,8 +8,13 @@ const Intro = () => {
     useEffect(() => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
-        video.addEventListener("ended", (event) => {
-            videoContainer.style.display = "none";
+        video.addEventListener("play", (event) => {
+            setTimeout(() => {
+                videoContainer.style.opacity = "0";
+                setTimeout(() => {
+                    videoContainer.style.display = "none";
+                }, 500);
+            }, 7000);
         });
     }, []);
 
