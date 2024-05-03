@@ -10,6 +10,7 @@ const Intro = () => {
         const videoContainer = document.querySelector("#videoContainer");
 
         window.addEventListener("load", (event) => {
+            video.muted;
             video.play();
         });
 
@@ -20,12 +21,7 @@ const Intro = () => {
 
     return (
         <div className={styles.videoContainer} id="videoContainer">
-            <video
-                className={styles.video}
-                autoplay="true"
-                muted="muted"
-                id="video"
-            >
+            <video className={styles.video} autoPlay muted id="video">
                 <source src={intro} type="video/mp4" />
             </video>
         </div>
