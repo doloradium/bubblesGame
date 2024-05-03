@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
-import intro from "../../../public/assets/intro.mp4";
+import intromp4 from "../../../public/assets/intro.mp4";
+import introwebm from "../../../public/assets/intro.webm";
 
 import styles from "./styles.module.css";
 
@@ -31,7 +32,8 @@ const Intro = () => {
                 muted
                 name="media"
             >
-                <source src={intro} type="video/mp4" />
+                <source src={intromp4} type="video/mp4" />
+                <source src={introwebm} type="video/webm" />
             </video>
         </div>
     );
