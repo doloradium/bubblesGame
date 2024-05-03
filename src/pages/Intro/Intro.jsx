@@ -31,10 +31,7 @@ const Intro = () => {
                 muted
                 name="media"
             >
-                <source
-                    src="https://powerful-fusion.ru/static/img/video1.mp4"
-                    type="video/mp4"
-                />
+                <source src={intro} type="video/mp4" />
             </video>
         </div>
     );
