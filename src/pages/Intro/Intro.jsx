@@ -9,8 +9,8 @@ const Intro = () => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
 
-        video.addEventListener("ended", (event) => {
-            videoContainer.style.display = "none";
+        window.addEventListener("load", (event) => {
+            video.play();
         });
 
         setInterval(() => {
@@ -20,7 +20,12 @@ const Intro = () => {
 
     return (
         <div className={styles.videoContainer} id="videoContainer">
-            <video className={styles.video} controls id="video">
+            <video
+                className={styles.video}
+                autoplay="true"
+                muted="muted"
+                id="video"
+            >
                 <source src={intro} type="video/mp4" />
             </video>
         </div>
