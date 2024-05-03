@@ -32,7 +32,7 @@ const Intro = () => {
                 name="media"
             >
                 <source
-                    src="https://www.youtube.com/watch?v=Vkd26qM7c5I"
+                    src={intro}
                     type="video/mp4"
                     codecs="avc1.42E01E, mp4a.40.2"
                 />
