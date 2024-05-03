@@ -10,12 +10,13 @@ const Intro = () => {
             const video = document.querySelector("#video");
             const videoContainer = document.querySelector("#videoContainer");
             video.muted;
+            video.pause();
             video.play();
         });
 
-        setInterval(() => {
-            videoContainer.style.display = "none";
-        }, 8000);
+        // setInterval(() => {
+        //     videoContainer.style.display = "none";
+        // }, 8000);
     }, []);
 
     return (
