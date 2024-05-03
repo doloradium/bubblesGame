@@ -6,14 +6,13 @@ import styles from "./styles.module.css";
 
 const Intro = () => {
     useEffect(() => {
-        window.addEventListener("load", (event) => {
-            const video = document.querySelector("#video");
-            const videoContainer = document.querySelector("#videoContainer");
-            video.muted;
-            video.pause();
-            video.play();
-        });
-
+        // window.addEventListener("load", (event) => {
+        //     const video = document.querySelector("#video");
+        //     const videoContainer = document.querySelector("#videoContainer");
+        //     video.muted;
+        //     video.pause();
+        //     video.play();
+        // });
         // setInterval(() => {
         //     videoContainer.style.display = "none";
         // }, 8000);
@@ -21,7 +20,7 @@ const Intro = () => {
 
     return (
         <div className={styles.videoContainer} id="videoContainer">
-            <video className={styles.video} muted id="video">
+            <video className={styles.video} controls id="video">
                 <source src={intro} type="video/mp4" />
             </video>
         </div>
