@@ -27,7 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Legion />
         <Referral />
         <ModalWeekly />
-        {/* <Intro /> */}
+        <Intro />
     </React.StrictMode>
 );
 
