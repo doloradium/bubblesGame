@@ -32,7 +32,7 @@ const Intro = () => {
                 muted
                 name="media"
             >
-                <source src={intromp4} type="video/mp4" />
+                {/* <source src={intromp4} type="video/mp4" /> */}
                 <source src={introwebm} type="video/webm" />
             </video>
         </div>
