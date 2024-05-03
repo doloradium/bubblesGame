@@ -20,8 +20,22 @@ const Intro = () => {
 
     return (
         <div className={styles.videoContainer} id="videoContainer">
-            <video className={styles.video} controls id="video">
+            {/* <video className={styles.video} controls id="video">
                 <source src={intro} type="video/mp4" />
+            </video> */}
+
+            <video
+                controls=""
+                className={styles.video}
+                autoPlay
+                muted
+                name="media"
+            >
+                <source
+                    src="http://www.html5rocks.com/en/tutorials/video/basics/devstories.mp4"
+                    type="video/mp4"
+                    codecs="avc1.42E01E, mp4a.40.2"
+                />
             </video>
         </div>
     );
