@@ -20,7 +20,7 @@ const Intro = () => {
 
     return (
         <div className={styles.videoContainer} id="videoContainer">
-            <video className={styles.video} controls muted autoPlay id="video">
+            <video className={styles.video} controls id="video">
                 <source src={intro} type="video/mp4" />
             </video>
         </div>
