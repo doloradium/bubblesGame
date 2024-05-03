@@ -29,13 +29,10 @@ const Intro = () => {
                 className={styles.video}
                 autoPlay
                 muted
-                name="media"
+                playsInline
+                name="VIDEO"
             >
-                <source
-                    src={intro}
-                    type="video/mp4"
-                    codecs="avc1.42E01E, mp4a.40.2"
-                />
+                <source src={intro} type="video/mp4" />
             </video>
         </div>
     );
