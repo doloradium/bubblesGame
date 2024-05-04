@@ -16,6 +16,7 @@ const Transactions = () => {
     return (
         <div className={styles.transactionsWrapper} id="transactions">
             <div className={styles.transactionsContainer}>
+                <h2 className={styles.transactionsHeading}>Transactions</h2>
                 <Button
                     image={cross}
                     className={styles.buttonClose}

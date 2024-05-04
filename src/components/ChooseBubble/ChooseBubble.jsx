@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import CheckBox from "../CheckBox/CheckBox";
 
+import arrowRight from "../../../public/assets/arrowRight.svg";
+import arrowLeft from "../../../public/assets/arrowLeft.svg";
+
 import styles from "./styles.module.css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
 
@@ -55,43 +57,57 @@ const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
                     </span>
                 </div>
             </div>
-            {/* <div className={styles.gradientRight}></div>
-            <div className={styles.gradientLeft}></div> */}
-            <Swiper
-                style={{ height: "100%" }}
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                slidesPerView={5}
-                spaceBetween={10}
-            >
-                {data.map((item) =>
-                    item.color == colorToggle ? (
-                        <SwiperSlide
-                            key={item.id}
-                            onClick={() => setBubbleId(item.id)}
-                        >
-                            <div
-                                className={
-                                    item.id == bubbleId
-                                        ? styles.imageContainer
-                                        : styles.imageInactive
-                                }
+            <div className={styles.swiperContainer}>
+                <Swiper
+                    style={{ height: "100%" }}
+                    modules={[Navigation]}
+                    navigation={{
+                        nextEl: ".buttonNext_main",
+                        prevEl: ".buttonPrev_main",
+                    }}
+                    slidesPerView={5}
+                    spaceBetween={10}
+                >
+                    <SwiperSlide></SwiperSlide>
+                    {data.map((item) =>
+                        item.color == colorToggle ? (
+                            <SwiperSlide
+                                key={item.id}
+                                onClick={() => setBubbleId(item.id)}
                             >
-                                <img
-                                    className={styles.slideImage}
-                                    src={item.image}
-                                    alt="Bubble"
-                                />
-                                <CheckBox
-                                    className={styles.checkbox}
-                                    isChecked={item.id == bubbleId}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ) : null
-                )}
-            </Swiper>
+                                <div
+                                    className={
+                                        item.id == bubbleId
+                                            ? styles.imageContainer
+                                            : styles.imageInactive
+                                    }
+                                >
+                                    <img
+                                        className={styles.slideImage}
+                                        src={item.image}
+                                        alt="Bubble"
+                                    />
+                                    <CheckBox
+                                        className={styles.checkbox}
+                                        isChecked={item.id == bubbleId}
+                                    />
+                                </div>
+                            </SwiperSlide>
+                        ) : null
+                    )}
+                    <SwiperSlide></SwiperSlide>
+                </Swiper>
+            </div>
+            <div className={styles.gradientRight}>
+                <div className="buttonNext_main">
+                    <img src={arrowRight} alt="Next" />
+                </div>
+            </div>
+            <div className={styles.gradientLeft}>
+                <div className="buttonPrev_main">
+                    <img src={arrowLeft} alt="Previous" />
+                </div>
+            </div>
         </div>
     );
 };

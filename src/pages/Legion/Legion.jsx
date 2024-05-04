@@ -12,6 +12,7 @@ import arrowBack from "../../../public/assets/arrowBack.svg";
 const Legion = () => {
     return (
         <div className={styles.legionContainer} id="legions">
+            <h2 className={styles.legionHeading}>Legion</h2>
             <Button
                 image={arrowBack}
                 className={styles.buttonBack}

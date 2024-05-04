@@ -18,6 +18,7 @@ const BubblesShop = () => {
                     bubblesShop.style.display = "none";
                 }}
             />
+            <h2 className={styles.shopHeading}>Shop</h2>
             <div className={styles.shopBlock}>
                 <div className={styles.shopBackground}></div>
                 <BubbleInfo />

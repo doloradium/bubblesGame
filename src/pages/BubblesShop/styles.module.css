@@ -1,23 +1,32 @@
 .shopContainer {
     display: none;
-    flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
     position: absolute;
     top: 0;
     left: 0;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 1;
+    background: linear-gradient(180deg, #040616, #26246f);
+    padding: 1rem;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto 1fr;
-    background: linear-gradient(180deg, #040616, #26246f);
-    z-index: 1;
 }
 
 .buttonBack {
     width: 2.2rem !important;
     height: 2.2rem !important;
+}
+
+.shopHeading {
+    position: absolute;
+    z-index: -1;
+    margin: 1rem auto 0;
+    width: 100%;
+    line-height: 2.2rem;
+    text-align: center;
 }
 
 .shopType {
@@ -27,25 +36,27 @@
 }
 
 .shopItem {
-    height: 3rem;
-    border-radius: 0.5rem;
-    background-color: #ffffff20;
     display: flex;
     align-items: center;
+    border-radius: 0.5rem;
+    background-color: #ffffff20;
     padding: 1rem;
+    height: 3rem;
 }
 
 .shopBlock {
+    display: flex;
+    position: relative;
+    grid-column: span 2;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid #282675;
+    border-radius: 0.5rem;
+    background-color: #151645;
+    padding: 1rem;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    position: relative;
-    grid-column: span 2;
 }
 
 .shopBackground {
@@ -53,8 +64,6 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100vh;
-    height: 200vh;
     z-index: -1;
     background: radial-gradient(
         closest-side,
@@ -63,6 +72,8 @@
         #632c71,
         #171748
     );
+    width: 100vh;
+    height: 200vh;
 }
 
 .purchaseInfo {
@@ -72,16 +83,16 @@
 }
 
 .purchaseInfo:nth-child(2n) {
-    padding-bottom: 1rem;
     border-bottom: 1px solid #ffffff40;
+    padding-bottom: 1rem;
 }
 
 .purchaseInfo span {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    border-radius: 0.5rem;
     background-color: #ffffff40;
+    padding: 0.5rem 1rem;
+    width: 40%;
 }

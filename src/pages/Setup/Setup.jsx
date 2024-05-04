@@ -12,6 +12,7 @@ const Setup = () => {
     return (
         <>
             <div className={styles.pageContainer} id="setup">
+                <h2 className={styles.setupHeading}>Setup</h2>
                 <Button
                     image={arrowBack}
                     className={styles.buttonBack}
@@ -23,7 +24,7 @@ const Setup = () => {
                     }}
                 />
                 <ChooseBubble />
-                {/* <GameMode /> */}
+                <GameMode />
                 <Button
                     text={"BUY MORE BUBBLES"}
                     image={cart}
