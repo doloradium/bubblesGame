@@ -18,17 +18,16 @@ const Main = () => {
                 <Button
                     text={"BUY MORE BUBBLES"}
                     image={cart}
-                    color={"blue"}
+                    color={"white"}
                     onClick={() => {
                         let bubblesShop =
                             document.querySelector("#bubbles-shop");
                         let main = document.querySelector("#main");
                         bubblesShop.style.display = "grid";
-                        // main.style.display = "none";
                     }}
                 />
                 <Button
-                    color={"blue"}
+                    color={"white"}
                     text={"START GAME"}
                     onClick={() => {
                         let main = document.querySelector("#main");
