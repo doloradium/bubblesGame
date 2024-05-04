@@ -13,6 +13,7 @@
 
 .infoImage {
     display: block;
+    margin: auto;
     width: 40vw;
     height: 40vw;
 }
@@ -31,6 +32,10 @@
     font-size: 0.8rem;
 }
 
+.infoBlock:first-child {
+    padding: 0 0 0.25rem;
+}
+
 .infoBlock:nth-child(3) {
     border-bottom: 1px solid #ffffff40;
 }
@@ -41,5 +46,5 @@
 }
 
 .infoPrice {
-    padding: 0.5rem 0;
+    padding: 0.5rem 0 0;
 }

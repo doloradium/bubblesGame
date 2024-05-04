@@ -58,6 +58,7 @@ function App() {
             <Button
                 image={arrowBack}
                 className="buttonAbsolute"
+                color={"white"}
                 onClick={() => {
                     let defaultModal = document.querySelector("#defaultModal");
                     defaultModal.style.display = "block";

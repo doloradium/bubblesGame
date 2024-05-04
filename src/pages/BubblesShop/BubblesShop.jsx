@@ -13,6 +13,7 @@ const BubblesShop = () => {
             <Button
                 image={arrowBack}
                 className={styles.buttonBack}
+                color={"white"}
                 onClick={() => {
                     let bubblesShop = document.querySelector("#bubbles-shop");
                     bubblesShop.style.display = "none";

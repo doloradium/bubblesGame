@@ -16,6 +16,7 @@ const Setup = () => {
                 <Button
                     image={arrowBack}
                     className={styles.buttonBack}
+                    color={"white"}
                     onClick={() => {
                         let setup = document.querySelector("#setup");
                         let main = document.querySelector("#main");
@@ -28,7 +29,7 @@ const Setup = () => {
                 <Button
                     text={"BUY MORE BUBBLES"}
                     image={cart}
-                    color={"blue"}
+                    color={"white"}
                     onClick={() => {
                         let bubblesShop =
                             document.querySelector("#bubbles-shop");
@@ -38,7 +39,7 @@ const Setup = () => {
                     }}
                 />
                 <Button
-                    color={"blue"}
+                    color={"white"}
                     text={"START GAME"}
                     onClick={() => {
                         let app = document.querySelector("#app");
