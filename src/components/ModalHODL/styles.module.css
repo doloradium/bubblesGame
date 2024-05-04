@@ -1,0 +1,121 @@
+.modalWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+    background-color: #03b15740;
+    width: 100%;
+    height: 100%;
+}
+
+.modalContainer {
+    padding: 1rem;
+}
+
+.modalHeader {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+}
+
+.hodlContainer {
+    position: relative;
+    margin: 3rem 0;
+    width: 50vw;
+    height: 50vw;
+}
+
+.hodlCircle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    animation: sizeChange 3s linear infinite;
+    border: 1px solid #00dc65;
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+}
+
+.hodlImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.delayOne {
+    animation-delay: 1s;
+}
+
+.delayTwo {
+    animation-delay: 2s;
+}
+
+@keyframes sizeChange {
+    from {
+        border: 2px solid #00dc65;
+        width: 95%;
+        height: 95%;
+    }
+    to {
+        border: 2px solid #00dc6500;
+        width: 150%;
+        height: 150%;
+    }
+}
+
+.modalBody {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+    width: 100%;
+}
+
+.modalInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 300px;
+}
+
+.modalInfo:last-of-type {
+    margin-bottom: 3rem;
+}
+
+.modalIcon {
+    width: 2rem;
+}
+
+.modalText {
+    border: 1px solid #00dc65;
+    border-radius: 0.5rem;
+    background-color: #040616;
+    padding: 0.5rem 1.5rem;
+    width: 100%;
+}
+
+.backButton {
+    position: absolute;
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+.modalHeading {
+    margin: 0;
+    width: 100%;
+    line-height: 2.2rem;
+    text-align: center;
+}

@@ -13,6 +13,7 @@ import Legion from "./pages/Legion/Legion.jsx";
 import Referral from "./pages/Referral/Referral.jsx";
 import ModalWeekly from "./components/ModalWeekly/ModalWeekly.jsx";
 import Intro from "./pages/Intro/Intro.jsx";
+import ModalHODL from "./components/ModalHODL/ModalHODL.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Referral />
         <ModalWeekly />
         <Intro />
+        <ModalHODL />
     </React.StrictMode>
 );
 
