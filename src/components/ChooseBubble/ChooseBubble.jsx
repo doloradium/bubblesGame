@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import clsx from "clsx";
 
 import CheckBox from "../CheckBox/CheckBox";
 
@@ -57,7 +58,13 @@ const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
                     </span>
                 </div>
             </div>
-            <div className={styles.swiperContainer}>
+            <div
+                className={
+                    noBackground == false
+                        ? styles.swiperContainer
+                        : clsx(styles.swiperContainer, styles.maxHeight)
+                }
+            >
                 <Swiper
                     style={{ height: "100%" }}
                     modules={[Navigation]}
@@ -65,8 +72,9 @@ const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
                         nextEl: ".buttonNext_main",
                         prevEl: ".buttonPrev_main",
                     }}
-                    slidesPerView={5}
+                    slidesPerView={4}
                     spaceBetween={10}
+                    id="swiper-select"
                 >
                     {data.map((item) =>
                         item.color == colorToggle ? (

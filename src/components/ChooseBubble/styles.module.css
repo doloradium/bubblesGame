@@ -89,8 +89,15 @@
     height: 100%;
 }
 
+.maxHeight {
+    max-height: 130px;
+}
+
 .bubblesNoBackground {
+    display: flex;
     position: relative;
+    flex-direction: column;
+    justify-content: center;
     margin-left: -1rem;
     border-radius: 0.5rem;
     padding: 0 1rem;

@@ -10,8 +10,8 @@
     z-index: 1;
     background: linear-gradient(180deg, #040616, #26246f);
     padding: 1rem;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 

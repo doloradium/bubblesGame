@@ -2,20 +2,36 @@
     color: #5855ff;
 }
 
+@media screen and (max-height: 685px) {
+    .bonusText {
+        display: none;
+    }
+
+    .bonusContainer {
+        margin-top: -2rem;
+    }
+}
+
 .bonusWrapper {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    height: 100%;
+}
+
+.bonusContainer {
     position: relative;
     height: 100%;
 }
 
 .bonusCircle {
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation: sizeChange 3s linear infinite;
-    border-radius: 500px;
+    border-radius: 100%;
     aspect-ratio: 1 / 1 !important;
-    width: 50%;
     height: 50%;
 }
 
@@ -30,13 +46,13 @@
 @keyframes sizeChange {
     from {
         border: 2px solid #5855ff;
-        width: 40vw;
-        height: 40vw;
+        aspect-ratio: 1 / 1;
+        height: 50%;
     }
     to {
         border: 2px solid #5855ff00;
-        width: 70vw;
-        height: 70vw;
+        aspect-ratio: 1 / 1;
+        height: 70%;
     }
 }
 
@@ -56,15 +72,14 @@
 
 .bonusImage {
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
+    height: 50%;
 }
 
 .bonusCounter {
-    position: absolute;
-    bottom: 0;
+    position: relative;
     backdrop-filter: blur(px);
     border-radius: 0.5rem;
     background-color: #ffffff20;

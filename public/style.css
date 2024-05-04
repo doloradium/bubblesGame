@@ -77,9 +77,12 @@ body {
 .swiper-wrapper {
     display: grid;
     grid-auto-flow: column;
-    margin-left: 2rem;
     width: 120% !important;
     height: 110%;
+}
+
+#swiper-select .swiper-wrapper {
+    margin-left: 2.5rem;
 }
 
 #app {
