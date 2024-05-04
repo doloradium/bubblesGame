@@ -35,7 +35,6 @@ const Setup = () => {
                             document.querySelector("#bubbles-shop");
                         let setup = document.querySelector("#setup");
                         bubblesShop.style.display = "grid";
-                        // setup.style.display = "none";
                     }}
                 />
                 <Button

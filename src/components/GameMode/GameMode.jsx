@@ -15,6 +15,7 @@ const GameMode = () => {
 
     return (
         <div className={styles.gamemodeContainer}>
+            <h2 className={styles.gamemodeHeading}>GAME MODE</h2>
             <div className={styles.gamemodeSelection}>
                 <div
                     className={styles.gamemodeOptions}
@@ -36,6 +37,7 @@ const GameMode = () => {
                 </div>
             </div>
             <div className={styles.gamemodeBet}>
+                <h2 className={styles.gamemodeHeading}>YOUR BET</h2>
                 <div className={styles.gamemodeInfo}>
                     <span>My Balance</span> 100 TON
                 </div>

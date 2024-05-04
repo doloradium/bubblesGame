@@ -24,9 +24,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Transactions />
         <Receive />
         <Send />
-        <DefaultModal />
         <Legion />
         <Referral />
+        <DefaultModal />
         <ModalWeekly />
         <Intro />
         <ModalHODL />

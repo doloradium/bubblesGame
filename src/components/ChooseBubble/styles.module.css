@@ -28,24 +28,24 @@
 
 .gradientRight {
     position: absolute;
-    top: 60%;
+    top: 50%;
     right: -1px;
     transform: translateY(-50%);
     z-index: 1;
     background: linear-gradient(270deg, #151645, #151645, #15164500);
     width: 20vw;
-    height: 85px;
+    height: 100%;
 }
 
 .gradientLeft {
     position: absolute;
-    top: 60%;
+    top: 50%;
     left: -1px;
     transform: translateY(-50%);
     z-index: 1;
     background: linear-gradient(90deg, #151645, #151645, #15164500);
     width: 20vw;
-    height: 85px;
+    height: 100%;
 }
 
 .colorInactive {
@@ -83,8 +83,9 @@
 
 .swiperContainer {
     position: relative;
-    margin-left: -2rem;
-    width: calc(100% + 4rem);
+    margin-left: -1rem;
+    padding: 0 2rem;
+    width: calc(100% + 2rem);
     height: 100%;
 }
 

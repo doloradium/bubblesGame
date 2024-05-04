@@ -84,6 +84,12 @@
     text-align: center;
 }
 
+@media screen and (max-height: 650px) {
+    .gamemodeHeading {
+        display: none;
+    }
+}
+
 .gamemodeName {
     font-size: 1.2rem;
 }

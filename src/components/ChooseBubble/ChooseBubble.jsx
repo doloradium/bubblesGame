@@ -68,7 +68,6 @@ const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
                     slidesPerView={5}
                     spaceBetween={10}
                 >
-                    <SwiperSlide></SwiperSlide>
                     {data.map((item) =>
                         item.color == colorToggle ? (
                             <SwiperSlide
@@ -97,15 +96,15 @@ const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
                     )}
                     <SwiperSlide></SwiperSlide>
                 </Swiper>
-            </div>
-            <div className={styles.gradientRight}>
-                <div className="buttonNext_main">
-                    <img src={arrowRight} alt="Next" />
+                <div className={styles.gradientRight}>
+                    <div className="buttonNext_main">
+                        <img src={arrowRight} alt="Next" />
+                    </div>
                 </div>
-            </div>
-            <div className={styles.gradientLeft}>
-                <div className="buttonPrev_main">
-                    <img src={arrowLeft} alt="Previous" />
+                <div className={styles.gradientLeft}>
+                    <div className="buttonPrev_main">
+                        <img src={arrowLeft} alt="Previous" />
+                    </div>
                 </div>
             </div>
         </div>
