@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 
 import introwebm from "../../../public/assets/intro.webm";
+import introTon from "../../../public/assets/introTon.svg";
+import players from "../../../public/assets/players.svg";
 
 import styles from "./styles.module.css";
 
@@ -30,6 +32,34 @@ const Intro = () => {
             >
                 <source src={introwebm} type="video/webm" />
             </video>
+            <div className={styles.infoContainer}>
+                <div className={styles.infoBlock}>
+                    <div className={styles.infoHeader}>
+                        <img
+                            src={introTon}
+                            alt="Coin"
+                            className={styles.infoImage}
+                        />
+                        <div className={styles.infoHeading}>
+                            Total player earnings
+                        </div>
+                    </div>
+                    <div className={styles.infoParagraph}>
+                        52,865,023,178,340
+                    </div>
+                </div>
+                <div className={styles.infoBlock}>
+                    <div className={styles.infoHeader}>
+                        <img
+                            src={players}
+                            alt="Players"
+                            className={styles.infoImage}
+                        />
+                        <div className={styles.infoHeading}>Total players</div>
+                    </div>
+                    <div className={styles.infoParagraph}>23,000,023</div>
+                </div>
+            </div>
         </div>
     );
 };
