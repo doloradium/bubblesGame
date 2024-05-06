@@ -14,6 +14,7 @@ const Referral = () => {
             <Button
                 image={arrowBack}
                 className={styles.buttonBack}
+                color={"white"}
                 onClick={() => {
                     let referral = document.querySelector("#referral");
                     referral.style.display = "none";

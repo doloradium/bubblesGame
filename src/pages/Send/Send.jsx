@@ -14,6 +14,7 @@ const Send = () => {
                     <Button
                         image={arrowBack}
                         className={styles.buttonBack}
+                        color={"white"}
                         onClick={() => {
                             let transactions =
                                 document.querySelector("#transactions");
@@ -74,7 +75,7 @@ const Send = () => {
                     </div>
                 </div>
                 <div className={styles.sendBlock}>
-                    <Button text={"WITHDRAW"} color="white" />
+                    <Button text={"WITHDRAW"} color={"white"} />
                     <p className={styles.sendParagraph}>
                         We print only on wallets without memo, be careful!
                         Change wallet only through a support.

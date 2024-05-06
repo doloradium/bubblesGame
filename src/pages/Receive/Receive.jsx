@@ -16,6 +16,7 @@ const Receive = () => {
                     <Button
                         image={arrowBack}
                         className={styles.buttonBack}
+                        color={"white"}
                         onClick={() => {
                             let transactions =
                                 document.querySelector("#transactions");

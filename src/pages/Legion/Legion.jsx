@@ -16,6 +16,7 @@ const Legion = () => {
             <Button
                 image={arrowBack}
                 className={styles.buttonBack}
+                color={"white"}
                 onClick={() => {
                     let legions = document.querySelector("#legions");
                     let main = document.querySelector("#main");

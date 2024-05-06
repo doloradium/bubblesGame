@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 
 import styles from "./styles.module.css";
 
-const DefaultModal = ({ color = "purple" }) => {
+const DefaultModal = ({ color = "red" }) => {
     return (
         <div
             className={
@@ -108,7 +108,8 @@ const DefaultModal = ({ color = "purple" }) => {
                                 </>
                             ) : (
                                 <>
-                                    Your Bet: <span>5 TON</span>
+                                    Your Bet:
+                                    <span>5 TON</span>
                                 </>
                             )}
                         </p>

@@ -66,8 +66,8 @@ body {
     display: inline-block;
     position: absolute;
     margin: 1rem;
-    width: 2.2rem !important;
-    height: 2.2rem !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
 }
 
 .swiper-pagination {
@@ -121,8 +121,9 @@ canvas {
     justify-content: center;
     align-items: center;
     z-index: 1;
+    backdrop-filter: blur(5px);
     border-radius: 100px;
-    background-color: #3e405a;
+    background-color: #ffffff20;
     width: 2rem;
     height: 2rem;
 }
@@ -136,43 +137,46 @@ canvas {
     align-items: center;
     transform: rotate(180deg);
     z-index: 1;
+    backdrop-filter: blur(5px);
     border-radius: 100px;
-    background-color: #3e405a;
+    background-color: #ffffff20;
     width: 2rem;
     height: 2rem;
 }
 
 .swiper-button-disabled {
-    opacity: 0.5;
+    background-color: #ffffff10 !important;
 }
 
 .buttonNext_main {
     display: flex;
     position: absolute;
     top: 50%;
-    right: 0;
+    right: -0.25rem;
     justify-content: center;
     align-items: center;
     transform: translate(-50%, -50%);
     z-index: 1;
+    backdrop-filter: blur(5px);
     border-radius: 0.5rem;
-    background-color: #ffffff40;
-    width: 2rem;
-    height: 2rem;
+    background-color: #ffffff20;
+    width: 2.5rem;
+    height: 2.5rem;
 }
 
 .buttonPrev_main {
     display: flex;
     position: absolute;
     top: 50%;
-    left: 2rem;
+    left: 2.25rem;
     justify-content: center;
     align-items: center;
     transform: translate(-50%, -50%);
     z-index: 1;
+    backdrop-filter: blur(5px);
     border-radius: 0.5rem;
-    background-color: #ffffff40;
-    width: 2rem;
-    height: 2rem;
+    background-color: #ffffff20;
+    width: 2.5rem;
+    height: 2.5rem;
 }
 

@@ -18,8 +18,7 @@
     border-radius: 0.5rem;
     background-color: #ffffff20;
     width: 100%;
-    height: 5rem;
-    overflow: hidden;
+    height: 2.5rem;
 }
 
 .listInput {
@@ -27,6 +26,7 @@
     background-color: transparent;
     padding: 0.5rem 0 0.5rem 1rem;
     width: 100%;
+    height: 2.5rem;
     color: #fff;
     font-size: 1rem;
 }

@@ -16,8 +16,8 @@
 }
 
 .buttonBack {
-    width: 2.2rem !important;
-    height: 2.2rem !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
 }
 
 .shopHeading {
@@ -25,7 +25,7 @@
     z-index: -1;
     margin: 1rem auto 0;
     width: 100%;
-    line-height: 2.2rem;
+    line-height: 2.5rem;
     text-align: center;
 }
 
@@ -93,6 +93,6 @@
     align-items: center;
     border-radius: 0.5rem;
     background-color: #ffffff40;
-    padding: 0.5rem 1rem;
     width: 40%;
+    height: 2.5rem;
 }

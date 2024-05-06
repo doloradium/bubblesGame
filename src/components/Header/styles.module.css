@@ -1,18 +1,17 @@
 .headerContainer {
     display: flex;
-    gap: 1rem;
     align-items: center;
+    gap: 1rem;
 }
 
 .legionButton {
-    font-size: 1rem;
     height: 2.5rem;
+    font-size: 1rem;
 }
 
 .redeemButton {
-    font-size: 1rem;
-    height: 2.5rem;
     width: 2.5rem;
+    height: 2.5rem;
 }
 
 .balanceContainer {
@@ -21,9 +20,9 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.6rem;
+    width: max-content;
     height: 75%;
     color: #696a74;
-    width: max-content;
     font-size: 0.8rem;
 }
 
@@ -32,12 +31,12 @@
 }
 
 .avatar {
-    height: 4rem;
-    aspect-ratio: 1 / 1;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     border-radius: 100px;
     background-color: #2c1a9d;
+    aspect-ratio: 1 / 1;
+    height: 4rem;
     font-size: 1.5rem;
 }
