@@ -27,6 +27,7 @@ const Send = () => {
                     <Button
                         image={cross}
                         className={styles.buttonClose}
+                        color={"purpleTransparent"}
                         onClick={() => {
                             let transactions =
                                 document.querySelector("#transactions");

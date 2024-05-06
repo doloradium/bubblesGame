@@ -122,6 +122,8 @@ canvas {
     align-items: center;
     z-index: 1;
     backdrop-filter: blur(5px);
+    transition: 0.5s;
+    cursor: pointer;
     border-radius: 100px;
     background-color: #ffffff20;
     width: 2rem;
@@ -138,6 +140,8 @@ canvas {
     transform: rotate(180deg);
     z-index: 1;
     backdrop-filter: blur(5px);
+    transition: 0.5s;
+    cursor: pointer;
     border-radius: 100px;
     background-color: #ffffff20;
     width: 2rem;
@@ -145,7 +149,28 @@ canvas {
 }
 
 .swiper-button-disabled {
+    cursor: default !important;
     background-color: #ffffff10 !important;
+}
+
+.buttonPrev:hover {
+    transition: 0.5s;
+    background-color: #ffffff40;
+}
+
+.buttonNext:hover {
+    transition: 0.5s;
+    background-color: #ffffff40;
+}
+
+.buttonPrev_main:hover {
+    transition: 0.5s;
+    background-color: #ffffff40;
+}
+
+.buttonNext_main:hover {
+    transition: 0.5s;
+    background-color: #ffffff40;
 }
 
 .buttonNext_main {
@@ -158,6 +183,8 @@ canvas {
     transform: translate(-50%, -50%);
     z-index: 1;
     backdrop-filter: blur(5px);
+    transition: 0.5s;
+    cursor: pointer;
     border-radius: 0.5rem;
     background-color: #ffffff20;
     width: 2.5rem;
@@ -174,6 +201,7 @@ canvas {
     transform: translate(-50%, -50%);
     z-index: 1;
     backdrop-filter: blur(5px);
+    cursor: pointer;
     border-radius: 0.5rem;
     background-color: #ffffff20;
     width: 2.5rem;

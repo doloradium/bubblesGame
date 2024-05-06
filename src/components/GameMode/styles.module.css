@@ -51,15 +51,29 @@
 }
 
 .counterItem:first-child {
+    transition: 0.5s;
+    cursor: pointer;
     border-right: #c5c5c5 solid 1px;
     border-radius: 0.5rem 0 0 0.5rem;
     width: 2.5rem;
 }
 
+.counterItem:first-child:hover {
+    transition: 0.5s;
+    background-color: #d2d2d2;
+}
+
 .counterItem:last-child {
+    transition: 0.5s;
+    cursor: pointer;
     border-left: #c5c5c5 solid 1px;
     border-radius: 0 0.5rem 0.5rem 0;
     width: 2.5rem;
+}
+
+.counterItem:last-child:hover {
+    transition: 0.5s;
+    background-color: #d2d2d2;
 }
 
 .gamemodeInfo span {
@@ -72,7 +86,7 @@
     align-items: center;
     gap: 1rem;
     border-radius: 0.5rem;
-    background-color: #5855ff50;
+    background-color: #ffffff20;
     padding: 1rem;
 }
 

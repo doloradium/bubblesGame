@@ -24,7 +24,7 @@ const ModalWeekly = () => {
                 <Button
                     className={styles.closeButton}
                     image={cross}
-                    color={"blue"}
+                    color={"purpleTransparent"}
                     onClick={() => {
                         let weeklyModal =
                             document.querySelector("#weekly-modal");

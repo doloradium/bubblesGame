@@ -23,7 +23,7 @@ const RateItem = ({ image, score, users, win }) => {
                         <span>win (TON)</span>
                     </div>
                 </div>
-                <Button text={"JOIN THE LEGION"} color={"orange"} />
+                <Button text={"JOIN THE LEGION"} color={"white"} />
             </div>
         </div>
     );

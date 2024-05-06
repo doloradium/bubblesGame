@@ -47,7 +47,11 @@ const MyBubbles = () => {
                                     alt="Bubble"
                                 />
                                 <Button
-                                    color={modalState == 1 ? "blue" : "green"}
+                                    color={
+                                        modalState == 1
+                                            ? "purpleTransparent"
+                                            : "green"
+                                    }
                                     image={modalState == 1 ? cross : info}
                                     className={styles.slideButton}
                                     onClick={() => {

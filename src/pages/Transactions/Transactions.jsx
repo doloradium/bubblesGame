@@ -19,6 +19,7 @@ const Transactions = () => {
                 <h2 className={styles.transactionsHeading}>Transactions</h2>
                 <Button
                     image={cross}
+                    color={"purpleTransparent"}
                     className={styles.buttonClose}
                     onClick={() => {
                         let transactions =
@@ -32,6 +33,7 @@ const Transactions = () => {
                     <Button
                         text={"Deposit"}
                         image={incoming}
+                        color={"purpleTransparent"}
                         className={clsx(styles.buttonOperation, styles.green)}
                         onClick={() => {
                             let transactions =
@@ -43,6 +45,7 @@ const Transactions = () => {
                     />
                     <Button
                         text={"Withdraw"}
+                        color={"purpleTransparent"}
                         image={outcoming}
                         className={clsx(styles.buttonOperation, styles.red)}
                         onClick={() => {

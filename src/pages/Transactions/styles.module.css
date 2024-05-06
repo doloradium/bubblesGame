@@ -57,7 +57,6 @@
 .buttonClose {
     z-index: 1;
     margin: 0 0 0 auto;
-    background-color: #5855ff40;
     aspect-ratio: 1 /1;
     width: fit-content;
     height: 2.5rem;
@@ -65,11 +64,13 @@
 
 .buttonOperation {
     gap: 1rem;
-    border: 1px solid #ffffff40;
-    background-color: #5855ff30;
     width: 100%;
     font-weight: 400;
     font-size: 1rem;
+}
+
+.squadName {
+    cursor: pointer;
 }
 
 .green {
