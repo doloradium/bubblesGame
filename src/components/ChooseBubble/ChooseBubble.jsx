@@ -14,9 +14,15 @@ import "swiper/css";
 
 import data from "../../data/data";
 
-const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
+const ChooseBubble = ({
+    noBackground = false,
+    noTitle = false,
+    multipleChoice = false,
+}) => {
     const [colorToggle, setColorToggle] = useState("gold");
-    const [bubbleId, setBubbleId] = useState(0);
+    const [bubbleId, setBubbleId] = useState([]);
+
+    console.log(bubbleId);
 
     return (
         <div
@@ -80,11 +86,26 @@ const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
                         item.color == colorToggle ? (
                             <SwiperSlide
                                 key={item.id}
-                                onClick={() => setBubbleId(item.id)}
+                                onClick={() => {
+                                    if (multipleChoice == true) {
+                                        let localArray = [...bubbleId];
+                                        bubbleId.indexOf(item.id) == -1
+                                            ? localArray.push(item.id)
+                                            : localArray.splice(
+                                                  bubbleId.indexOf(item.id),
+                                                  1
+                                              );
+                                        setBubbleId(localArray);
+                                        console.log(bubbleId);
+                                    } else {
+                                        let localArray = [item.id];
+                                        setBubbleId(localArray);
+                                    }
+                                }}
                             >
                                 <div
                                     className={
-                                        item.id == bubbleId
+                                        bubbleId.indexOf(item.id) !== -1
                                             ? styles.imageContainer
                                             : styles.imageInactive
                                     }
@@ -96,7 +117,11 @@ const ChooseBubble = ({ noBackground = false, noTitle = false }) => {
                                     />
                                     <CheckBox
                                         className={styles.checkbox}
-                                        isChecked={item.id == bubbleId}
+                                        isChecked={
+                                            bubbleId.indexOf(item.id) !== -1
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </SwiperSlide>

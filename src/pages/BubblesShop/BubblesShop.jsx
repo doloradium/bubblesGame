@@ -23,7 +23,7 @@ const BubblesShop = () => {
             <div className={styles.shopBlock}>
                 <div className={styles.shopBackground}></div>
                 <BubbleInfo />
-                <ChooseBubble noBackground noTitle />
+                <ChooseBubble noBackground noTitle multipleChoice />
                 <div className={styles.purchaseInfo}>
                     Chosen Items<span>1</span>
                 </div>

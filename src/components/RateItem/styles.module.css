@@ -1,9 +1,9 @@
 .rateContainer {
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
     align-items: center;
     gap: 1rem;
+    padding: 1rem;
     overflow: hidden;
 }
 
@@ -14,15 +14,16 @@
 }
 
 .rateAvatar {
+    display: block;
     aspect-ratio: 1 / 1;
     width: 100%;
-    display: block;
     min-width: 10px;
+    max-width: 100px;
 }
 
 .rateImage {
-    width: 10px;
     display: block;
+    width: 10px;
 }
 
 .rateStatisctics {
@@ -30,13 +31,13 @@
 }
 
 .rateItem {
+    text-wrap: nowrap;
     display: flex;
     flex-direction: column;
-    font-size: 0.8rem;
-    font-weight: 700;
     border-right: 1px solid #ffffff40;
     padding: 0 1rem;
-    text-wrap: nowrap;
+    font-weight: 700;
+    font-size: 0.8rem;
 }
 
 .rateItem:last-child {

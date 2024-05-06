@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 
 import clanTag from "../../../public/assets/clanTag.svg";
 
 import styles from "./styles.module.css";
 
 const WeeklyResults = () => {
+    const [period, setPeriod] = useState("weekly");
+
     return (
         <div className={styles.resultsContainer}>
-            <div className={styles.resultsToggle}>Weekly | Daily</div>
+            <div className={styles.resultsToggle}>
+                <div
+                    className={period == "weekly" ? styles.toggleItem : null}
+                    onClick={() => {
+                        setPeriod("weekly");
+                    }}
+                >
+                    Weekly
+                </div>{" "}
+                |{" "}
+                <div
+                    className={period == "daily" ? styles.toggleItem : null}
+                    onClick={() => {
+                        setPeriod("daily");
+                    }}
+                >
+                    Daily
+                </div>{" "}
+            </div>
             <div className={styles.resultsBlock}>
                 <div className={styles.resultProfile}>
                     <div className={styles.resultsUser}>VP</div>
@@ -19,13 +39,16 @@ const WeeklyResults = () => {
                 </div>
                 <div className={styles.resultsStatistics}>
                     <div className={styles.resultsItem}>
-                        45,151<span>score</span>
+                        {period == "weekly" ? "45,151" : "34,345"}
+                        <span>score</span>
                     </div>
                     <div className={styles.resultsItem}>
-                        151<span>bet (TON)</span>
+                        {period == "weekly" ? "151" : "345"}
+                        <span>bet (TON)</span>
                     </div>
                     <div className={styles.resultsItem}>
-                        +2<span>earn (TON)</span>
+                        {period == "weekly" ? "+2" : "+10"}
+                        <span>earn (TON)</span>
                     </div>
                 </div>
             </div>
