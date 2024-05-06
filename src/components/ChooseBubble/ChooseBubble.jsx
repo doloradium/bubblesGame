@@ -18,11 +18,11 @@ const ChooseBubble = ({
     noBackground = false,
     noTitle = false,
     multipleChoice = false,
+    handleChange,
+    value,
 }) => {
     const [colorToggle, setColorToggle] = useState("gold");
     const [bubbleId, setBubbleId] = useState([]);
-
-    console.log(bubbleId);
 
     return (
         <div
@@ -100,6 +100,7 @@ const ChooseBubble = ({
                                     } else {
                                         let localArray = [item.id];
                                         setBubbleId(localArray);
+                                        handleChange(bubbleId);
                                     }
                                 }}
                             >

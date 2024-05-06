@@ -177,10 +177,12 @@ export class Boot extends Scene {
         split.setScrollFactor(0)
         split.setScale(0.3);
         eject.on('pointerdown', function () {
-            console.log('Eject');
+            message = JSON.stringify({ 'action': 'gift', 'dx': deltaX, 'dy': deltaY })
+            webSocket.send(message)
         });
         split.on('pointerdown', function () {
-            console.log('Split');
+            message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
+            webSocket.send(message)
         });
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');

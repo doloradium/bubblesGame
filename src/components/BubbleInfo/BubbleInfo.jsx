@@ -4,7 +4,9 @@ import bubble from "../../../public/assets/bubble.png";
 
 import styles from "./styles.module.css";
 
-const BubbleInfo = () => {
+const BubbleInfo = (bubbles) => {
+    console.log(bubbles);
+
     return (
         <div className={styles.infoContainer}>
             <div className={styles.infoName}>TON</div>
