@@ -179,6 +179,7 @@ export class Boot extends Scene {
         eject.on('pointerdown', function () {
             message = JSON.stringify({ 'action': 'gift', 'dx': deltaX, 'dy': deltaY })
             webSocket.send(message)
+            console.log('asdasdasdasdasd')
         });
         split.on('pointerdown', function () {
             message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })

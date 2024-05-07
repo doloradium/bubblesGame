@@ -1,27 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import bubble from "../../../public/assets/bubble.png";
 
 import styles from "./styles.module.css";
 
-const BubbleInfo = (bubbles) => {
-    console.log(bubbles);
-
+const BubbleInfo = (bubbleData) => {
     return (
         <div className={styles.infoContainer}>
-            <div className={styles.infoName}>TON</div>
-            <img src={bubble} className={styles.infoImage} alt="Bubble" />
+            <div className={styles.infoName}>{bubbleData.bubbleData.coin}</div>
+            <img
+                src={bubbleData.bubbleData.image}
+                className={styles.infoImage}
+                alt="Bubble"
+            />
             <div className={styles.infoStatistics}>
                 <div className={styles.infoBlock}>
-                    <span>Strength</span> No Limits
+                    <span>Strength</span> {bubbleData.bubbleData.strength}
                 </div>
                 <div className={styles.infoBlock}>
-                    <span>Earn</span> 1 life (1% of stake)
+                    <span>Earn</span> {bubbleData.bubbleData.earn}
                 </div>
                 <div className={styles.infoBlock}>
-                    <span>Modes</span> Free + Pay
+                    <span>Modes</span> {bubbleData.bubbleData.modes}
                 </div>
-                <div className={styles.infoPrice}>5 TON</div>
+                <div className={styles.infoPrice}>
+                    {bubbleData.bubbleData.price} TON
+                </div>
             </div>
         </div>
     );

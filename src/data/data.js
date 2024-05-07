@@ -12,6 +12,7 @@ const data = [
         modes: "Free + Pay",
         image: ton,
         color: "silver",
+        price: 5
     },
     {
         id: 1,
@@ -21,6 +22,7 @@ const data = [
         modes: "Free + Pay",
         image: solana,
         color: "silver",
+        price: 5
     },
     {
         id: 2,
@@ -30,6 +32,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "gold",
+        price: 5
     },
     {
         id: 3,
@@ -39,6 +42,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "gold",
+        price: 5
     },
     {
         id: 4,
@@ -48,6 +52,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "gold",
+        price: 5
     },
     {
         id: 5,
@@ -57,6 +62,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "silver",
+        price: 5
     },
     {
         id: 6,
@@ -66,6 +72,7 @@ const data = [
         modes: "Free + Pay",
         image: ton,
         color: "silver",
+        price: 5
     },
     {
         id: 7,
@@ -75,6 +82,7 @@ const data = [
         modes: "Free + Pay",
         image: solana,
         color: "silver",
+        price: 5
     },
     {
         id: 8,
@@ -84,6 +92,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "gold",
+        price: 5
     },
     {
         id: 9,
@@ -93,6 +102,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "gold",
+        price: 5
     },
     {
         id: 10,
@@ -102,6 +112,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "gold",
+        price: 5
     },
     {
         id: 11,
@@ -111,6 +122,7 @@ const data = [
         modes: "Free + Pay",
         image: btc,
         color: "silver",
+        price: 5
     },
 ]
 

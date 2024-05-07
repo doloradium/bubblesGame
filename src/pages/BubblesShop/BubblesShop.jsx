@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import arrowBack from "../../../public/assets/arrowBack.svg";
 
@@ -11,6 +11,16 @@ import data from "../../data/data";
 
 const BubblesShop = () => {
     const [bubbles, setBubbles] = useState([]);
+    const [dataInfo, setdataInfo] = useState(data);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        let innerPrice = 0;
+        bubbles.forEach((item) => {
+            innerPrice += +data[item].price;
+        });
+        setTotalPrice(innerPrice);
+    }, [bubbles]);
 
     return (
         <div className={styles.shopContainer} id="bubbles-shop">
@@ -27,20 +37,25 @@ const BubblesShop = () => {
             <div className={styles.shopBlock}>
                 <div className={styles.shopBackground}></div>
                 <BubbleInfo
-                // bubbles={data[data.indexOf(bubbles[bubbles.length])]}
+                    bubbleData={
+                        bubbles.length == 0
+                            ? data[0]
+                            : data[bubbles[bubbles.length - 1]]
+                    }
                 />
                 <ChooseBubble
-                    value={bubbles}
+                    dataInfo={dataInfo}
                     handleChange={setBubbles}
                     noBackground
                     noTitle
                     multipleChoice
                 />
                 <div className={styles.purchaseInfo}>
-                    Chosen Items<span>1</span>
+                    Chosen Items<span>{bubbles.length}</span>
                 </div>
                 <div className={styles.purchaseInfo}>
-                    Total price<span>5 TON</span>
+                    Total price
+                    <span>{totalPrice} TON</span>
                 </div>
                 <Button color={"purple"} text={"BUY BUBBLES"} />
             </div>

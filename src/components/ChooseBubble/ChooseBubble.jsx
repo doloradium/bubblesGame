@@ -12,17 +12,16 @@ import styles from "./styles.module.css";
 import "swiper/css/navigation";
 import "swiper/css";
 
-import data from "../../data/data";
-
 const ChooseBubble = ({
     noBackground = false,
     noTitle = false,
     multipleChoice = false,
     handleChange,
-    value,
+    dataInfo = [],
 }) => {
     const [colorToggle, setColorToggle] = useState("gold");
     const [bubbleId, setBubbleId] = useState([]);
+    const [dataArray, setDataArray] = useState(dataInfo);
 
     return (
         <div
@@ -82,7 +81,7 @@ const ChooseBubble = ({
                     spaceBetween={10}
                     id="swiper-select"
                 >
-                    {data.map((item) =>
+                    {dataArray.map((item) =>
                         item.color == colorToggle ? (
                             <SwiperSlide
                                 key={item.id}
@@ -95,12 +94,12 @@ const ChooseBubble = ({
                                                   bubbleId.indexOf(item.id),
                                                   1
                                               );
+                                        handleChange(localArray);
                                         setBubbleId(localArray);
-                                        console.log(bubbleId);
                                     } else {
                                         let localArray = [item.id];
+                                        handleChange(localArray);
                                         setBubbleId(localArray);
-                                        handleChange(bubbleId);
                                     }
                                 }}
                             >
