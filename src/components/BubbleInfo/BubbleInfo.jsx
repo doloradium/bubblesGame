@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 
-import bubble from "../../../public/assets/bubble.png";
-
 import styles from "./styles.module.css";
 
 const BubbleInfo = (bubbleData) => {

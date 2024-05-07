@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Button from "../../components/Button/Button";
 import cart from "../../../public/assets/cart.svg";
@@ -8,7 +8,12 @@ import styles from "./styles.module.css";
 import GameMode from "../../components/GameMode/GameMode";
 import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 
+import data from "../../data/data";
+
 const Setup = () => {
+    const [bubbles, setBubbles] = useState([]);
+    const [dataInfo, setdataInfo] = useState(data);
+
     return (
         <>
             <div className={styles.pageContainer} id="setup">
@@ -24,7 +29,7 @@ const Setup = () => {
                         main.style.display = "flex";
                     }}
                 />
-                <ChooseBubble />
+                <ChooseBubble dataInfo={dataInfo} handleChange={setBubbles} />
                 <GameMode />
                 <Button
                     text={"BUY MORE BUBBLES"}

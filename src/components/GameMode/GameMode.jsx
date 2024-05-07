@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 
 import CheckBox from "../CheckBox/CheckBox";
 
@@ -9,8 +10,8 @@ const GameMode = () => {
     const [mode, setMode] = useState("pay");
 
     const handleChange = (e) => {
-        console.log(e.target.value);
-        setCounter(e.target.value);
+        e.target.value.match(/^[0-9]+$/) ? setCounter(e.target.value) : null;
+        e.target.value.length == 0 ? setCounter(0) : null;
     };
 
     return (
@@ -36,7 +37,13 @@ const GameMode = () => {
                     <CheckBox isChecked={mode == "pay"} />
                 </div>
             </div>
-            <div className={styles.gamemodeBet}>
+            <div
+                className={
+                    mode == "pay"
+                        ? styles.gamemodeBet
+                        : clsx(styles.gamemodeBet, styles.inactive)
+                }
+            >
                 <h2 className={styles.gamemodeHeading}>YOUR BET</h2>
                 <div className={styles.gamemodeInfo}>
                     <span>My Balance</span> 100 TON
@@ -45,14 +52,14 @@ const GameMode = () => {
                     <div
                         className={styles.counterItem}
                         onClick={() => {
-                            setCounter(counter - 1);
+                            counter > 0 ? setCounter(counter - 1) : null;
                         }}
                     >
                         -
                     </div>
                     <input
                         className={styles.counterItem}
-                        value={counter}
+                        value={+counter}
                         onChange={handleChange}
                     />
                     <div
