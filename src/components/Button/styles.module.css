@@ -68,6 +68,11 @@
     background-color: #fff;
 }
 
+.extraWhite {
+    transition: 0.5s;
+    background-color: #ffffff80;
+}
+
 .denseGreen {
     transition: 0.5s;
     background-color: #00dc65;

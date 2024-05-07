@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 
 import styles from "./styles.module.css";
 
-const DefaultModal = ({ color = "red" }) => {
+const DefaultModal = ({ color = "purple" }) => {
     return (
         <div
             className={
@@ -137,6 +137,7 @@ const DefaultModal = ({ color = "red" }) => {
                     <Button
                         text={"YES"}
                         color={"white"}
+                        className={styles.secondaryButton}
                         onClick={() => {
                             let defaultModal =
                                 document.querySelector("#defaultModal");

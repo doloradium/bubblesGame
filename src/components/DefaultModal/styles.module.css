@@ -17,6 +17,10 @@
     width: calc(100vw - 3.3rem);
 }
 
+.secondaryButton:hover {
+    background-color: #ffffff40;
+}
+
 .modalBet {
     display: flex;
     justify-content: center;
@@ -110,6 +114,10 @@
 
 .modalButton {
     background-color: #fff !important;
+}
+
+.modalButton:hover {
+    background-color: #ffffffbb !important;
 }
 
 .modalColor_purple {
