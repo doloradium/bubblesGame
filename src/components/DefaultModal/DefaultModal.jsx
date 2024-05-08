@@ -35,6 +35,14 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                         <Button
                             className={styles.closeButton}
                             image={arrowBack}
+                            onClick={() => {
+                                let defaultModal =
+                                    document.querySelector("#defaultModal");
+                                defaultModal.style.opacity = 0;
+                                setTimeout(() => {
+                                    defaultModal.style.display = "none";
+                                }, 500);
+                            }}
                         />
                     </div>
                 </div>
@@ -131,7 +139,10 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                         onClick={() => {
                             let defaultModal =
                                 document.querySelector("#defaultModal");
-                            defaultModal.style.display = "none";
+                            defaultModal.style.opacity = 0;
+                            setTimeout(() => {
+                                defaultModal.style.display = "none";
+                            }, 500);
                         }}
                     />
                     <Button
@@ -142,6 +153,7 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                             onChange(false);
                             let defaultModal =
                                 document.querySelector("#defaultModal");
+                            defaultModal.style.opacity = 0;
                             defaultModal.style.display = "none";
                             let app = document.querySelector("#app");
                             app.style.display = "none";

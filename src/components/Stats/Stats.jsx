@@ -24,6 +24,9 @@ const Stats = () => {
                         let defaultModal =
                             document.querySelector("#defaultModal");
                         defaultModal.style.display = "block";
+                        setTimeout(() => {
+                            defaultModal.style.opacity = 1;
+                        }, 500);
                     }}
                 />
                 <div className={styles.statsAvatar}>VP</div>
@@ -59,13 +62,11 @@ const Stats = () => {
             </div>
             <div className={styles.ratingContainer}>
                 <img src={crown} alt="Crown" className={styles.statsImage} />
-                {websocket.users.map((item) => (
-                    <>
-                        <div className={styles.ratingItem}>
-                            <span>{item.name}: </span>
-                            {item.score}
-                        </div>
-                    </>
+                {websocket.users.map((item, key) => (
+                    <div key={key} className={styles.ratingItem}>
+                        <span>{item.name}: </span>
+                        {item.score}
+                    </div>
                 ))}
             </div>
         </div>

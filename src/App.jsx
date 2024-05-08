@@ -15,7 +15,6 @@ function App({ gameState }) {
 
     useEffect(() => {
         setPhaserState(gameState);
-        console.log("app: ", gameState);
     }, [gameState]);
 
     // const changeScene = () => {

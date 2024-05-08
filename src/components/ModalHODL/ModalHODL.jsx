@@ -19,8 +19,11 @@ const ModalHODL = () => {
                     className={styles.backButton}
                     image={arrowBack}
                     onClick={() => {
-                        let modalHODL = document.querySelector("#modal-hodl");
-                        modalHODL.style.display = "none";
+                        let modal = document.querySelector("#modal-hodl");
+                        modal.style.opacity = 0;
+                        setTimeout(() => {
+                            modal.style.display = "none";
+                        }, 500);
                     }}
                 />
                 <h2 className={styles.modalHeading}>Save Mode</h2>
@@ -59,7 +62,17 @@ const ModalHODL = () => {
                             <span>Your Score: </span>86
                         </div>
                     </div>
-                    <Button text="SAVE THE GAME" color="denseGreen" />
+                    <Button
+                        text="SAVE THE GAME"
+                        color="denseGreen"
+                        onClick={() => {
+                            let modal = document.querySelector("#modal-hodl");
+                            modal.style.opacity = 0;
+                            setTimeout(() => {
+                                modal.style.display = "none";
+                            }, 500);
+                        }}
+                    />
                 </div>
             </div>
         </div>

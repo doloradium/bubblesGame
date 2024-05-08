@@ -21,7 +21,10 @@ const StartupModal = () => {
                     text={"TAKE GIFT"}
                     onClick={() => {
                         let modal = document.querySelector("#startupContainer");
-                        modal.style.display = "none";
+                        modal.style.opacity = 0;
+                        setTimeout(() => {
+                            modal.style.display = "none";
+                        }, 500);
                     }}
                 />
             </div>

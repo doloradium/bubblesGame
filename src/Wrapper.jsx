@@ -17,8 +17,6 @@ import ModalHODL from "./components/ModalHODL/ModalHODL.jsx";
 function Wrapper() {
     const [gameState, setGameState] = useState(false);
 
-    console.log("wrapper: ", gameState);
-
     return (
         <div id="wrapper">
             <Main />
@@ -31,9 +29,9 @@ function Wrapper() {
             <Legion />
             <Referral />
             <DefaultModal onChange={setGameState} />
-            {/* <ModalWeekly />
+            <ModalWeekly />
             <Intro />
-            <ModalHODL /> */}
+            <ModalHODL />
         </div>
     );
 }

@@ -28,7 +28,10 @@ const ModalWeekly = () => {
                     onClick={() => {
                         let weeklyModal =
                             document.querySelector("#weekly-modal");
-                        weeklyModal.style.display = "none";
+                        weeklyModal.style.opacity = 0;
+                        setTimeout(() => {
+                            weeklyModal.style.display = "none";
+                        }, 500);
                     }}
                 />
                 <img className={styles.modalImage} src={cup} alt="Cup" />
