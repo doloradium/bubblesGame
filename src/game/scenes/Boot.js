@@ -170,10 +170,10 @@ export class Boot extends Scene {
         // pointer = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'pointer');
         // pointer.setScale(0.65, 0.65)
         // pointer.setTint(0x00ff00)
-        eject = this.add.sprite(window.innerWidth * 0.18, window.innerHeight * 0.89, 'eject').setInteractive();
+        eject = this.add.sprite(51, window.innerHeight - 91, 'eject').setInteractive();
         eject.setScrollFactor(0)
         eject.setScale(0.3);
-        split = this.add.sprite(window.innerWidth * 0.18, window.innerHeight * 0.73, 'split').setInteractive();
+        split = this.add.sprite(51, window.innerHeight - 178, 'split').setInteractive();
         split.setScrollFactor(0)
         split.setScale(0.3);
         eject.on('pointerdown', function () {
@@ -189,14 +189,14 @@ export class Boot extends Scene {
         let thumb = this.add.image(0, 0, 'thumb');
         base.displayHeight = window.innerWidth / 3;
         base.displayWidth = window.innerWidth / 3;
-        thumb.displayHeight = window.innerWidth / 6;
-        thumb.displayWidth = window.innerWidth / 6;
-        joyStickX = window.innerWidth * 0.75;
-        joyStickY = window.innerHeight * 0.85;
+        thumb.displayHeight = window.innerWidth / 8;
+        thumb.displayWidth = window.innerWidth / 8;
+        joyStickX = window.innerWidth - 78;
+        joyStickY = window.innerHeight - 112;
         this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
             x: joyStickX,
             y: joyStickY,
-            radius: 60,
+            radius: 44,
             base: base,
             thumb: thumb,
         });

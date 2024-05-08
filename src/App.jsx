@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { PhaserGame } from "./game/PhaserGame";
 // import Phaser from "phaser";
 
-import Button from "./components/Button/Button";
+// import Button from "./components/Button/Button";
+import Stats from "./components/Stats/Stats";
 
-import arrowBack from "../public/assets/arrowBack.svg";
+// import arrowBack from "../public/assets/arrowBack.svg";
 
 function App({ gameState }) {
     // const [canMoveSprite, setCanMoveSprite] = useState(true);
@@ -61,15 +62,7 @@ function App({ gameState }) {
 
     return (
         <div id="app">
-            <Button
-                image={arrowBack}
-                className="buttonAbsolute"
-                color={"white"}
-                onClick={() => {
-                    let defaultModal = document.querySelector("#defaultModal");
-                    defaultModal.style.display = "block";
-                }}
-            />
+            <Stats />
             {phaserState == true ? (
                 <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
             ) : null}
