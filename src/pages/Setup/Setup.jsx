@@ -10,7 +10,7 @@ import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 
 import data from "../../data/data";
 
-const Setup = () => {
+const Setup = ({ onChange }) => {
     const [bubbles, setBubbles] = useState([]);
     const [dataInfo, setdataInfo] = useState(data);
 
@@ -46,6 +46,7 @@ const Setup = () => {
                     color={"white"}
                     text={"START GAME"}
                     onClick={() => {
+                        onChange(true);
                         let app = document.querySelector("#app");
                         let setup = document.querySelector("#setup");
                         app.style.display = "block";

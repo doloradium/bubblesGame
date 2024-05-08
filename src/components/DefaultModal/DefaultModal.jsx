@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 
 import styles from "./styles.module.css";
 
-const DefaultModal = ({ color = "purple" }) => {
+const DefaultModal = ({ onChange, color = "purple" }) => {
     return (
         <div
             className={
@@ -139,6 +139,7 @@ const DefaultModal = ({ color = "purple" }) => {
                         color={"white"}
                         className={styles.secondaryButton}
                         onClick={() => {
+                            onChange(false);
                             let defaultModal =
                                 document.querySelector("#defaultModal");
                             defaultModal.style.display = "none";
