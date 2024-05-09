@@ -24,6 +24,13 @@ const Main = () => {
                             document.querySelector("#bubbles-shop");
                         let main = document.querySelector("#main");
                         bubblesShop.style.display = "grid";
+                        setTimeout(() => {
+                            bubblesShop.style.opacity = 1;
+                            main.style.opacity = 0;
+                        }, 100);
+                        setTimeout(() => {
+                            main.style.display = "none";
+                        }, 100);
                     }}
                 />
                 <Button
@@ -33,7 +40,13 @@ const Main = () => {
                         let main = document.querySelector("#main");
                         let setup = document.querySelector("#setup");
                         setup.style.display = "flex";
-                        main.style.display = "none";
+                        setTimeout(() => {
+                            setup.style.opacity = 1;
+                            main.style.opacity = 0;
+                        }, 100);
+                        setTimeout(() => {
+                            main.style.display = "none";
+                        }, 100);
                     }}
                 />
                 <p

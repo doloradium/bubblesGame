@@ -7,7 +7,9 @@
     grid-template-columns: repeat(2, 1fr);
     flex-direction: column;
     gap: 1rem;
+    opacity: 0;
     z-index: 1;
+    transition: 0.1s;
     background: linear-gradient(180deg, #040616, #26246f);
     padding: 1rem;
     width: 100%;

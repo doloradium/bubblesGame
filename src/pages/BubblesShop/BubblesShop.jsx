@@ -30,7 +30,15 @@ const BubblesShop = () => {
                 color={"white"}
                 onClick={() => {
                     let bubblesShop = document.querySelector("#bubbles-shop");
-                    bubblesShop.style.display = "none";
+                    let main = document.querySelector("#main");
+                    main.style.display = "flex";
+                    setTimeout(() => {
+                        main.style.opacity = 1;
+                        bubblesShop.style.opacity = 0;
+                    }, 100);
+                    setTimeout(() => {
+                        bubblesShop.style.display = "none";
+                    }, 100);
                 }}
             />
             <h2 className={styles.shopHeading}>Shop</h2>

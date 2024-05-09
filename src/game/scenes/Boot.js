@@ -100,6 +100,20 @@ function onMessage(event) {
         }
     })
 
+
+    //удаление объектов, которые больше не передаются
+    localObjects.forEach((localItem) => {
+        let have = false
+        receivedMessage.p_obj.forEach((item) => {
+            if (localItem.id == item.id) have = true
+        })
+        if (have == false) {
+            localObjects.object.destroy()
+            localObjects.splice(localObjects.indexOf(localItem), 1)
+        }
+    })
+    //---
+
     localObjects.forEach((localItem) => {
         let have = false
         receivedMessage.p_obj.forEach((item) => {

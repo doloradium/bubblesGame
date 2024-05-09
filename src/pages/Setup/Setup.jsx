@@ -23,10 +23,16 @@ const Setup = ({ onChange }) => {
                     className={styles.buttonBack}
                     color={"white"}
                     onClick={() => {
-                        let setup = document.querySelector("#setup");
                         let main = document.querySelector("#main");
-                        setup.style.display = "none";
-                        main.style.display = "flex";
+                        let setup = document.querySelector("#setup");
+                        setup.style.opacity = 0;
+                        setTimeout(() => {
+                            setup.style.display = "none";
+                            main.style.display = "flex";
+                        }, 100);
+                        setTimeout(() => {
+                            main.style.opacity = 1;
+                        }, 100);
                     }}
                 />
                 <ChooseBubble dataInfo={dataInfo} handleChange={setBubbles} />

@@ -21,8 +21,14 @@ const Header = ({ name, balance }) => {
                 onClick={() => {
                     let transactions = document.querySelector("#transactions");
                     let main = document.querySelector("#main");
-                    transactions.style.display = "flex";
-                    main.style.display = "none";
+                    main.style.opacity = 0;
+                    setTimeout(() => {
+                        main.style.display = "none";
+                        transactions.style.display = "flex";
+                        setTimeout(() => {
+                            transactions.style.opacity = 1;
+                        }, 100);
+                    }, 100);
                 }}
             />
             <Button

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import App from "./App.jsx";
 import Main from "./pages/Main/Main.jsx";
@@ -29,9 +29,9 @@ function Wrapper() {
             <Legion />
             <Referral />
             <DefaultModal onChange={setGameState} />
-            <ModalWeekly />
+            {/* <ModalWeekly />
             <Intro />
-            <ModalHODL />
+            <ModalHODL /> */}
         </div>
     );
 }

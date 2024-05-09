@@ -25,8 +25,14 @@ const Transactions = () => {
                         let transactions =
                             document.querySelector("#transactions");
                         let main = document.querySelector("#main");
-                        main.style.display = "flex";
-                        transactions.style.display = "none";
+                        transactions.style.opacity = 0;
+                        setTimeout(() => {
+                            transactions.style.display = "none";
+                            main.style.display = "flex";
+                            setTimeout(() => {
+                                main.style.opacity = 1;
+                            }, 100);
+                        }, 100);
                     }}
                 />
                 <div className={styles.operationContainer}>
