@@ -77,13 +77,15 @@ function newWebSocket() {
 
 function onMessage(event) {
     let receivedMessage = JSON.parse(event.data);
-    console.log(receivedMessage);
+    // console.log(receivedMessage);
     receivedMessage.p_obj.forEach((item) => {
         let have = false
         localObjects.forEach((localItem) => {
             if (localItem.id == item.id) {
                 localItem.x = item.x
                 localItem.y = item.y
+                localItem.size = item.size
+                localItem.object.setSize(localItem.size, localItem.size)
                 // localItem.object.setPosition(localItem.x, localItem.y);
                 have = true
             }
@@ -93,7 +95,7 @@ function onMessage(event) {
             object.setDisplaySize(item.size, item.size)
             object.setSize(item.size, item.size)
             object.setOrigin(0.5, 0.5)
-            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, object: object })
+            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
             if (item.type == "player") {
                 localObjects[localObjects.length - 1].player_id = item.player_id;
             }
@@ -108,7 +110,7 @@ function onMessage(event) {
             if (localItem.id == item.id) have = true
         })
         if (have == false) {
-            localObjects.object.destroy()
+            localItem.object.destroy()
             localObjects.splice(localObjects.indexOf(localItem), 1)
         }
     })
@@ -222,6 +224,8 @@ export class Boot extends Scene {
         localObjects.forEach((item) => {
             if (item.type == 'player') {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
+
+                // console.log(item)
                 if (item.player_id.toString() == telegram_id) {
                     this.cameras.main.centerOn(item.object.x, item.object.y);
                 }
