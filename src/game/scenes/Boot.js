@@ -85,8 +85,9 @@ function onMessage(event) {
                 localItem.x = item.x
                 localItem.y = item.y
                 localItem.size = item.size
-                localItem.object.setSize(localItem.size, localItem.size)
+                localItem.object.setDisplaySize(localItem.size, localItem.size)
                 // localItem.object.setPosition(localItem.x, localItem.y);
+
                 have = true
             }
         })
@@ -189,9 +190,11 @@ export class Boot extends Scene {
         eject = this.add.sprite(51, window.innerHeight - 91, 'eject').setInteractive();
         eject.setScrollFactor(0)
         eject.setScale(0.3);
+        eject.depth = 10000;
         split = this.add.sprite(51, window.innerHeight - 178, 'split').setInteractive();
         split.setScrollFactor(0)
         split.setScale(0.3);
+        split.depth = 10000;
         eject.on('pointerdown', function () {
             message = JSON.stringify({ 'action': 'gift', 'dx': deltaX, 'dy': deltaY })
             webSocket.send(message)
@@ -203,10 +206,12 @@ export class Boot extends Scene {
         });
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');
+        base.depth = 10000;
         base.displayHeight = window.innerWidth / 3;
         base.displayWidth = window.innerWidth / 3;
         thumb.displayHeight = window.innerWidth / 8;
         thumb.displayWidth = window.innerWidth / 8;
+        thumb.depth = 10001;
         joyStickX = window.innerWidth - 78;
         joyStickY = window.innerHeight - 112;
         this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
@@ -222,10 +227,12 @@ export class Boot extends Scene {
     update() {
         let deltaTime = this.getDelta();
         localObjects.forEach((item) => {
+            console.log(item.player_id.toString() == telegram_id, item.player_id)
             if (item.type == 'player') {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
 
                 // console.log(item)
+
                 if (item.player_id.toString() == telegram_id) {
                     this.cameras.main.centerOn(item.object.x, item.object.y);
                 }
