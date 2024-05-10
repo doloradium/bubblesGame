@@ -58,8 +58,8 @@ const ModalWeekly = () => {
                 </div>
                 <h2 className={styles.modalHeading}>Bonus Rate (TON)</h2>
                 <div className={styles.legionContainer}>
-                    {legions.map((item) => (
-                        <div className={styles.legionItem}>
+                    {legions.map((item, key) => (
+                        <div className={styles.legionItem} key={key}>
                             <h2 className={styles.modalHeading}>
                                 {item.place}
                             </h2>
