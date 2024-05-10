@@ -16,11 +16,11 @@ const Send = () => {
                         className={styles.buttonBack}
                         color={"white"}
                         onClick={() => {
-                            let transactions =
-                                document.querySelector("#transactions");
                             let send = document.querySelector("#send");
-                            transactions.style.display = "flex";
-                            send.style.display = "none";
+                            send.style.opacity = 0;
+                            setTimeout(() => {
+                                send.style.display = "none";
+                            }, 100);
                         }}
                     />
                     <h2 className={styles.sendHeading}>Send coin</h2>
@@ -29,11 +29,14 @@ const Send = () => {
                         className={styles.buttonClose}
                         color={"purpleTransparent"}
                         onClick={() => {
+                            let send = document.querySelector("#send");
                             let transactions =
                                 document.querySelector("#transactions");
-                            let main = document.querySelector("#main");
-                            main.style.display = "flex";
+                            send.style.opacity = 0;
                             transactions.style.display = "none";
+                            setTimeout(() => {
+                                send.style.display = "none";
+                            }, 100);
                         }}
                     />
                 </div>
@@ -88,6 +91,9 @@ const Send = () => {
                 onClick={() => {
                     let referral = document.querySelector("#referral");
                     referral.style.display = "flex";
+                    setTimeout(() => {
+                        referral.style.opacity = 1;
+                    }, 100);
                 }}
             >
                 MY SQUAD

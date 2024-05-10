@@ -24,14 +24,9 @@ const Transactions = () => {
                     onClick={() => {
                         let transactions =
                             document.querySelector("#transactions");
-                        let main = document.querySelector("#main");
                         transactions.style.opacity = 0;
                         setTimeout(() => {
                             transactions.style.display = "none";
-                            main.style.display = "flex";
-                            setTimeout(() => {
-                                main.style.opacity = 1;
-                            }, 100);
                         }, 100);
                     }}
                 />
@@ -42,11 +37,11 @@ const Transactions = () => {
                         color={"purpleTransparent"}
                         className={clsx(styles.buttonOperation, styles.green)}
                         onClick={() => {
-                            let transactions =
-                                document.querySelector("#transactions");
                             let receive = document.querySelector("#receive");
                             receive.style.display = "flex";
-                            transactions.style.display = "none";
+                            setTimeout(() => {
+                                receive.style.opacity = 1;
+                            }, 100);
                         }}
                     />
                     <Button
@@ -55,11 +50,11 @@ const Transactions = () => {
                         image={outcoming}
                         className={clsx(styles.buttonOperation, styles.red)}
                         onClick={() => {
-                            let transactions =
-                                document.querySelector("#transactions");
                             let send = document.querySelector("#send");
                             send.style.display = "flex";
-                            transactions.style.display = "none";
+                            setTimeout(() => {
+                                send.style.opacity = 1;
+                            }, 100);
                         }}
                     />
                 </div>
@@ -82,6 +77,9 @@ const Transactions = () => {
                 onClick={() => {
                     let referral = document.querySelector("#referral");
                     referral.style.display = "flex";
+                    setTimeout(() => {
+                        referral.style.opacity = 1;
+                    }, 100);
                 }}
             >
                 MY SQUAD

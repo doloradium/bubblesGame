@@ -31,7 +31,7 @@ const ModalWeekly = () => {
                         weeklyModal.style.opacity = 0;
                         setTimeout(() => {
                             weeklyModal.style.display = "none";
-                        }, 500);
+                        }, 100);
                     }}
                 />
                 <img className={styles.modalImage} src={cup} alt="Cup" />

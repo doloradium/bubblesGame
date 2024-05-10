@@ -20,14 +20,9 @@ const Header = ({ name, balance }) => {
                 className={styles.redeemButton}
                 onClick={() => {
                     let transactions = document.querySelector("#transactions");
-                    let main = document.querySelector("#main");
-                    main.style.opacity = 0;
+                    transactions.style.display = "flex";
                     setTimeout(() => {
-                        main.style.display = "none";
-                        transactions.style.display = "flex";
-                        setTimeout(() => {
-                            transactions.style.opacity = 1;
-                        }, 100);
+                        transactions.style.opacity = 1;
                     }, 100);
                 }}
             />
@@ -37,9 +32,10 @@ const Header = ({ name, balance }) => {
                 className={styles.legionButton}
                 onClick={() => {
                     let legions = document.querySelector("#legions");
-                    let main = document.querySelector("#main");
                     legions.style.display = "flex";
-                    main.style.display = "none";
+                    setTimeout(() => {
+                        legions.style.opacity = 1;
+                    }, 100);
                 }}
             />
         </div>

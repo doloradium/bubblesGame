@@ -26,7 +26,7 @@ const Stats = () => {
                         defaultModal.style.display = "block";
                         setTimeout(() => {
                             defaultModal.style.opacity = 1;
-                        }, 500);
+                        }, 100);
                     }}
                 />
                 <div className={styles.statsAvatar}>VP</div>

@@ -23,15 +23,10 @@ const Setup = ({ onChange }) => {
                     className={styles.buttonBack}
                     color={"white"}
                     onClick={() => {
-                        let main = document.querySelector("#main");
                         let setup = document.querySelector("#setup");
                         setup.style.opacity = 0;
                         setTimeout(() => {
                             setup.style.display = "none";
-                            main.style.display = "flex";
-                        }, 100);
-                        setTimeout(() => {
-                            main.style.opacity = 1;
                         }, 100);
                     }}
                 />
@@ -44,8 +39,10 @@ const Setup = ({ onChange }) => {
                     onClick={() => {
                         let bubblesShop =
                             document.querySelector("#bubbles-shop");
-                        let setup = document.querySelector("#setup");
                         bubblesShop.style.display = "grid";
+                        setTimeout(() => {
+                            bubblesShop.style.opacity = 1;
+                        }, 100);
                     }}
                 />
                 <Button
@@ -54,9 +51,10 @@ const Setup = ({ onChange }) => {
                     onClick={() => {
                         onChange(true);
                         let app = document.querySelector("#app");
-                        let setup = document.querySelector("#setup");
                         app.style.display = "block";
-                        setup.style.display = "none";
+                        setTimeout(() => {
+                            app.style.opacity = 1;
+                        }, 100);
                     }}
                 />
             </div>

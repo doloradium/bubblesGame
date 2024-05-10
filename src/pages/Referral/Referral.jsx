@@ -17,7 +17,10 @@ const Referral = () => {
                 color={"white"}
                 onClick={() => {
                     let referral = document.querySelector("#referral");
-                    referral.style.display = "none";
+                    referral.style.opacity = 0;
+                    setTimeout(() => {
+                        referral.style.display = "none";
+                    }, 100);
                 }}
             />
             <ReferralProfile />

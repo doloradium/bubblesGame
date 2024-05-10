@@ -23,7 +23,7 @@ const ModalHODL = () => {
                         modal.style.opacity = 0;
                         setTimeout(() => {
                             modal.style.display = "none";
-                        }, 500);
+                        }, 100);
                     }}
                 />
                 <h2 className={styles.modalHeading}>Save Mode</h2>
@@ -70,7 +70,7 @@ const ModalHODL = () => {
                             modal.style.opacity = 0;
                             setTimeout(() => {
                                 modal.style.display = "none";
-                            }, 500);
+                            }, 100);
                         }}
                     />
                 </div>

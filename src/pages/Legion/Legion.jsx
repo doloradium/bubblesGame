@@ -19,9 +19,10 @@ const Legion = () => {
                 color={"white"}
                 onClick={() => {
                     let legions = document.querySelector("#legions");
-                    let main = document.querySelector("#main");
-                    legions.style.display = "none";
-                    main.style.display = "flex";
+                    legions.style.opacity = 0;
+                    setTimeout(() => {
+                        legions.style.display = "none";
+                    }, 100);
                 }}
             />
             <WeeklyRate />

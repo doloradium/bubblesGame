@@ -18,11 +18,11 @@ const Receive = () => {
                         className={styles.buttonBack}
                         color={"white"}
                         onClick={() => {
-                            let transactions =
-                                document.querySelector("#transactions");
                             let receive = document.querySelector("#receive");
-                            transactions.style.display = "flex";
-                            receive.style.display = "none";
+                            receive.style.opacity = 0;
+                            setTimeout(() => {
+                                receive.style.display = "none";
+                            }, 100);
                         }}
                     />
                     <h2 className={styles.receiveHeading}>Receive coin</h2>
@@ -31,11 +31,14 @@ const Receive = () => {
                         className={styles.buttonClose}
                         color={"purpleTransparent"}
                         onClick={() => {
+                            let receive = document.querySelector("#receive");
                             let transactions =
                                 document.querySelector("#transactions");
-                            let main = document.querySelector("#main");
-                            main.style.display = "flex";
+                            receive.style.opacity = 0;
                             transactions.style.display = "none";
+                            setTimeout(() => {
+                                receive.style.display = "none";
+                            }, 100);
                         }}
                     />
                 </div>
@@ -58,6 +61,9 @@ const Receive = () => {
                 onClick={() => {
                     let referral = document.querySelector("#referral");
                     referral.style.display = "flex";
+                    setTimeout(() => {
+                        referral.style.opacity = 1;
+                    }, 100);
                 }}
             >
                 MY SQUAD

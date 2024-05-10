@@ -5,7 +5,9 @@
     left: 0;
     flex-direction: column;
     gap: 2rem;
-    z-index: 1;
+    opacity: 0;
+    z-index: 3;
+    transition: 0.1s;
     background: linear-gradient(360deg, #040616, #5855ff);
     padding: 1rem;
     width: 100%;

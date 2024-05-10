@@ -142,7 +142,7 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                             defaultModal.style.opacity = 0;
                             setTimeout(() => {
                                 defaultModal.style.display = "none";
-                            }, 500);
+                            }, 100);
                         }}
                     />
                     <Button
@@ -153,12 +153,15 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                             onChange(false);
                             let defaultModal =
                                 document.querySelector("#defaultModal");
-                            defaultModal.style.opacity = 0;
-                            defaultModal.style.display = "none";
                             let app = document.querySelector("#app");
-                            app.style.display = "none";
-                            let main = document.querySelector("#main");
-                            main.style.display = "flex";
+                            let setup = document.querySelector("#setup");
+                            app.style.opacity = 0;
+                            defaultModal.style.opacity = 0;
+                            setup.style.display = "none";
+                            setTimeout(() => {
+                                app.style.display = "none";
+                                defaultModal.style.display = "none";
+                            }, 100);
                         }}
                     />
                 </div>

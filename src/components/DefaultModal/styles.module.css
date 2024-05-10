@@ -1,11 +1,15 @@
 .modalContainer {
     display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
     opacity: 0;
+    z-index: 6;
     backdrop-filter: blur(5px);
-    transition: 0.5s;
+    transition: 0.1s;
     padding: 1rem;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 .modalGrid {

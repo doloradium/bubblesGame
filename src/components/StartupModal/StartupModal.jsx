@@ -24,7 +24,7 @@ const StartupModal = () => {
                         modal.style.opacity = 0;
                         setTimeout(() => {
                             modal.style.display = "none";
-                        }, 500);
+                        }, 100);
                     }}
                 />
             </div>

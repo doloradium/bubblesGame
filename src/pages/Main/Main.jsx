@@ -22,14 +22,9 @@ const Main = () => {
                     onClick={() => {
                         let bubblesShop =
                             document.querySelector("#bubbles-shop");
-                        let main = document.querySelector("#main");
                         bubblesShop.style.display = "grid";
                         setTimeout(() => {
                             bubblesShop.style.opacity = 1;
-                            main.style.opacity = 0;
-                        }, 100);
-                        setTimeout(() => {
-                            main.style.display = "none";
                         }, 100);
                     }}
                 />
@@ -37,15 +32,10 @@ const Main = () => {
                     color={"white"}
                     text={"START GAME"}
                     onClick={() => {
-                        let main = document.querySelector("#main");
                         let setup = document.querySelector("#setup");
                         setup.style.display = "flex";
                         setTimeout(() => {
                             setup.style.opacity = 1;
-                            main.style.opacity = 0;
-                        }, 100);
-                        setTimeout(() => {
-                            main.style.display = "none";
                         }, 100);
                     }}
                 />
@@ -54,6 +44,9 @@ const Main = () => {
                     onClick={() => {
                         let referral = document.querySelector("#referral");
                         referral.style.display = "flex";
+                        setTimeout(() => {
+                            referral.style.opacity = 1;
+                        }, 100);
                     }}
                 >
                     MY SQUAD
