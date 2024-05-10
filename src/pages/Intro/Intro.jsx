@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import introwebm from "../../../public/assets/intro.webm";
+import intromp4 from "../../../public/assets/intro.mp4";
 import introTon from "../../../public/assets/introTon.svg";
 import players from "../../../public/assets/players.svg";
 
@@ -31,6 +32,7 @@ const Intro = () => {
                 id="video"
             >
                 <source src={introwebm} type="video/webm" />
+                <source src={intromp4} type="video/mp4" />
             </video>
             <div className={styles.infoContainer}>
                 <div className={styles.infoBlock}>
