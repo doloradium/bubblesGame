@@ -24,7 +24,7 @@ const Intro = () => {
     return (
         <div className={styles.videoContainer} id="videoContainer">
             <video
-                controls="false"
+                controls={false}
                 className={styles.video}
                 autoPlay
                 playsInline
