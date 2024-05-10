@@ -24,12 +24,13 @@ const Intro = () => {
     return (
         <div className={styles.videoContainer} id="videoContainer">
             <video
-                controls=""
+                controls="false"
                 className={styles.video}
                 autoPlay
                 playsInline
                 muted
                 name="media"
+                preload="auto"
                 id="video"
             >
                 <source src={intromp4} type="video/mp4" />
