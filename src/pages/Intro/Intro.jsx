@@ -27,12 +27,13 @@ const Intro = () => {
                 controls=""
                 className={styles.video}
                 autoPlay
+                playsInline
                 muted
                 name="media"
                 id="video"
             >
-                <source src={introwebm} type="video/webm" />
                 <source src={intromp4} type="video/mp4" />
+                <source src={introwebm} type="video/webm" />
             </video>
             <div className={styles.infoContainer}>
                 <div className={styles.infoBlock}>
