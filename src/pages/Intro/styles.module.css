@@ -35,6 +35,8 @@
     border-radius: 0.5rem;
     background-color: #00000040;
     padding: 1rem;
+    width: fit-content;
+    min-width: 250px;
 }
 
 .infoBlock {
@@ -56,4 +58,7 @@
 
 .infoHeading {
     text-wrap: nowrap;
+    /* width: 100%; */
+    display: flex;
+    flex: 1 0 auto;
 }
