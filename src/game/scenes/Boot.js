@@ -77,7 +77,7 @@ function newWebSocket() {
 
 function onMessage(event) {
     let receivedMessage = JSON.parse(event.data);
-    // console.log(receivedMessage);
+    console.log(receivedMessage);
     receivedMessage.p_obj.forEach((item) => {
         let have = false
         localObjects.forEach((localItem) => {
