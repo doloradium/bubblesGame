@@ -14,6 +14,7 @@ let webSocket;
 let localObjects = []
 let deleteObjects = []
 let scene
+let UICam
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
@@ -223,6 +224,9 @@ export class Boot extends Scene {
             thumb: thumb,
         });
         this.joystickCursors = this.joyStick.createCursorKeys();
+        UICam = this.cameras.add(0, 0, window.innerWidth, window.innerHeight);
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, eject]);
+        UICam.ignore([background]);
     }
 
     update() {
@@ -232,10 +236,14 @@ export class Boot extends Scene {
             if (item.type == 'player') {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
                 if (item.player_id == telegram_id) {
+                    UICam.ignore([item.object])
+                    // UICam.centerOn(item.object.x, item.object.y);
                     this.cameras.main.centerOn(item.object.x, item.object.y);
                     this.cameras.main.setZoom(100 / item.size, 100 / item.size);
-                    eject.setScale(0.3 * 1 / this.cameras.main.zoom, 0.3 * 1 / this.cameras.main.zoom)
-                    // split.setScale(1 / game.camera.zoom, 1 / game.camera.zoom)
+                    // eject.setScale(0.3 * 1 / this.cameras.main.zoom, 0.3 * 1 / this.cameras.main.zoom)
+                    // split.setScale(0.3 * 1 / this.cameras.main.zoom, 0.3 * 1 / this.cameras.main.zoom)
+                    // eject.setPosition(1 / this.cameras.main.zoom, (window.innerHeight - 91) * 1 / this.cameras.main.zoom * this.cameras.main.zoom)
+                    // split.setPosition(51 * this.cameras.main.zoom, window.innerHeight - 178 * this.cameras.main.zoom)
                     // joyStick.setScale(1 / game.camera.zoom, 1 / game.camera.zoom)
                 }
             }
