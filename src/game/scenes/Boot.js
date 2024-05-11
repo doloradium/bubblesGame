@@ -117,22 +117,22 @@ function onMessage(event) {
     })
     //---
 
-    localObjects.forEach((localItem) => {
-        let have = false
-        receivedMessage.p_obj.forEach((item) => {
-            if (localItem.id == item.id) {
-                have = true
-            }
-        })
-        if (have == false) {
-            deleteObjects.push(localItem)
-        }
-    })
-    deleteObjects.forEach((item) => {
-        let index = localObjects.indexOf(item);
-        localObjects.splice(index, 1)
-    })
-    deleteObjects = []
+    // localObjects.forEach((localItem) => {
+    //     let have = false
+    //     receivedMessage.p_obj.forEach((item) => {
+    //         if (localItem.id == item.id) {
+    //             have = true
+    //         }
+    //     })
+    //     if (have == false) {
+    //         deleteObjects.push(localItem)
+    //     }
+    // })
+    // deleteObjects.forEach((item) => {
+    //     let index = localObjects.indexOf(item);
+    //     localObjects.splice(index, 1)
+    // })
+    // deleteObjects = []
 }
 
 
@@ -178,6 +178,7 @@ export class Boot extends Scene {
     }
 
     create() {
+        this.cameras.roundPx = false;
         this.start = this.getTime();
         const background = this.add.tileSprite(0, 0, 5800, 10000, 'background').setOrigin(0, 0);
         background.setScale(0.3, 0.3)
@@ -227,14 +228,15 @@ export class Boot extends Scene {
     update() {
         let deltaTime = this.getDelta();
         localObjects.forEach((item) => {
-            console.log(item.player_id.toString() == telegram_id, item.player_id)
+            // console.log(item.player_id == telegram_id, item.player_id)
             if (item.type == 'player') {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
-
-                // console.log(item)
-
-                if (item.player_id.toString() == telegram_id) {
+                if (item.player_id == telegram_id) {
                     this.cameras.main.centerOn(item.object.x, item.object.y);
+                    this.cameras.main.setZoom(100 / item.size, 100 / item.size);
+                    eject.setScale(0.3 * 1 / this.cameras.main.zoom, 0.3 * 1 / this.cameras.main.zoom)
+                    // split.setScale(1 / game.camera.zoom, 1 / game.camera.zoom)
+                    // joyStick.setScale(1 / game.camera.zoom, 1 / game.camera.zoom)
                 }
             }
         })

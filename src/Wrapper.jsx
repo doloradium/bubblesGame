@@ -29,9 +29,9 @@ function Wrapper() {
             <Legion />
             <Referral />
             <DefaultModal onChange={setGameState} />
-            <ModalWeekly />
+            {/* <ModalWeekly />
             <Intro />
-            <ModalHODL />
+            <ModalHODL /> */}
         </div>
     );
 }
