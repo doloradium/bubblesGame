@@ -1,10 +1,11 @@
 import React from "react";
+import clsx from "clsx";
 
 import arrowBack from "../../../public/assets/arrowBack.svg";
 import thinkingEmoji from "../../../public/assets/thinkingEmoji.png";
 import deadEmoji from "../../../public/assets/deadEmoji.png";
 
-import clsx from "clsx";
+import websocketManager from "../../data/websocketManager";
 
 import Button from "../Button/Button";
 
@@ -150,6 +151,10 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                         color={"white"}
                         className={styles.secondaryButton}
                         onClick={() => {
+                            websocketManager.forEach((item) => {
+                                item.close();
+                            });
+                            websocketManager.length = 0;
                             onChange(false);
                             let defaultModal =
                                 document.querySelector("#defaultModal");

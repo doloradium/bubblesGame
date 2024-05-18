@@ -1,10 +1,9 @@
 import { Scene } from 'phaser';
 
-let bubble, halo, pointer;
-let frameSpeed = 200;
+import websocketManager from '../../data/websocketManager';
+
 let joyStickX, joyStickY;
 let deltaX, deltaY;
-let radius = 110;
 let newX, newY;
 let eject, split;
 let message;
@@ -12,9 +11,10 @@ let room;
 let webSocketPath;
 let webSocket;
 let localObjects = []
-let deleteObjects = []
+// let deleteObjects = []
 let scene
 let UICam
+let timers = []
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
@@ -22,7 +22,6 @@ const telegram_id = searchParams.get('telegram_id')
 
 const fetchString = 'https://agario.crypto-loto.xyz/api/join?token=' + token + '&telegram_id=' + telegram_id
 console.log(fetchString)
-
 
 async function sendFormData() {
     try {
@@ -38,7 +37,8 @@ async function sendFormData() {
         const responseJson = await response.json();
         room = responseJson['room_id']
         webSocketPath = 'wss://agario.crypto-loto.xyz/game/online?token=' + token + '&telegram_id=' + telegram_id + '&room_id=' + room
-        newWebSocket()
+        console.log(websocketManager, websocketManager.length)
+        websocketManager.length == 0 ? newWebSocket() : null
         console.log(webSocketPath)
     } catch (error) {
         console.error('Error sending form data:', error);
@@ -51,18 +51,19 @@ function newWebSocket() {
     );
 
     webSocket.onopen = function (event) {
+        websocketManager.length == 0 ? websocketManager.push(webSocket) : null
+        console.log(timers)
+        // console.log(websocketManager.length)
         console.log("WebSocket is connected");
-        // websocketState = 1;
-        setInterval(() => {
-
+        let myTimer = setInterval(() => {
+            // console.log(websocketManager.length)
             try {
                 message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
-                // websocketState === 1 ? webSocket.send(message) : null
                 webSocket.send(message)
+                // console.log(websocketManager, websocketManager.length)
             } catch (e) { }
-            // console.log(message)
-            // console.log(receivedMessage)
         }, 100)
+        timers.push(myTimer)
     };
 
     webSocket.onmessage = onMessage
@@ -72,13 +73,17 @@ function newWebSocket() {
     };
 
     webSocket.onclose = function (event) {
+        timers.forEach((item) => {
+            clearTimeout(item)
+        })
+        localObjects.length = 0
         console.log("Connection is closed");
     };
 }
 
 function onMessage(event) {
     let receivedMessage = JSON.parse(event.data);
-    console.log(receivedMessage);
+    // console.log(receivedMessage);
     receivedMessage.p_obj.forEach((item) => {
         let have = false
         localObjects.forEach((localItem) => {
@@ -86,18 +91,39 @@ function onMessage(event) {
                 localItem.x = item.x
                 localItem.y = item.y
                 localItem.size = item.size
-                localItem.object.setDisplaySize(localItem.size, localItem.size)
-                // localItem.object.setPosition(localItem.x, localItem.y);
-
+                console.log(localItem)
+                localItem.object.setDisplaySize(localItem.size * 2, localItem.size * 2)
+                if (localItem.type == 'player') {
+                    localItem.halo.setDisplaySize((localItem.size + localItem.size / 5) * 2, (localItem.size + localItem.size / 5) * 2)
+                }
                 have = true
             }
         })
         if (have == false) {
-            var object = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
-            object.setDisplaySize(item.size, item.size)
-            object.setSize(item.size, item.size)
+            let object = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
+            object.setDisplaySize(item.size * 2, item.size * 2)
             object.setOrigin(0.5, 0.5)
-            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
+            object.depth = item.id
+            let halo, pointer
+            if (item.type == 'player') {
+                halo = scene.add.circle(
+                    item.x,
+                    item.y,
+                    item.size + item.size / 5,
+                    0xFF0000,
+                    0
+                );
+                pointer = scene.add.sprite(item.x, item.y, 'pointer');
+                pointer.setOrigin(0.5, 0.5)
+                pointer.setScale(0.1, 0.1)
+                pointer.setTint(0xff0000)
+                pointer.setAlpha(1)
+                pointer.depth = 10000
+                halo.setStrokeStyle(0.25, 0xff0000);
+                halo.depth = item.id - 1
+                halo.setOrigin(0.5, 0.5)
+            }
+            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object, halo: halo, pointer: pointer })
             if (item.type == "player") {
                 localObjects[localObjects.length - 1].player_id = item.player_id;
             }
@@ -157,9 +183,7 @@ export class Boot extends Scene {
     calculateAngleInRadians(x1, y1, x2, y2) {
         const dx = x2 - x1;
         const dy = y2 - y1;
-
         const angleInRadians = Math.atan2(dy, dx);
-
         return angleInRadians;
     }
 
@@ -175,20 +199,14 @@ export class Boot extends Scene {
         this.load.image('pointer', 'assets/pointer.png');
         this.load.image('eject', 'assets/button1.png');
         this.load.image('split', 'assets/button2.png');
-        sendFormData()
+        websocketManager == 0 ? sendFormData() : null
     }
 
     create() {
         this.cameras.roundPx = false;
         this.start = this.getTime();
-        const background = this.add.tileSprite(0, 0, 5800, 10000, 'background').setOrigin(0, 0);
+        const background = this.add.tileSprite(0, 0, 5000, 5000, 'background').setOrigin(0, 0);
         background.setScale(0.3, 0.3)
-        // halo = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'halo');
-        // halo.setScale(0.65, 0.65)
-        // halo.setTint(0x00ff00)
-        // pointer = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'pointer');
-        // pointer.setScale(0.65, 0.65)
-        // pointer.setTint(0x00ff00)
         eject = this.add.sprite(51, window.innerHeight - 91, 'eject').setInteractive();
         eject.setScrollFactor(0)
         eject.setScale(0.3);
@@ -200,7 +218,6 @@ export class Boot extends Scene {
         eject.on('pointerdown', function () {
             message = JSON.stringify({ 'action': 'gift', 'dx': deltaX, 'dy': deltaY })
             webSocket.send(message)
-            console.log('asdasdasdasdasd')
         });
         split.on('pointerdown', function () {
             message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
@@ -230,21 +247,23 @@ export class Boot extends Scene {
     }
 
     update() {
-        let deltaTime = this.getDelta();
+        // let deltaTime = this.getDelta();
         localObjects.forEach((item) => {
-            // console.log(item.player_id == telegram_id, item.player_id)
-            if (item.type == 'player') {
+            UICam.ignore([item.object])
+            if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
+                item.halo.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
+                // let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
+                // newX = item.object.x + (item.size + item.size / 5) * Math.cos(angle);
+                // newY = item.object.y + (item.size + item.size / 5) * Math.sin(angle);
+                // item.pointer.setPosition(newX, newY);
+                // item.pointer.setAngle(angle * 180 / Math.PI)
+                // if (angle / Math.PI == 0) {
+                //     item.pointer.setAlpha(0)
+                // }
                 if (item.player_id == telegram_id) {
-                    UICam.ignore([item.object])
-                    // UICam.centerOn(item.object.x, item.object.y);
                     this.cameras.main.centerOn(item.object.x, item.object.y);
-                    this.cameras.main.setZoom(100 / item.size, 100 / item.size);
-                    // eject.setScale(0.3 * 1 / this.cameras.main.zoom, 0.3 * 1 / this.cameras.main.zoom)
-                    // split.setScale(0.3 * 1 / this.cameras.main.zoom, 0.3 * 1 / this.cameras.main.zoom)
-                    // eject.setPosition(1 / this.cameras.main.zoom, (window.innerHeight - 91) * 1 / this.cameras.main.zoom * this.cameras.main.zoom)
-                    // split.setPosition(51 * this.cameras.main.zoom, window.innerHeight - 178 * this.cameras.main.zoom)
-                    // joyStick.setScale(1 / game.camera.zoom, 1 / game.camera.zoom)
+                    this.cameras.main.setZoom(120 / item.size, 120 / item.size);
                 }
             }
         })
@@ -269,16 +288,6 @@ export class Boot extends Scene {
         if (deltaY < -1) {
             deltaY = -1
         }
-        // pointer.setAlpha(1)
-        // let angle = this.calculateAngleInRadians(joyStickX, joyStickY, this.joyStick.thumb.x, this.joyStick.thumb.y)
-        // halo.setPosition(halo.x + (deltaX * deltaTime * frameSpeed), halo.y - (deltaY * deltaTime * frameSpeed));
-        // newX = bubble.x + radius * Math.cos(angle);
-        // newY = bubble.y + radius * Math.sin(angle);
-        // pointer.setPosition(newX, newY);
-        // pointer.setAngle(angle * 180 / Math.PI)
-        // if (angle / Math.PI == 0) {
-        //     pointer.setAlpha(0)
-        // }
     }
 }
 

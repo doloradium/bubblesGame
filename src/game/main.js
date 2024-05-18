@@ -9,6 +9,8 @@ const config = {
     height: window.innerHeight,
     parent: 'game-container',
     backgroundColor: '#000',
+    // mode: Phaser.Scale.RESIZE,
+    // autoCenter: Phaser.Scale.CENTER_BOTH,
     scene: [
         Boot
     ]
