@@ -81,7 +81,7 @@ function newWebSocket() {
 function onMessage(event) {
     let receivedMessage = JSON.parse(event.data);
     let last = Date.now() / 1000
-    ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
+    // ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
     console.log(receivedMessage);
     receivedMessage.p_obj.forEach((item) => {
         let have = false
@@ -199,11 +199,11 @@ export class Boot extends Scene {
         this.joystickCursors = this.joyStick.createCursorKeys();
         UICam = this.cameras.add(0, 0, window.innerWidth, window.innerHeight);
         UICam.ignore([background]);
-        ping = scene.add.text(16, 64, 'loading', {
-            fontFamily: 'Arial',
-            fontSize: 20,
-            color: '#ffffff'
-        });
+        // ping = scene.add.text(16, 64, 'loading', {
+        //     fontFamily: 'Arial',
+        //     fontSize: 20,
+        //     color: '#ffffff'
+        // });
         halo = scene.add.circle(
             window.innerWidth / 2,
             window.innerHeight / 2,
@@ -212,14 +212,14 @@ export class Boot extends Scene {
             0
         );
         halo.setStrokeStyle(3, 0xff0000);
+        halo.depth = 10000
+        halo.setOrigin(0.5, 0.5)
         pointer = scene.add.sprite(0, 0, 'pointer');
         pointer.setScale(0.6, 0.6)
         pointer.setOrigin(0.5, 0.5)
         pointer.setTint(0xff0000)
         pointer.depth = 10000
-        halo.depth = 10000
-        halo.setOrigin(0.5, 0.5)
-        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, eject, ping, halo, pointer]);
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, eject, halo, pointer]);
     }
 
     update() {
