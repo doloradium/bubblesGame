@@ -11,10 +11,11 @@ let room;
 let webSocketPath;
 let webSocket;
 let localObjects = []
-// let deleteObjects = []
 let scene
 let UICam
 let timers = []
+let ping
+let halo, pointer
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
@@ -37,7 +38,6 @@ async function sendFormData() {
         const responseJson = await response.json();
         room = responseJson['room_id']
         webSocketPath = 'wss://agario.crypto-loto.xyz/game/online?token=' + token + '&telegram_id=' + telegram_id + '&room_id=' + room
-        console.log(websocketManager, websocketManager.length)
         websocketManager.length == 0 ? newWebSocket() : null
         console.log(webSocketPath)
     } catch (error) {
@@ -52,17 +52,13 @@ function newWebSocket() {
 
     webSocket.onopen = function (event) {
         websocketManager.length == 0 ? websocketManager.push(webSocket) : null
-        console.log(timers)
-        // console.log(websocketManager.length)
         console.log("WebSocket is connected");
         let myTimer = setInterval(() => {
-            // console.log(websocketManager.length)
             try {
                 message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
                 webSocket.send(message)
-                // console.log(websocketManager, websocketManager.length)
             } catch (e) { }
-        }, 100)
+        }, 50)
         timers.push(myTimer)
     };
 
@@ -76,6 +72,7 @@ function newWebSocket() {
         timers.forEach((item) => {
             clearTimeout(item)
         })
+        timers.length = 0
         localObjects.length = 0
         console.log("Connection is closed");
     };
@@ -83,7 +80,9 @@ function newWebSocket() {
 
 function onMessage(event) {
     let receivedMessage = JSON.parse(event.data);
-    // console.log(receivedMessage);
+    let last = Date.now() / 1000
+    ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
+    console.log(receivedMessage);
     receivedMessage.p_obj.forEach((item) => {
         let have = false
         localObjects.forEach((localItem) => {
@@ -91,11 +90,7 @@ function onMessage(event) {
                 localItem.x = item.x
                 localItem.y = item.y
                 localItem.size = item.size
-                console.log(localItem)
                 localItem.object.setDisplaySize(localItem.size * 2, localItem.size * 2)
-                if (localItem.type == 'player') {
-                    localItem.halo.setDisplaySize((localItem.size + localItem.size / 5) * 2, (localItem.size + localItem.size / 5) * 2)
-                }
                 have = true
             }
         })
@@ -104,34 +99,13 @@ function onMessage(event) {
             object.setDisplaySize(item.size * 2, item.size * 2)
             object.setOrigin(0.5, 0.5)
             object.depth = item.id
-            let halo, pointer
-            if (item.type == 'player') {
-                halo = scene.add.circle(
-                    item.x,
-                    item.y,
-                    item.size + item.size / 5,
-                    0xFF0000,
-                    0
-                );
-                pointer = scene.add.sprite(item.x, item.y, 'pointer');
-                pointer.setOrigin(0.5, 0.5)
-                pointer.setScale(0.1, 0.1)
-                pointer.setTint(0xff0000)
-                pointer.setAlpha(1)
-                pointer.depth = 10000
-                halo.setStrokeStyle(0.25, 0xff0000);
-                halo.depth = item.id - 1
-                halo.setOrigin(0.5, 0.5)
-            }
-            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object, halo: halo, pointer: pointer })
+            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
             if (item.type == "player") {
                 localObjects[localObjects.length - 1].player_id = item.player_id;
             }
         }
     })
 
-
-    //удаление объектов, которые больше не передаются
     localObjects.forEach((localItem) => {
         let have = false
         receivedMessage.p_obj.forEach((item) => {
@@ -142,24 +116,6 @@ function onMessage(event) {
             localObjects.splice(localObjects.indexOf(localItem), 1)
         }
     })
-    //---
-
-    // localObjects.forEach((localItem) => {
-    //     let have = false
-    //     receivedMessage.p_obj.forEach((item) => {
-    //         if (localItem.id == item.id) {
-    //             have = true
-    //         }
-    //     })
-    //     if (have == false) {
-    //         deleteObjects.push(localItem)
-    //     }
-    // })
-    // deleteObjects.forEach((item) => {
-    //     let index = localObjects.indexOf(item);
-    //     localObjects.splice(index, 1)
-    // })
-    // deleteObjects = []
 }
 
 
@@ -242,25 +198,44 @@ export class Boot extends Scene {
         });
         this.joystickCursors = this.joyStick.createCursorKeys();
         UICam = this.cameras.add(0, 0, window.innerWidth, window.innerHeight);
-        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, eject]);
         UICam.ignore([background]);
+        ping = scene.add.text(16, 64, 'loading', {
+            fontFamily: 'Arial',
+            fontSize: 20,
+            color: '#ffffff'
+        });
+        halo = scene.add.circle(
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            window.innerWidth / 2.75,
+            0xFF0000,
+            0
+        );
+        halo.setStrokeStyle(3, 0xff0000);
+        pointer = scene.add.sprite(0, 0, 'pointer');
+        pointer.setScale(0.6, 0.6)
+        pointer.setOrigin(0.5, 0.5)
+        pointer.setTint(0xff0000)
+        pointer.depth = 10000
+        halo.depth = 10000
+        halo.setOrigin(0.5, 0.5)
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, eject, ping, halo, pointer]);
     }
 
     update() {
-        // let deltaTime = this.getDelta();
+        pointer.setAlpha(1)
+        let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
+        newX = window.innerWidth / 2 + (window.innerWidth / 2.5) * Math.cos(angle);
+        newY = window.innerHeight / 2 + (window.innerWidth / 2.5) * Math.sin(angle);
+        pointer.setPosition(newX, newY);
+        pointer.setAngle(angle * 180 / Math.PI)
+        if (angle / Math.PI == 0) {
+            pointer.setAlpha(0)
+        }
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
-                item.halo.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
-                // let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
-                // newX = item.object.x + (item.size + item.size / 5) * Math.cos(angle);
-                // newY = item.object.y + (item.size + item.size / 5) * Math.sin(angle);
-                // item.pointer.setPosition(newX, newY);
-                // item.pointer.setAngle(angle * 180 / Math.PI)
-                // if (angle / Math.PI == 0) {
-                //     item.pointer.setAlpha(0)
-                // }
                 if (item.player_id == telegram_id) {
                     this.cameras.main.centerOn(item.object.x, item.object.y);
                     this.cameras.main.setZoom(120 / item.size, 120 / item.size);
