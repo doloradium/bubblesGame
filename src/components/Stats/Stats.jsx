@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "../Button/Button";
 
@@ -10,9 +10,22 @@ import star from "../../../public/assets/statsStar.svg";
 import crown from "../../../public/assets/statsCrown.svg";
 import arrowBack from "../../../public/assets/arrowBack.svg";
 
-import websocket from "../../data/websocket";
+import websocketStats from "../../data/websocketStats";
 
 const Stats = () => {
+    const [leaderboard, setLeaderboard] = useState([websocketStats.users]);
+
+    useEffect(() => {
+        // setInterval(() => {
+        //     setLeaderboard(websocketStats.users);
+        // }, 100);
+    }, [leaderboard]);
+    setInterval(() => {
+        setLeaderboard(websocketStats.users);
+    }, 1000);
+
+    // console.log(leaderboard);
+
     return (
         <div className={styles.statsWrapper}>
             <div className={styles.statsLeft}>
@@ -29,7 +42,6 @@ const Stats = () => {
                         }, 100);
                     }}
                 />
-                <div className={styles.statsAvatar}>VP</div>
                 <div className={styles.statsContainer}>
                     <div className={styles.statsItem}>
                         <img
@@ -38,7 +50,7 @@ const Stats = () => {
                             className={styles.statsImage}
                         />
                         <span>Health:</span>
-                        {websocket.health}
+                        {websocketStats.health}
                     </div>
                     <div className={styles.statsItem}>
                         <img
@@ -47,7 +59,7 @@ const Stats = () => {
                             className={styles.statsImage}
                         />
                         <span>Profit: </span>
-                        {websocket.profit}
+                        {websocketStats.profit}
                     </div>
                     <div className={styles.statsItem}>
                         <img
@@ -56,16 +68,16 @@ const Stats = () => {
                             className={styles.statsImage}
                         />
                         <span>Score: </span>
-                        {websocket.score}
+                        {websocketStats.score}
                     </div>
                 </div>
             </div>
             <div className={styles.ratingContainer}>
                 <img src={crown} alt="Crown" className={styles.statsImage} />
-                {websocket.users.map((item, key) => (
+                {leaderboard.map((item, key) => (
                     <div key={key} className={styles.ratingItem}>
-                        <span>{item.name}: </span>
-                        {item.score}
+                        <span>{item.user_id}: </span>
+                        {item.size}
                     </div>
                 ))}
             </div>

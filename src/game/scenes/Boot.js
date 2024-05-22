@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 
 import websocketManager from '../../data/websocketManager';
+import websocketStats from '../../data/websocketStats';
 
 let joyStickX, joyStickY;
 let deltaX, deltaY;
@@ -79,10 +80,13 @@ function newWebSocket() {
 }
 
 function onMessage(event) {
-    let receivedMessage = JSON.parse(event.data);
+    let receivedMessage
+    event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
+    typeof (event.data.top) != undefined ? websocketStats.users = receivedMessage.top : null
+    // console.log(receivedMessage.top)
     let last = Date.now() / 1000
     // ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
-    console.log(receivedMessage);
+    // console.log(receivedMessage);
     receivedMessage.p_obj.forEach((item) => {
         let have = false
         localObjects.forEach((localItem) => {
@@ -161,7 +165,7 @@ export class Boot extends Scene {
     create() {
         this.cameras.roundPx = false;
         this.start = this.getTime();
-        const background = this.add.tileSprite(0, 0, 5000, 5000, 'background').setOrigin(0, 0);
+        const background = this.add.tileSprite(0, 0, 10000, 10000, 'background').setOrigin(0, 0);
         background.setScale(0.3, 0.3)
         eject = this.add.sprite(51, window.innerHeight - 91, 'eject').setInteractive();
         eject.setScrollFactor(0)
