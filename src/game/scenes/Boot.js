@@ -8,6 +8,7 @@ let newX, newY;
 let eject, split;
 let message;
 let room;
+let zoomFactor;
 let webSocketPath;
 let webSocket;
 let localObjects = []
@@ -91,6 +92,7 @@ async function getName(userId) {
 //         })
 //         .catch(error => console.error('Error:', error));
 // }
+let lastDX = 0.5, lastDY = 0;
 function newWebSocket() {
     webSocket = new WebSocket(
         webSocketPath
@@ -100,6 +102,10 @@ function newWebSocket() {
         console.log("WebSocket is connected");
         let myTimer = setInterval(() => {
             try {
+                if (deltaX != 0 || deltaY != 0) {
+                    lastDX = deltaX;
+                    lastDY = deltaY;
+                }
                 message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
                 webSocket.send(message)
             } catch (e) {
@@ -163,6 +169,9 @@ function onMessage(event) {
                 localItem.x = item.x
                 localItem.y = item.y
                 localItem.size = item.size
+                if (localItem.type == "gift") {
+                    item.size = 20;
+                }
                 // localItem.object.setDisplaySize(localItem.size * 2, localItem.size * 2)
                 have = true
             }
@@ -184,6 +193,7 @@ function onMessage(event) {
                         allUsers[value["id"]] = value["name"];
                     });
                 }
+                text.setFontSize(54);
                 localObjects[localObjects.length - 1].player_id = item.player_id;
                 localObjects[localObjects.length - 1].text = text;
             } else if (item.type == 'point') {
@@ -262,12 +272,12 @@ export class Boot extends Scene {
         split.depth = 10000;
         this.input.addPointer(3);
         eject.on('pointerdown', function () {
-            message = JSON.stringify({ 'action': 'gift', 'dx': deltaX, 'dy': deltaY })
+            message = JSON.stringify({ 'action': 'gift', 'dx': lastDX, 'dy': lastDY })
             webSocket.send(message)
         });
         split.on('pointerdown', function () {
-            message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
-            webSocket.send(message)
+            // message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
+            //webSocket.send(message)
         });
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');
@@ -335,15 +345,14 @@ export class Boot extends Scene {
                     background.tilePositionX = item.object.x
                     background.tilePositionY = item.object.y
                     this.cameras.main.setZoom(75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
-                    const zoomFactor = this.cameras.main.zoom
+                    zoomFactor = this.cameras.main.zoom
                     background.setScale(1 / zoomFactor)
                 }
 
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
-                    item.text.setPosition(item.object.x - item.size * 1.5, item.object.y + item.size * 1.35);
-                    item.text.setFontSize(item.size * 2);
-                    item.text.setDisplaySize(item.size * 3, 18);
+                    item.text.setFontSize(25 / zoomFactor);
+                    item.text.setPosition(item.object.x - item.text.width * 0.5, item.object.y + item.size * 1.35);
                 }
             }
         })
