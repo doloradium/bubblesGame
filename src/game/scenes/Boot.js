@@ -73,7 +73,7 @@ async function getName(userId) {
     try {
         const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId);
         const data = await response.json();
-        return data;
+        return { "name": data.user_name, "id": userId };
     } catch (error) {
         console.error('Error:', error);
     }
@@ -120,12 +120,23 @@ function newWebSocket() {
 // let userName = await getName(item.user_id)
 // xonsole.log(userName)
 
+let allUsers = {};
+
 function onMessage(event) {
     let receivedMessage
     event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
     userStats = []
     if (typeof (event.data.top) != undefined) {
-        receivedMessage.top.forEach((item) => {
+        receivedMessage.top.forEach(async (item) => {
+            if (allUsers[item.user_id]) {
+                userStats.push({ user_id: allUsers[item.user_id], size: item.size })
+            } else {
+                getName(item.user_id).then((value) => {
+                    allUsers[value["id"]] = value["name"];
+
+                });
+
+            }
             // let userName = await getName(item.user_id)
             // let userName = await getName(item.user_id)
             // userName
