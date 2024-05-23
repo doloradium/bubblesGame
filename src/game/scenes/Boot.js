@@ -32,6 +32,9 @@ const fetchString = 'https://agario.crypto-loto.xyz/api/join?token=' + token + '
 console.log(fetchString)
 
 async function sendFormData() {
+    if (webSocket) {
+        return;
+    }
     try {
         const response = await fetch(fetchString, {
             method: 'GET',
@@ -113,6 +116,7 @@ function newWebSocket() {
 
     webSocket.onclose = function (event) {
         localObjects.length = 0
+        console.log(event)
         console.log("Connection is closed");
     };
 }
@@ -127,15 +131,14 @@ function onMessage(event) {
     event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
     userStats = []
     if (typeof (event.data.top) != undefined) {
+        console.log(receivedMessage.top.length);
         receivedMessage.top.forEach(async (item) => {
             if (allUsers[item.user_id]) {
                 userStats.push({ user_id: allUsers[item.user_id], size: item.size })
             } else {
                 getName(item.user_id).then((value) => {
                     allUsers[value["id"]] = value["name"];
-
                 });
-
             }
             // let userName = await getName(item.user_id)
             // let userName = await getName(item.user_id)
@@ -148,7 +151,7 @@ function onMessage(event) {
         })
         websocketStats.users = userStats
     }
-    console.log(receivedMessage.top)
+
     let last = Date.now() / 1000
     // ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
     // console.log(receivedMessage);
@@ -163,14 +166,24 @@ function onMessage(event) {
                 have = true
             }
         })
-        if (have == false) {
+        if (!have) {
             let object = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
             object.setDisplaySize(item.size * 2, item.size * 2)
             object.setOrigin(0.5, 0.5)
             object.depth = item.id
             localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
             if (item.type == "player") {
+                let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
+                    fontFamily: 'font1',
+                });
+                text.setAlign("center");
+                if (allUsers[item.player_id] == null) {
+                    getName(item.player_id).then((value) => {
+                        allUsers[value["id"]] = value["name"];
+                    });
+                }
                 localObjects[localObjects.length - 1].player_id = item.player_id;
+                localObjects[localObjects.length - 1].text = text;
             } else if (item.type == 'point') {
                 object.setDisplaySize(item.size * 20, item.size * 20)
                 object.setTint(colors[getRandom(7)])
@@ -185,6 +198,9 @@ function onMessage(event) {
         })
         if (have == false) {
             localItem.object.destroy()
+            if (localItem.type == "player") {
+                localItem.text.destroy()
+            }
             localObjects.splice(localObjects.indexOf(localItem), 1)
         }
     })
@@ -319,6 +335,12 @@ export class Boot extends Scene {
                     this.cameras.main.setZoom(75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
                     const zoomFactor = this.cameras.main.zoom
                     background.setScale(1 / zoomFactor)
+                }
+
+                if (item.type == 'player') {
+                    item.text.setText(allUsers[item.player_id] ?? "");
+                    item.text.setPosition(item.object.x - item.text.width / 2, item.object.y + item.size * 1.35);
+                    item.text.setFontSize(item.size / 2);
                 }
             }
         })
