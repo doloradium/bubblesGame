@@ -175,6 +175,7 @@ export class Boot extends Scene {
         split.setScrollFactor(0)
         split.setScale(0.3);
         split.depth = 10000;
+        this.scene.input.addPointer(3);
         eject.on('pointerdown', function () {
             message = JSON.stringify({ 'action': 'gift', 'dx': deltaX, 'dy': deltaY })
             webSocket.send(message)
