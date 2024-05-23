@@ -115,9 +115,10 @@ function newWebSocket() {
     };
 
     webSocket.onclose = function (event) {
-        localObjects.length = 0
+        //localObjects.length = 0
         console.log(event)
         console.log("Connection is closed");
+
     };
 }
 
@@ -131,10 +132,10 @@ function onMessage(event) {
     event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
     userStats = []
     if (typeof (event.data.top) != undefined) {
-        console.log(receivedMessage.top.length);
+
         receivedMessage.top.forEach(async (item) => {
             if (allUsers[item.user_id]) {
-                userStats.push({ user_id: allUsers[item.user_id], size: item.size })
+                userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
             } else {
                 getName(item.user_id).then((value) => {
                     allUsers[value["id"]] = value["name"];
@@ -176,6 +177,7 @@ function onMessage(event) {
                 let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
                     fontFamily: 'font1',
                 });
+                text.depth = 10010;
                 text.setAlign("center");
                 if (allUsers[item.player_id] == null) {
                     getName(item.player_id).then((value) => {
@@ -339,8 +341,9 @@ export class Boot extends Scene {
 
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
-                    item.text.setPosition(item.object.x - item.text.width / 2, item.object.y + item.size * 1.35);
-                    item.text.setFontSize(item.size / 2);
+                    item.text.setPosition(item.object.x - item.size * 1.5, item.object.y + item.size * 1.35);
+                    item.text.setFontSize(item.size * 2);
+                    item.text.setDisplaySize(item.size * 3, 18);
                 }
             }
         })
