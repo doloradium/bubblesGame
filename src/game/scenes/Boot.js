@@ -16,6 +16,7 @@ let UICam
 let ping
 let background
 let halo, pointer
+let userStats = []
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
@@ -51,24 +52,42 @@ async function sendFormData() {
     }
 }
 
+// async function getName(userId) {
+//     try {
+//         const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId, {
+//             method: 'GET',
+//         });
+
+//         if (!response.ok) {
+//             console.log(response)
+//             throw new Error('Network response was not ok');
+//         }
+//         const responseJson = await response.json();
+//         return responseJson.user_name
+//     } catch (error) {
+//         console.error('Error sending name data:', error);
+//     }
+// }
+
 async function getName(userId) {
     try {
-        const response = await fetch('https://agario.crypto-loto.xyz/api/getname' + userId, {
-            method: 'GET',
-        });
-
-        if (!response.ok) {
-            console.log(response)
-            throw new Error('Network response was not ok');
-        }
-
-        const responseJson = await response.json();
-        console.log(responseJson)
+        const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId);
+        const data = await response.json();
+        return data;
     } catch (error) {
-        console.error('Error sending name data:', error);
+        console.error('Error:', error);
     }
 }
 
+// function getName(userId) {
+//     fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId)
+//         .then(response => response.json())
+//         .then(json => {
+//             let data = json;
+//             return data // data is now stored in the variable
+//         })
+//         .catch(error => console.error('Error:', error));
+// }
 function newWebSocket() {
     webSocket = new WebSocket(
         webSocketPath
@@ -98,14 +117,25 @@ function newWebSocket() {
     };
 }
 
+// let userName = await getName(item.user_id)
+// xonsole.log(userName)
+
 function onMessage(event) {
     let receivedMessage
     event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
+    userStats = []
     if (typeof (event.data.top) != undefined) {
-        websocketStats.users = receivedMessage.top
         receivedMessage.top.forEach((item) => {
-            getName(item.user_id)
+            // let userName = await getName(item.user_id)
+            // let userName = await getName(item.user_id)
+            // userName
+            //     .then(({ data }) => data)
+            //     .then(data => { console.log(data) })// rest of script
+            //     .catch();
+            // console.log(userName)
+            // userStats.push({ user_id: userName, size: item.size })
         })
+        websocketStats.users = userStats
     }
     console.log(receivedMessage.top)
     let last = Date.now() / 1000
