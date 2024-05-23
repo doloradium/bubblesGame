@@ -51,6 +51,24 @@ async function sendFormData() {
     }
 }
 
+async function getName(userId) {
+    try {
+        const response = await fetch('https://agario.crypto-loto.xyz/api/getname' + userId, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            console.log(response)
+            throw new Error('Network response was not ok');
+        }
+
+        const responseJson = await response.json();
+        console.log(responseJson)
+    } catch (error) {
+        console.error('Error sending name data:', error);
+    }
+}
+
 function newWebSocket() {
     webSocket = new WebSocket(
         webSocketPath
@@ -83,7 +101,12 @@ function newWebSocket() {
 function onMessage(event) {
     let receivedMessage
     event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
-    typeof (event.data.top) != undefined ? websocketStats.users = receivedMessage.top : []
+    if (typeof (event.data.top) != undefined) {
+        websocketStats.users = receivedMessage.top
+        receivedMessage.top.forEach((item) => {
+            getName(item.user_id)
+        })
+    }
     console.log(receivedMessage.top)
     let last = Date.now() / 1000
     // ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
@@ -154,15 +177,15 @@ export class Boot extends Scene {
     preload() {
         let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
         this.load.plugin('rexvirtualjoystickplugin', url, true);
-        this.load.image('thumb', 'assets/thumb.png');
-        this.load.image('base', 'assets/base.png');
-        this.load.svg('bubble', 'assets/bubble.svg', { width: 100, height: 100 });
+        this.load.svg('thumb', 'assets/thumb.svg', { width: window.innerWidth / 4, height: window.innerWidth / 4 });
+        this.load.svg('base', 'assets/base.svg', { width: window.innerWidth / 1.5, height: window.innerWidth / 1.5 });
+        this.load.svg('bubble', 'assets/bubble.svg', { width: 200, height: 200 });
         this.load.svg('point', 'assets/food.svg', { width: 50, height: 50 });
-        this.load.image('background', 'assets/tile.png');
+        this.load.svg('background', 'assets/background.svg', { width: 290, height: 496 });
         this.load.svg('halo', 'assets/halo.svg', { width: 110, height: 110 });
         this.load.svg('pointer', 'assets/pointer.svg', { width: 20, height: 20 });
-        this.load.image('eject', 'assets/button1.png');
-        this.load.svg('split', 'assets/split.svg', { width: 75, height: 75 });
+        this.load.svg('eject', 'assets/eject.svg', { width: 150, height: 150 });
+        this.load.svg('split', 'assets/split.svg', { width: 150, height: 150 });
         sendFormData()
     }
 
@@ -170,14 +193,13 @@ export class Boot extends Scene {
         this.cameras.roundPx = false;
         this.start = this.getTime();
         background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, 'background').setOrigin(0.5, 0.5);
-        // background.setScale(0.05, 0.05)
         eject = this.add.sprite(51, window.innerHeight - 91, 'eject').setInteractive();
+        eject.setDisplaySize(75, 75)
         eject.setScrollFactor(0)
-        eject.setScale(0.6);
         eject.depth = 10000;
         split = this.add.sprite(51, window.innerHeight - 178, 'split').setInteractive();
+        split.setDisplaySize(75, 75)
         split.setScrollFactor(0)
-        // split.setScale(0.6);
         split.depth = 10000;
         this.input.addPointer(3);
         eject.on('pointerdown', function () {
@@ -251,8 +273,8 @@ export class Boot extends Scene {
                 if (item.player_id == telegram_id) {
                     this.cameras.main.centerOn(item.object.x, item.object.y);
                     background.setPosition(item.object.x, item.object.y)
-                    background.tilePositionX = item.object.x * 2
-                    background.tilePositionY = item.object.y * 2
+                    background.tilePositionX = item.object.x
+                    background.tilePositionY = item.object.y
                     this.cameras.main.setZoom(75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
                     const zoomFactor = this.cameras.main.zoom
                     background.setScale(1 / zoomFactor)
