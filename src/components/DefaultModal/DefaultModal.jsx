@@ -5,8 +5,6 @@ import arrowBack from "../../../public/assets/arrowBack.svg";
 import thinkingEmoji from "../../../public/assets/thinkingEmoji.png";
 import deadEmoji from "../../../public/assets/deadEmoji.png";
 
-import websocketManager from "../../data/websocketManager";
-
 import Button from "../Button/Button";
 
 import styles from "./styles.module.css";
@@ -151,10 +149,6 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                         color={"white"}
                         className={styles.secondaryButton}
                         onClick={() => {
-                            websocketManager.forEach((item) => {
-                                item.close();
-                            });
-                            websocketManager.length = 0;
                             onChange(false);
                             let defaultModal =
                                 document.querySelector("#defaultModal");
@@ -163,10 +157,6 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                             app.style.opacity = 0;
                             defaultModal.style.opacity = 0;
                             setup.style.display = "none";
-                            setTimeout(() => {
-                                app.style.display = "none";
-                                defaultModal.style.display = "none";
-                            }, 100);
                         }}
                     />
                 </div>

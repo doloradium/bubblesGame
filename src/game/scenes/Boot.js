@@ -1,6 +1,5 @@
 import { Scene } from 'phaser';
 
-import websocketManager from '../../data/websocketManager';
 import websocketStats from '../../data/websocketStats';
 
 let joyStickX, joyStickY;
@@ -14,13 +13,19 @@ let webSocket;
 let localObjects = []
 let scene
 let UICam
-let timers = []
 let ping
+let background
 let halo, pointer
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
 const telegram_id = searchParams.get('telegram_id')
+
+function getRandom(max) {
+    return Math.floor(Math.random() * max);
+}
+
+let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
 
 const fetchString = 'https://agario.crypto-loto.xyz/api/join?token=' + token + '&telegram_id=' + telegram_id
 console.log(fetchString)
@@ -39,7 +44,7 @@ async function sendFormData() {
         const responseJson = await response.json();
         room = responseJson['room_id']
         webSocketPath = 'wss://agario.crypto-loto.xyz/game/online?token=' + token + '&telegram_id=' + telegram_id + '&room_id=' + room
-        websocketManager.length == 0 ? newWebSocket() : null
+        newWebSocket()
         console.log(webSocketPath)
     } catch (error) {
         console.error('Error sending form data:', error);
@@ -52,15 +57,15 @@ function newWebSocket() {
     );
 
     webSocket.onopen = function (event) {
-        websocketManager.length == 0 ? websocketManager.push(webSocket) : null
         console.log("WebSocket is connected");
         let myTimer = setInterval(() => {
             try {
                 message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
                 webSocket.send(message)
-            } catch (e) { }
+            } catch (e) {
+                clearInterval(myTimer)
+            }
         }, 50)
-        timers.push(myTimer)
     };
 
     webSocket.onmessage = onMessage
@@ -70,10 +75,6 @@ function newWebSocket() {
     };
 
     webSocket.onclose = function (event) {
-        timers.forEach((item) => {
-            clearTimeout(item)
-        })
-        timers.length = 0
         localObjects.length = 0
         console.log("Connection is closed");
     };
@@ -82,8 +83,8 @@ function newWebSocket() {
 function onMessage(event) {
     let receivedMessage
     event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
-    typeof (event.data.top) != undefined ? websocketStats.users = receivedMessage.top : null
-    // console.log(receivedMessage.top)
+    typeof (event.data.top) != undefined ? websocketStats.users = receivedMessage.top : []
+    console.log(receivedMessage.top)
     let last = Date.now() / 1000
     // ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
     // console.log(receivedMessage);
@@ -94,7 +95,7 @@ function onMessage(event) {
                 localItem.x = item.x
                 localItem.y = item.y
                 localItem.size = item.size
-                localItem.object.setDisplaySize(localItem.size * 2, localItem.size * 2)
+                // localItem.object.setDisplaySize(localItem.size * 2, localItem.size * 2)
                 have = true
             }
         })
@@ -106,6 +107,9 @@ function onMessage(event) {
             localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
             if (item.type == "player") {
                 localObjects[localObjects.length - 1].player_id = item.player_id;
+            } else if (item.type == 'point') {
+                object.setDisplaySize(item.size * 20, item.size * 20)
+                object.setTint(colors[getRandom(7)])
             }
         }
     })
@@ -152,28 +156,28 @@ export class Boot extends Scene {
         this.load.plugin('rexvirtualjoystickplugin', url, true);
         this.load.image('thumb', 'assets/thumb.png');
         this.load.image('base', 'assets/base.png');
-        this.load.image('bubble', 'assets/bubble.png');
-        this.load.image('point', 'assets/food.png');
+        this.load.svg('bubble', 'assets/bubble.svg', { width: 100, height: 100 });
+        this.load.svg('point', 'assets/food.svg', { width: 50, height: 50 });
         this.load.image('background', 'assets/tile.png');
-        this.load.image('halo', 'assets/halo.png');
-        this.load.image('pointer', 'assets/pointer.png');
+        this.load.svg('halo', 'assets/halo.svg', { width: 110, height: 110 });
+        this.load.svg('pointer', 'assets/pointer.svg', { width: 20, height: 20 });
         this.load.image('eject', 'assets/button1.png');
-        this.load.image('split', 'assets/button2.png');
-        websocketManager == 0 ? sendFormData() : null
+        this.load.svg('split', 'assets/split.svg', { width: 75, height: 75 });
+        sendFormData()
     }
 
     create() {
         this.cameras.roundPx = false;
         this.start = this.getTime();
-        const background = this.add.tileSprite(0, 0, 10000, 10000, 'background').setOrigin(0, 0);
-        background.setScale(0.3, 0.3)
+        background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, 'background').setOrigin(0.5, 0.5);
+        // background.setScale(0.05, 0.05)
         eject = this.add.sprite(51, window.innerHeight - 91, 'eject').setInteractive();
         eject.setScrollFactor(0)
-        eject.setScale(0.3);
+        eject.setScale(0.6);
         eject.depth = 10000;
         split = this.add.sprite(51, window.innerHeight - 178, 'split').setInteractive();
         split.setScrollFactor(0)
-        split.setScale(0.3);
+        // split.setScale(0.6);
         split.depth = 10000;
         this.input.addPointer(3);
         eject.on('pointerdown', function () {
@@ -209,29 +213,31 @@ export class Boot extends Scene {
         //     fontSize: 20,
         //     color: '#ffffff'
         // });
-        halo = scene.add.circle(
-            window.innerWidth / 2,
-            window.innerHeight / 2,
-            window.innerWidth / 2.75,
-            0xFF0000,
-            0
-        );
-        halo.setStrokeStyle(3, 0xff0000);
-        halo.depth = 10000
+        halo = this.add.sprite(window.innerWidth / 2, window.innerHeight / 2, 'halo')
+        // halo = scene.add.circle(
+        //     window.innerWidth / 2,
+        //     window.innerHeight / 2,
+        //     window.innerWidth / 4,
+        //     0xFF0000,
+        //     0
+        // );
+        // halo.setStrokeStyle(3, 0xff0000);
+        // halo.setTint(0xff0000)
+        halo.depth = 9998
         halo.setOrigin(0.5, 0.5)
         pointer = scene.add.sprite(0, 0, 'pointer');
-        pointer.setScale(0.6, 0.6)
+        // pointer.setScale(0.6, 0.6)
         pointer.setOrigin(0.5, 0.5)
         pointer.setTint(0xff0000)
-        pointer.depth = 10000
+        pointer.depth = 9999
         this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, eject, halo, pointer]);
     }
 
     update() {
         pointer.setAlpha(1)
         let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
-        newX = window.innerWidth / 2 + (window.innerWidth / 2.5) * Math.cos(angle);
-        newY = window.innerHeight / 2 + (window.innerWidth / 2.5) * Math.sin(angle);
+        newX = window.innerWidth / 2 + (window.innerWidth / 6.9) * Math.cos(angle);
+        newY = window.innerHeight / 2 + (window.innerWidth / 6.9) * Math.sin(angle);
         pointer.setPosition(newX, newY);
         pointer.setAngle(angle * 180 / Math.PI)
         if (angle / Math.PI == 0) {
@@ -240,10 +246,16 @@ export class Boot extends Scene {
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
-                item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.04), Phaser.Math.Linear(item.object.y, item.y, 0.04))
+                item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.2), Phaser.Math.Linear(item.object.y, item.y, 0.2))
+                item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
                 if (item.player_id == telegram_id) {
                     this.cameras.main.centerOn(item.object.x, item.object.y);
-                    this.cameras.main.setZoom(120 / item.size, 120 / item.size);
+                    background.setPosition(item.object.x, item.object.y)
+                    background.tilePositionX = item.object.x * 2
+                    background.tilePositionY = item.object.y * 2
+                    this.cameras.main.setZoom(75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
+                    const zoomFactor = this.cameras.main.zoom
+                    background.setScale(1 / zoomFactor)
                 }
             }
         })
