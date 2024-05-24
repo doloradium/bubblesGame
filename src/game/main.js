@@ -5,8 +5,8 @@ import Phaser from 'phaser';
 // https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: window.innerWidth * 2,
+    height: window.innerHeight * 2,
     parent: 'game-container',
     backgroundColor: '#000',
     activePointers: 3,

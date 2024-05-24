@@ -5,7 +5,7 @@ import websocketStats from '../../data/websocketStats';
 let joyStickX, joyStickY;
 let deltaX, deltaY;
 let newX, newY;
-let eject, split;
+let gift, split;
 let message;
 let room;
 let zoomFactor;
@@ -56,23 +56,6 @@ async function sendFormData() {
     }
 }
 
-// async function getName(userId) {
-//     try {
-//         const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId, {
-//             method: 'GET',
-//         });
-
-//         if (!response.ok) {
-//             console.log(response)
-//             throw new Error('Network response was not ok');
-//         }
-//         const responseJson = await response.json();
-//         return responseJson.user_name
-//     } catch (error) {
-//         console.error('Error sending name data:', error);
-//     }
-// }
-
 async function getName(userId) {
     try {
         const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId);
@@ -83,16 +66,8 @@ async function getName(userId) {
     }
 }
 
-// function getName(userId) {
-//     fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId)
-//         .then(response => response.json())
-//         .then(json => {
-//             let data = json;
-//             return data // data is now stored in the variable
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
 let lastDX = 0.5, lastDY = 0;
+
 function newWebSocket() {
     webSocket = new WebSocket(
         webSocketPath
@@ -121,15 +96,11 @@ function newWebSocket() {
     };
 
     webSocket.onclose = function (event) {
-        //localObjects.length = 0
         console.log(event)
         console.log("Connection is closed");
 
     };
 }
-
-// let userName = await getName(item.user_id)
-// xonsole.log(userName)
 
 let allUsers = {};
 
@@ -147,14 +118,6 @@ function onMessage(event) {
                     allUsers[value["id"]] = value["name"];
                 });
             }
-            // let userName = await getName(item.user_id)
-            // let userName = await getName(item.user_id)
-            // userName
-            //     .then(({ data }) => data)
-            //     .then(data => { console.log(data) })// rest of script
-            //     .catch();
-            // console.log(userName)
-            // userStats.push({ user_id: userName, size: item.size })
         })
         websocketStats.users = userStats
     }
@@ -172,7 +135,6 @@ function onMessage(event) {
                 if (localItem.type == "gift") {
                     item.size = 20;
                 }
-                // localItem.object.setDisplaySize(localItem.size * 2, localItem.size * 2)
                 have = true
             }
         })
@@ -184,7 +146,7 @@ function onMessage(event) {
             localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
             if (item.type == "player") {
                 let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
-                    fontFamily: 'font1',
+                    fontFamily: 'Inter',
                 });
                 text.depth = 10010;
                 text.setAlign("center");
@@ -194,6 +156,7 @@ function onMessage(event) {
                     });
                 }
                 text.setFontSize(54);
+                UICam.ignore([text]);
                 localObjects[localObjects.length - 1].player_id = item.player_id;
                 localObjects[localObjects.length - 1].text = text;
             } else if (item.type == 'point') {
@@ -246,32 +209,32 @@ export class Boot extends Scene {
     preload() {
         let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
         this.load.plugin('rexvirtualjoystickplugin', url, true);
-        this.load.svg('thumb', 'assets/thumb.svg', { width: window.innerWidth / 4, height: window.innerWidth / 4 });
-        this.load.svg('base', 'assets/base.svg', { width: window.innerWidth / 1.5, height: window.innerWidth / 1.5 });
-        this.load.svg('bubble', 'assets/bubble.svg', { width: 200, height: 200 });
-        this.load.svg('point', 'assets/food.svg', { width: 50, height: 50 });
-        this.load.svg('background', 'assets/background.svg', { width: 290, height: 496 });
-        this.load.svg('halo', 'assets/halo.svg', { width: 110, height: 110 });
-        this.load.svg('pointer', 'assets/pointer.svg', { width: 20, height: 20 });
-        this.load.svg('eject', 'assets/eject.svg', { width: 150, height: 150 });
-        this.load.svg('split', 'assets/split.svg', { width: 150, height: 150 });
+        this.load.svg('thumb', 'assets/thumb.svg', { width: window.innerWidth / 2, height: window.innerWidth / 2 });
+        this.load.svg('base', 'assets/base.svg', { width: window.innerWidth / 0.75, height: window.innerWidth / 0.75 });
+        this.load.svg('bubble', 'assets/bubble.svg', { width: 300, height: 300 });
+        this.load.svg('point', 'assets/food.svg', { width: 100, height: 100 });
+        this.load.svg('background', 'assets/background.svg', { width: 290, height: 492 });
+        this.load.svg('halo', 'assets/halo.svg', { width: 250, height: 250 });
+        this.load.svg('pointer', 'assets/pointer.svg', { width: 40, height: 40 });
+        this.load.svg('gift', 'assets/gift.svg', { width: 300, height: 300 });
+        this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
         sendFormData()
     }
 
     create() {
-        this.cameras.roundPx = false;
+        // this.cameras.roundPx = false;
         this.start = this.getTime();
-        background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, 'background').setOrigin(0.5, 0.5);
-        eject = this.add.sprite(51, window.innerHeight - 91, 'eject').setInteractive();
-        eject.setDisplaySize(75, 75)
-        eject.setScrollFactor(0)
-        eject.depth = 10000;
-        split = this.add.sprite(51, window.innerHeight - 178, 'split').setInteractive();
-        split.setDisplaySize(75, 75)
+        background = this.add.tileSprite(0, 0, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
+        gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
+        gift.setDisplaySize(150, 150)
+        gift.setScrollFactor(0)
+        gift.depth = 10000;
+        split = this.add.sprite(102, (window.innerHeight - 178) * 2, 'split').setInteractive();
+        split.setDisplaySize(150, 150)
         split.setScrollFactor(0)
         split.depth = 10000;
         this.input.addPointer(3);
-        eject.on('pointerdown', function () {
+        gift.on('pointerdown', function () {
             message = JSON.stringify({ 'action': 'gift', 'dx': lastDX, 'dy': lastDY })
             webSocket.send(message)
         });
@@ -282,53 +245,42 @@ export class Boot extends Scene {
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');
         base.depth = 10000;
-        base.displayHeight = window.innerWidth / 3;
-        base.displayWidth = window.innerWidth / 3;
-        thumb.displayHeight = window.innerWidth / 8;
-        thumb.displayWidth = window.innerWidth / 8;
+        base.displayHeight = window.innerWidth / 1.5;
+        base.displayWidth = window.innerWidth / 1.5;
+        thumb.displayHeight = window.innerWidth / 4;
+        thumb.displayWidth = window.innerWidth / 4;
         thumb.depth = 10001;
-        joyStickX = window.innerWidth - 78;
-        joyStickY = window.innerHeight - 112;
+        joyStickX = (window.innerWidth - 78) * 2;
+        joyStickY = (window.innerHeight - 112) * 2;
         this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
             x: joyStickX,
             y: joyStickY,
-            radius: 44,
+            radius: 80,
             base: base,
             thumb: thumb,
         });
         this.joystickCursors = this.joyStick.createCursorKeys();
-        UICam = this.cameras.add(0, 0, window.innerWidth, window.innerHeight);
+        UICam = this.cameras.add(0, 0, window.innerWidth * 2, window.innerHeight * 2);
         UICam.ignore([background]);
         // ping = scene.add.text(16, 64, 'loading', {
         //     fontFamily: 'Arial',
         //     fontSize: 20,
         //     color: '#ffffff'
         // });
-        halo = this.add.sprite(window.innerWidth / 2, window.innerHeight / 2, 'halo')
-        // halo = scene.add.circle(
-        //     window.innerWidth / 2,
-        //     window.innerHeight / 2,
-        //     window.innerWidth / 4,
-        //     0xFF0000,
-        //     0
-        // );
-        // halo.setStrokeStyle(3, 0xff0000);
-        // halo.setTint(0xff0000)
+        halo = this.add.sprite(window.innerWidth, window.innerHeight, 'halo')
         halo.depth = 9998
         halo.setOrigin(0.5, 0.5)
         pointer = scene.add.sprite(0, 0, 'pointer');
-        // pointer.setScale(0.6, 0.6)
         pointer.setOrigin(0.5, 0.5)
-        pointer.setTint(0xff0000)
         pointer.depth = 9999
-        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, eject, halo, pointer]);
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, halo, pointer]);
     }
 
     update() {
         pointer.setAlpha(1)
         let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
-        newX = window.innerWidth / 2 + (window.innerWidth / 6.9) * Math.cos(angle);
-        newY = window.innerHeight / 2 + (window.innerWidth / 6.9) * Math.sin(angle);
+        newX = window.innerWidth + (window.innerWidth / 3.1) * Math.cos(angle);
+        newY = window.innerHeight + (window.innerWidth / 3.1) * Math.sin(angle);
         pointer.setPosition(newX, newY);
         pointer.setAngle(angle * 180 / Math.PI)
         if (angle / Math.PI == 0) {
@@ -344,14 +296,14 @@ export class Boot extends Scene {
                     background.setPosition(item.object.x, item.object.y)
                     background.tilePositionX = item.object.x
                     background.tilePositionY = item.object.y
-                    this.cameras.main.setZoom(75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 75 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
+                    this.cameras.main.setZoom(175 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 175 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
                     zoomFactor = this.cameras.main.zoom
                     background.setScale(1 / zoomFactor)
                 }
 
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
-                    item.text.setFontSize(25 / zoomFactor);
+                    item.text.setFontSize(50 / zoomFactor);
                     item.text.setPosition(item.object.x - item.text.width * 0.5, item.object.y + item.size * 1.35);
                 }
             }
