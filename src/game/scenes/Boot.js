@@ -156,11 +156,14 @@ function onMessage(event) {
                     });
                 }
                 text.setFontSize(96);
+
                 let graphics = scene.add.graphics();
                 graphics.fillStyle(0xFF0000, 1);
-                graphics.lineStyle(2, 0xFFFFFF, 1);
-                graphics.fillRoundedRect(item.x, item.y, 400, 600, 20);
-                graphics.strokeRoundedRect(item.x, item.y, 400, 600, 20);
+                graphics.lineStyle(20, 0xFFFFFF, 1);
+                graphics.depth = 10009;
+                //graphics.fillRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 20);
+                graphics.strokeRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 20);
+
                 // let container = this.add.container(400, 600);
                 // container.add(graphics);
                 UICam.ignore([text]);
@@ -311,7 +314,7 @@ export class Boot extends Scene {
                 }
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
-                    item.graphics.setPosition(item.object.x, item.object.y)
+                    item.graphics.setPosition(item.text.x, item.text.y)
                     // console.log(item.graphics)
                     // item.graphics.setPosition(item.object.x, item.object.y)
                     // item.graphics.width = item.text.displayWidth
@@ -321,8 +324,22 @@ export class Boot extends Scene {
                     } else {
                         item.text.setOrigin(0.5, -0.5)
                     }
+
+                    let graphics = scene.add.graphics();
+                    //graphics.fillStyle(0xFF0000, 0);
+                    graphics.depth = 10009;
+                    graphics.lineStyle(1, 0xFFFFFF, 1);
+
+                    //  32px radius on the corners
+                    //graphics.fillRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 20);
+                    item.text.depth = 10011;
                     item.text.setScale(0.4 / zoomFactor)
                     item.text.setPosition(item.object.x, item.object.y + item.size);
+                    //graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2, item.text.y + item.text.displayHeight, item.text.displayWidth, item.text.displayHeight * 0.8, 20);
+                    graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 5, item.text.y + item.text.displayHeight - 3, item.text.displayWidth + 10, item.text.displayHeight + 6, 15);
+
+                    item.graphics.destroy()
+                    item.graphics = graphics;
                 }
             }
         })
