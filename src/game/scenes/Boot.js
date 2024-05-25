@@ -103,6 +103,8 @@ function newWebSocket() {
                 }
             })
             websocketStats.users = userStats
+            // console.log(receivedMessage.sent_at)
+            websocketStats.status = receivedMessage.sent_at == 'undefined' ? 'loading' : 'ready'
         }
 
         let last = Date.now() / 1000
