@@ -123,7 +123,7 @@ function onMessage(event) {
     }
 
     let last = Date.now() / 1000
-    // ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
+    ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
     // console.log(receivedMessage);
     receivedMessage.p_obj.forEach((item) => {
         let have = false
@@ -155,10 +155,19 @@ function onMessage(event) {
                         allUsers[value["id"]] = value["name"];
                     });
                 }
-                text.setFontSize(54);
+                text.setFontSize(96);
+                let graphics = scene.add.graphics();
+                graphics.fillStyle(0xFF0000, 1);
+                graphics.lineStyle(2, 0xFFFFFF, 1);
+                graphics.fillRoundedRect(item.x, item.y, 400, 600, 20);
+                graphics.strokeRoundedRect(item.x, item.y, 400, 600, 20);
+                // let container = this.add.container(400, 600);
+                // container.add(graphics);
                 UICam.ignore([text]);
                 localObjects[localObjects.length - 1].player_id = item.player_id;
                 localObjects[localObjects.length - 1].text = text;
+                // console.log(localObjects)
+                localObjects[localObjects.length - 1].graphics = graphics;
             } else if (item.type == 'point') {
                 object.setDisplaySize(item.size * 20, item.size * 20)
                 object.setTint(colors[getRandom(7)])
@@ -262,11 +271,11 @@ export class Boot extends Scene {
         this.joystickCursors = this.joyStick.createCursorKeys();
         UICam = this.cameras.add(0, 0, window.innerWidth * 2, window.innerHeight * 2);
         UICam.ignore([background]);
-        // ping = scene.add.text(16, 64, 'loading', {
-        //     fontFamily: 'Arial',
-        //     fontSize: 20,
-        //     color: '#ffffff'
-        // });
+        ping = scene.add.text(16, 128, 'loading', {
+            fontFamily: 'Arial',
+            fontSize: 20,
+            color: '#ffffff'
+        });
         halo = this.add.sprite(window.innerWidth, window.innerHeight, 'halo')
         halo.depth = 9998
         halo.setOrigin(0.5, 0.5)
@@ -300,11 +309,20 @@ export class Boot extends Scene {
                     zoomFactor = this.cameras.main.zoom
                     background.setScale(1 / zoomFactor)
                 }
-
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
-                    item.text.setFontSize(50 / zoomFactor);
-                    item.text.setPosition(item.object.x - item.text.width * 0.5, item.object.y + item.size * 1.35);
+                    item.graphics.setPosition(item.object.x, item.object.y)
+                    // console.log(item.graphics)
+                    // item.graphics.setPosition(item.object.x, item.object.y)
+                    // item.graphics.width = item.text.displayWidth
+                    // item.text.setFontSize(50 / zoomFactor);
+                    if (item.player_id == telegram_id) {
+                        item.text.setOrigin(0.5, -1)
+                    } else {
+                        item.text.setOrigin(0.5, -0.5)
+                    }
+                    item.text.setScale(0.4 / zoomFactor)
+                    item.text.setPosition(item.object.x, item.object.y + item.size);
                 }
             }
         })
