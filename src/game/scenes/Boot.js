@@ -314,13 +314,13 @@ export class Boot extends Scene {
 
                     let graphics = scene.add.graphics();
                     graphics.depth = 10009;
-                    graphics.lineStyle(1, 0x5855FF);
+                    graphics.lineStyle(2 / zoomFactor, 0x5855FF);
                     graphics.fillStyle(0x0E0923, 1)
                     item.text.depth = 10011;
                     item.text.setScale(0.4 / zoomFactor)
                     item.text.setPosition(item.object.x, item.object.y + item.size);
-                    graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2 - 5, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 10, item.text.displayHeight + 3, 5);
-                    graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 5, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 10, item.text.displayHeight + 3, 5);
+                    graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
+                    graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
                     item.graphics.destroy()
                     item.graphics = graphics;
                 }
