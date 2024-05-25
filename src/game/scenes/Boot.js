@@ -1,9 +1,6 @@
 import { Scene } from 'phaser';
 
 import websocketStats from '../../data/websocketStats';
-import websocketManager from '../../data/websocketManager';
-
-console.log(websocketStats.status)
 
 let joyStickX, joyStickY;
 let deltaX, deltaY;
@@ -35,37 +32,10 @@ function getRandom(max) {
     return Math.floor(Math.random() * max);
 }
 
-function centroid(points) {
-    let x = 0.0;
-    let y = 0.0;
-    let n = points.length;
-    let signedArea = 0.0;
-
-    for (let i = 0; i < n; i++) {
-        let newI = (i + 1) % n;
-        let area = (points[i].X * points[newI].Y) - (points[newI].X * points[i].Y);
-        signedArea += area;
-    }
-
-    signedArea *= 0.5;
-
-    for (let i = 0; i < n; i++) {
-        let newI = (i + 1) % n;
-        let partial = (points[i].X * points[newI].Y) - (points[newI].X * points[i].Y);
-        x += (points[i].X + points[newI].X) * partial;
-        y += (points[i].Y + points[newI].Y) * partial;
-    }
-
-    x /= 6 * signedArea;
-    y /= 6 * signedArea;
-
-    return { X: x, Y: y };
-}
-
 async function sendFormData() {
-    // if (webSocket) {
-    //     return;
-    // }
+    if (webSocket) {
+        return;
+    }
     try {
         const response = await fetch(fetchString, {
             method: 'GET',
@@ -75,12 +45,12 @@ async function sendFormData() {
             console.log(response)
             throw new Error('Network response was not ok');
         }
+
         const responseJson = await response.json();
         room = responseJson['room_id']
         webSocketPath = 'wss://agario.crypto-loto.xyz/game/online?token=' + token + '&telegram_id=' + telegram_id + '&room_id=' + room
-        console.log(webSocketPath)
         newWebSocket()
-        // console.log('adas')
+        console.log(webSocketPath)
     } catch (error) {
         console.error('Error sending form data:', error);
     }
@@ -115,7 +85,6 @@ function newWebSocket() {
                 clearInterval(myTimer)
             }
         }, 50)
-        websocketManager.push({ socket: webSocket, timer: myTimer, scene: scene })
     };
 
     webSocket.onmessage = function (event) {
@@ -134,7 +103,7 @@ function newWebSocket() {
                 }
             })
             websocketStats.users = userStats
-            console.log(receivedMessage)
+            // console.log(receivedMessage.sent_at)
             websocketStats.status = receivedMessage.sent_at == 'undefined' ? 'loading' : 'ready'
         }
 
@@ -209,10 +178,7 @@ function newWebSocket() {
     webSocket.onclose = function (event) {
         console.log(event)
         console.log("Connection is closed");
-        localObjects = []
-        userStats = []
-        allUsers = {};
-        websocketStats.status = 'loading'
+
     };
 }
 
@@ -245,7 +211,7 @@ export class Boot extends Scene {
         this.load.plugin('rexvirtualjoystickplugin', url, true);
         this.load.svg('thumb', 'assets/thumb.svg', { width: window.innerWidth / 2, height: window.innerWidth / 2 });
         this.load.svg('base', 'assets/base.svg', { width: window.innerWidth / 0.75, height: window.innerWidth / 0.75 });
-        this.load.svg('bubble', 'assets/bubble.svg', { width: 600, height: 600 });
+        this.load.svg('bubble', 'assets/bubble.svg', { width: 300, height: 300 });
         this.load.svg('point', 'assets/food.svg', { width: 100, height: 100 });
         this.load.svg('background', 'assets/background.svg', { width: 290, height: 492 });
         this.load.svg('halo', 'assets/halo.svg', { width: 500, height: 500 });
@@ -272,8 +238,8 @@ export class Boot extends Scene {
             webSocket.send(message)
         });
         split.on('pointerdown', function () {
-            message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
-            webSocket.send(message)
+            // message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
+            //webSocket.send(message)
         });
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');

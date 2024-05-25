@@ -32,36 +32,20 @@ const Stats = () => {
                     ? styles.statsWrapper
                     : clsx(styles.statsWrapper, styles.statsLoading)
             }
-            id="stats"
         >
             {status == "loading" ? (
-                <>
-                    <Button
-                        image={arrowBack}
-                        className={styles.buttobBack}
-                        color={"white"}
-                        onClick={() => {
-                            let defaultModal =
-                                document.querySelector("#defaultModal");
-                            defaultModal.style.display = "block";
-                            setTimeout(() => {
-                                defaultModal.style.opacity = 1;
-                            }, 100);
-                        }}
+                <div className={styles.loaderContainer}>
+                    <img
+                        src={logo}
+                        className={styles.logo}
+                        alt="Cryptobubble Wras"
                     />
-                    <div className={styles.loaderContainer}>
-                        <img
-                            src={logo}
-                            className={styles.logo}
-                            alt="Cryptobubble Wras"
-                        />
-                        <img
-                            src={loader}
-                            className={styles.loader}
-                            alt="Loading..."
-                        />
-                    </div>
-                </>
+                    <img
+                        src={loader}
+                        className={styles.loader}
+                        alt="Loading..."
+                    />
+                </div>
             ) : (
                 <>
                     {" "}

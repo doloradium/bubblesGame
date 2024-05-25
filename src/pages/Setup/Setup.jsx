@@ -51,9 +51,7 @@ const Setup = ({ onChange }) => {
                     onClick={() => {
                         onChange(true);
                         let app = document.querySelector("#app");
-                        let stats = document.querySelector("#stats");
                         app.style.display = "block";
-                        stats.style.display = "block";
                         setTimeout(() => {
                             app.style.opacity = 1;
                         }, 100);
