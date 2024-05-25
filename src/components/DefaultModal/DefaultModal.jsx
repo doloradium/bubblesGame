@@ -7,6 +7,9 @@ import deadEmoji from "../../../public/assets/deadEmoji.png";
 
 import Button from "../Button/Button";
 
+import websocketManager from "../../data/websocketManager";
+import websocketStats from "../../data/websocketStats";
+
 import styles from "./styles.module.css";
 
 const DefaultModal = ({ onChange, color = "purple" }) => {
@@ -154,9 +157,16 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
                                 document.querySelector("#defaultModal");
                             let app = document.querySelector("#app");
                             let setup = document.querySelector("#setup");
-                            app.style.opacity = 0;
-                            defaultModal.style.opacity = 0;
+                            let stats = document.querySelector("#stats");
+                            app.style.display = "none";
+                            defaultModal.style.display = "none";
                             setup.style.display = "none";
+                            websocketManager.forEach((item) => {
+                                item.socket.close();
+                                clearInterval(item.timer);
+                            });
+                            websocketStats.status = "loading";
+                            // stats.style.display = 'none'
                         }}
                     />
                 </div>
@@ -166,3 +176,4 @@ const DefaultModal = ({ onChange, color = "purple" }) => {
 };
 
 export default DefaultModal;
+

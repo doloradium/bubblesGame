@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 
 import websocketStats from '../../data/websocketStats';
+import websocketManager from '../../data/websocketManager';
 
 let joyStickX, joyStickY;
 let deltaX, deltaY;
@@ -85,6 +86,7 @@ function newWebSocket() {
                 clearInterval(myTimer)
             }
         }, 50)
+        websocketManager.push({ socket: webSocket, timer: myTimer })
     };
 
     webSocket.onmessage = function (event) {
@@ -176,9 +178,7 @@ function newWebSocket() {
     };
 
     webSocket.onclose = function (event) {
-        console.log(event)
         console.log("Connection is closed");
-
     };
 }
 
@@ -207,6 +207,7 @@ export class Boot extends Scene {
     }
 
     preload() {
+        webSocket = undefined
         let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
         this.load.plugin('rexvirtualjoystickplugin', url, true);
         this.load.svg('thumb', 'assets/thumb.svg', { width: window.innerWidth / 2, height: window.innerWidth / 2 });
@@ -222,6 +223,8 @@ export class Boot extends Scene {
     }
 
     create() {
+        localObjects = []
+        userStats = []
         this.start = this.getTime();
         background = this.add.tileSprite(0, 0, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
         gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
