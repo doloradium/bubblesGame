@@ -18,19 +18,19 @@ let ping
 let background
 let halo, pointer
 let userStats = []
+let allUsers = {};
+let lastDX = 0.5, lastDY = 0;
+let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
 const telegram_id = searchParams.get('telegram_id')
+const fetchString = 'https://agario.crypto-loto.xyz/api/join?token=' + token + '&telegram_id=' + telegram_id
+console.log(fetchString)
 
 function getRandom(max) {
     return Math.floor(Math.random() * max);
 }
-
-let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
-
-const fetchString = 'https://agario.crypto-loto.xyz/api/join?token=' + token + '&telegram_id=' + telegram_id
-console.log(fetchString)
 
 async function sendFormData() {
     if (webSocket) {
@@ -66,8 +66,6 @@ async function getName(userId) {
     }
 }
 
-let lastDX = 0.5, lastDY = 0;
-
 function newWebSocket() {
     webSocket = new WebSocket(
         webSocketPath
@@ -89,7 +87,87 @@ function newWebSocket() {
         }, 50)
     };
 
-    webSocket.onmessage = onMessage
+    webSocket.onmessage = function (event) {
+        let receivedMessage
+        event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
+        userStats = []
+        if (typeof (event.data.top) != undefined) {
+
+            receivedMessage.top.forEach(async (item) => {
+                if (allUsers[item.user_id]) {
+                    userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
+                } else {
+                    getName(item.user_id).then((value) => {
+                        allUsers[value["id"]] = value["name"];
+                    });
+                }
+            })
+            websocketStats.users = userStats
+        }
+
+        let last = Date.now() / 1000
+        ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
+        receivedMessage.p_obj.forEach((item) => {
+            let have = false
+            localObjects.forEach((localItem) => {
+                if (localItem.id == item.id) {
+                    localItem.x = item.x
+                    localItem.y = item.y
+                    localItem.size = item.size
+                    if (localItem.type == "gift") {
+                        item.size = 20;
+                    }
+                    have = true
+                }
+            })
+            if (!have) {
+                let object = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
+                object.setDisplaySize(item.size * 2, item.size * 2)
+                object.setOrigin(0.5, 0.5)
+                object.depth = item.id
+                localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
+                if (item.type == "player") {
+                    let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
+                        fontFamily: 'Inter',
+                    });
+                    text.depth = 10010;
+                    text.setAlign("center");
+                    if (allUsers[item.player_id] == null) {
+                        getName(item.player_id).then((value) => {
+                            allUsers[value["id"]] = value["name"];
+                        });
+                    }
+                    text.setFontSize(96);
+                    let graphics = scene.add.graphics();
+                    graphics.fillStyle(0xFF0000, 1);
+                    graphics.lineStyle(20, 0xFFFFFF, 1);
+                    graphics.depth = 10009;
+                    graphics.strokeRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 5);
+                    UICam.ignore([text]);
+                    localObjects[localObjects.length - 1].player_id = item.player_id;
+                    localObjects[localObjects.length - 1].text = text;
+                    localObjects[localObjects.length - 1].graphics = graphics;
+                } else if (item.type == 'point') {
+                    object.setDisplaySize(item.size * 20, item.size * 20)
+                    object.setTint(colors[getRandom(7)])
+                }
+            }
+        })
+
+        localObjects.forEach((localItem) => {
+            let have = false
+            receivedMessage.p_obj.forEach((item) => {
+                if (localItem.id == item.id) have = true
+            })
+            if (have == false) {
+                localItem.object.destroy()
+                if (localItem.type == "player") {
+                    localItem.text.destroy()
+                }
+                localObjects.splice(localObjects.indexOf(localItem), 1)
+            }
+        })
+    }
 
     webSocket.onerror = function (error) {
         console.error("WebSocket Error: ", error);
@@ -101,98 +179,6 @@ function newWebSocket() {
 
     };
 }
-
-let allUsers = {};
-
-function onMessage(event) {
-    let receivedMessage
-    event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
-    userStats = []
-    if (typeof (event.data.top) != undefined) {
-
-        receivedMessage.top.forEach(async (item) => {
-            if (allUsers[item.user_id]) {
-                userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
-            } else {
-                getName(item.user_id).then((value) => {
-                    allUsers[value["id"]] = value["name"];
-                });
-            }
-        })
-        websocketStats.users = userStats
-    }
-
-    let last = Date.now() / 1000
-    ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
-    // console.log(receivedMessage);
-    receivedMessage.p_obj.forEach((item) => {
-        let have = false
-        localObjects.forEach((localItem) => {
-            if (localItem.id == item.id) {
-                localItem.x = item.x
-                localItem.y = item.y
-                localItem.size = item.size
-                if (localItem.type == "gift") {
-                    item.size = 20;
-                }
-                have = true
-            }
-        })
-        if (!have) {
-            let object = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
-            object.setDisplaySize(item.size * 2, item.size * 2)
-            object.setOrigin(0.5, 0.5)
-            object.depth = item.id
-            localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
-            if (item.type == "player") {
-                let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
-                    fontFamily: 'Inter',
-                });
-                text.depth = 10010;
-                text.setAlign("center");
-                if (allUsers[item.player_id] == null) {
-                    getName(item.player_id).then((value) => {
-                        allUsers[value["id"]] = value["name"];
-                    });
-                }
-                text.setFontSize(96);
-
-                let graphics = scene.add.graphics();
-                graphics.fillStyle(0xFF0000, 1);
-                graphics.lineStyle(20, 0xFFFFFF, 1);
-                graphics.depth = 10009;
-                //graphics.fillRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 20);
-                graphics.strokeRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 20);
-
-                // let container = this.add.container(400, 600);
-                // container.add(graphics);
-                UICam.ignore([text]);
-                localObjects[localObjects.length - 1].player_id = item.player_id;
-                localObjects[localObjects.length - 1].text = text;
-                // console.log(localObjects)
-                localObjects[localObjects.length - 1].graphics = graphics;
-            } else if (item.type == 'point') {
-                object.setDisplaySize(item.size * 20, item.size * 20)
-                object.setTint(colors[getRandom(7)])
-            }
-        }
-    })
-
-    localObjects.forEach((localItem) => {
-        let have = false
-        receivedMessage.p_obj.forEach((item) => {
-            if (localItem.id == item.id) have = true
-        })
-        if (have == false) {
-            localItem.object.destroy()
-            if (localItem.type == "player") {
-                localItem.text.destroy()
-            }
-            localObjects.splice(localObjects.indexOf(localItem), 1)
-        }
-    })
-}
-
 
 export class Boot extends Scene {
     constructor() {
@@ -226,7 +212,7 @@ export class Boot extends Scene {
         this.load.svg('bubble', 'assets/bubble.svg', { width: 300, height: 300 });
         this.load.svg('point', 'assets/food.svg', { width: 100, height: 100 });
         this.load.svg('background', 'assets/background.svg', { width: 290, height: 492 });
-        this.load.svg('halo', 'assets/halo.svg', { width: 250, height: 250 });
+        this.load.svg('halo', 'assets/halo.svg', { width: 500, height: 500 });
         this.load.svg('pointer', 'assets/pointer.svg', { width: 40, height: 40 });
         this.load.svg('gift', 'assets/gift.svg', { width: 300, height: 300 });
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
@@ -234,7 +220,6 @@ export class Boot extends Scene {
     }
 
     create() {
-        // this.cameras.roundPx = false;
         this.start = this.getTime();
         background = this.add.tileSprite(0, 0, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
         gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
@@ -282,6 +267,7 @@ export class Boot extends Scene {
         halo = this.add.sprite(window.innerWidth, window.innerHeight, 'halo')
         halo.depth = 9998
         halo.setOrigin(0.5, 0.5)
+        halo.setScale(0.5)
         pointer = scene.add.sprite(0, 0, 'pointer');
         pointer.setOrigin(0.5, 0.5)
         pointer.depth = 9999
@@ -315,10 +301,6 @@ export class Boot extends Scene {
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
                     item.graphics.setPosition(item.text.x, item.text.y)
-                    // console.log(item.graphics)
-                    // item.graphics.setPosition(item.object.x, item.object.y)
-                    // item.graphics.width = item.text.displayWidth
-                    // item.text.setFontSize(50 / zoomFactor);
                     if (item.player_id == telegram_id) {
                         item.text.setOrigin(0.5, -1)
                     } else {
@@ -326,18 +308,14 @@ export class Boot extends Scene {
                     }
 
                     let graphics = scene.add.graphics();
-                    //graphics.fillStyle(0xFF0000, 0);
                     graphics.depth = 10009;
-                    graphics.lineStyle(1, 0xFFFFFF, 1);
-
-                    //  32px radius on the corners
-                    //graphics.fillRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 20);
+                    graphics.lineStyle(1, 0x5855FF);
+                    graphics.fillStyle(0x0E0923, 1)
                     item.text.depth = 10011;
                     item.text.setScale(0.4 / zoomFactor)
                     item.text.setPosition(item.object.x, item.object.y + item.size);
-                    //graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2, item.text.y + item.text.displayHeight, item.text.displayWidth, item.text.displayHeight * 0.8, 20);
-                    graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 5, item.text.y + item.text.displayHeight - 3, item.text.displayWidth + 10, item.text.displayHeight + 6, 15);
-
+                    graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2 - 5, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 10, item.text.displayHeight + 3, 5);
+                    graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 5, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 10, item.text.displayHeight + 3, 5);
                     item.graphics.destroy()
                     item.graphics = graphics;
                 }
@@ -366,6 +344,3 @@ export class Boot extends Scene {
         }
     }
 }
-
-
-
