@@ -93,8 +93,16 @@ function newWebSocket() {
         let receivedMessage
         event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
         userStats = []
+        console.log(receivedMessage)
+        if (receivedMessage.action == 'lose') {
+            let modal = document.querySelector('#loseModal')
+            // console.log(modal)
+            modal.style.display = 'block'
+            setTimeout(() => {
+                modal.style.opacity = 1;
+            }, 100);
+        }
         if (typeof (event.data.top) != undefined) {
-
             receivedMessage.top.forEach(async (item) => {
                 if (allUsers[item.user_id]) {
                     userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
@@ -105,11 +113,13 @@ function newWebSocket() {
                 }
             })
             websocketStats.users = userStats
-            // console.log(receivedMessage.sent_at)
             websocketStats.status = receivedMessage.sent_at == 'undefined' ? 'loading' : 'ready'
         }
 
         let last = Date.now() / 1000
+        if (receivedMessage.action == 'update') {
+            let popup = document.querySelector('#defaultModal')
+        }
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         receivedMessage.p_obj.forEach((item) => {
             let have = false
@@ -241,8 +251,8 @@ export class Boot extends Scene {
             webSocket.send(message)
         });
         split.on('pointerdown', function () {
-            // message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
-            //webSocket.send(message)
+            message = JSON.stringify({ 'action': 'split', 'dx': deltaX, 'dy': deltaY })
+            webSocket.send(message)
         });
         let base = this.add.image(0, 0, 'base');
         let thumb = this.add.image(0, 0, 'thumb');

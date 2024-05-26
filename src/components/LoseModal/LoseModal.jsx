@@ -1,7 +1,7 @@
 import React from "react";
 
 import arrowBack from "../../../public/assets/arrowBack.svg";
-import thinkingEmoji from "../../../public/assets/thinkingEmoji.png";
+import deadEmoji from "../../../public/assets/deadEmoji.png";
 
 import Button from "../Button/Button";
 
@@ -10,9 +10,9 @@ import websocketStats from "../../data/websocketStats";
 
 import styles from "./styles.module.css";
 
-const DefaultModal = ({ onChange }) => {
+const LoseModal = ({ onChange }) => {
     return (
-        <div className={styles.modalContainer} id="defaultModal">
+        <div className={styles.modalContainer} id="loseModal">
             <div className={styles.modalGrid}>
                 <div className={styles.modalItem}>
                     <div className={styles.modalCross}>
@@ -20,11 +20,11 @@ const DefaultModal = ({ onChange }) => {
                             className={styles.closeButton}
                             image={arrowBack}
                             onClick={() => {
-                                let defaultModal =
-                                    document.querySelector("#defaultModal");
-                                defaultModal.style.opacity = 0;
+                                let loseModal =
+                                    document.querySelector("#loseModal");
+                                loseModal.style.opacity = 0;
                                 setTimeout(() => {
-                                    defaultModal.style.display = "none";
+                                    loseModal.style.display = "none";
                                 }, 500);
                             }}
                         />
@@ -43,45 +43,51 @@ const DefaultModal = ({ onChange }) => {
                 <div className={styles.modalBlock}>
                     <img
                         className={styles.modalImage}
-                        src={thinkingEmoji}
+                        src={deadEmoji}
                         alt={"Emoji"}
                     />
                     <div className={styles.modalInfo}>
                         <h2 className={styles.modalHeading}>
-                            Are you sure you
-                            <br /> want to leave?
+                            Your crypto-bubble <br /> burst. Start again
+                            <br /> or exit?
                         </h2>
                         <p className={styles.modalSubheading}>
-                            Your points and money
-                            <br /> will be lost
+                            Your Bet:
+                            <span>5 TON</span>
                         </p>
                     </div>
                     <Button
-                        text={"NO"}
+                        text={"START"}
                         color={"extraWhite"}
                         className={styles.modalButton}
                         onClick={() => {
-                            let defaultModal =
-                                document.querySelector("#defaultModal");
-                            defaultModal.style.opacity = 0;
+                            onChange(false);
+                            let loseModal =
+                                document.querySelector("#loseModal");
+                            loseModal.style.display = "none";
+                            websocketManager.forEach((item) => {
+                                item.socket.close();
+                                clearInterval(item.timer);
+                            });
+                            websocketStats.status = "loading";
                             setTimeout(() => {
-                                defaultModal.style.display = "none";
+                                onChange(true);
                             }, 100);
                         }}
                     />
                     <Button
-                        text={"YES"}
+                        text={"EXIT"}
                         color={"white"}
                         className={styles.secondaryButton}
                         onClick={() => {
                             onChange(false);
-                            let defaultModal =
-                                document.querySelector("#defaultModal");
+                            let loseModal =
+                                document.querySelector("#loseModal");
                             let app = document.querySelector("#app");
                             let setup = document.querySelector("#setup");
                             let stats = document.querySelector("#stats");
                             app.style.display = "none";
-                            defaultModal.style.display = "none";
+                            loseModal.style.display = "none";
                             setup.style.display = "none";
                             websocketManager.forEach((item) => {
                                 item.socket.close();
@@ -96,5 +102,5 @@ const DefaultModal = ({ onChange }) => {
     );
 };
 
-export default DefaultModal;
+export default LoseModal;
 

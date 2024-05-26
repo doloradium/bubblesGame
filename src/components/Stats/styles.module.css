@@ -7,13 +7,13 @@
 }
 
 .statsLoading {
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     background-color: #00000080;
     height: 100%;
 }
 
 .loader {
-    animation: rotation 1s infinite;
+    animation: rotation 1s infinite linear;
     width: 50px;
     height: 50px;
 }
@@ -90,3 +90,4 @@
 .ratingItem span {
     color: #6c6c6c;
 }
+

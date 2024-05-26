@@ -43,6 +43,7 @@ const Stats = () => {
                         onClick={() => {
                             let defaultModal =
                                 document.querySelector("#defaultModal");
+                            // console.log(defaultModal);
                             defaultModal.style.display = "block";
                             setTimeout(() => {
                                 defaultModal.style.opacity = 1;

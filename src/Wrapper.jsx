@@ -9,6 +9,7 @@ import Receive from "./pages/Receive/Receive.jsx";
 import Send from "./pages/Send/Send.jsx";
 import DefaultModal from "./components/DefaultModal/DefaultModal.jsx";
 import Legion from "./pages/Legion/Legion.jsx";
+import LoseModal from "./components/LoseModal/LoseModal.jsx";
 import Referral from "./pages/Referral/Referral.jsx";
 import ModalWeekly from "./components/ModalWeekly/ModalWeekly.jsx";
 import Intro from "./pages/Intro/Intro.jsx";
@@ -29,6 +30,7 @@ function Wrapper() {
             <Legion />
             <Referral />
             <DefaultModal onChange={setGameState} />
+            <LoseModal onChange={setGameState} />
             {/* <ModalWeekly />
             <Intro />
             <ModalHODL /> */}
