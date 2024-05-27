@@ -6,8 +6,13 @@ const SquadItem = ({ images, amount, text }) => {
     return (
         <div className={styles.squadContainer}>
             <div className={styles.imageList}>
-                {images.map((item) => (
-                    <img src={item} alt="Avatar" className={styles.imageItem} />
+                {images.map((item, key) => (
+                    <img
+                        key={key}
+                        src={item}
+                        alt="Avatar"
+                        className={styles.imageItem}
+                    />
                 ))}
             </div>
             <div className={styles.infoContainer}>
@@ -19,3 +24,4 @@ const SquadItem = ({ images, amount, text }) => {
 };
 
 export default SquadItem;
+

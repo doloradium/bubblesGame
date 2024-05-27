@@ -96,7 +96,6 @@ function newWebSocket() {
         console.log(receivedMessage)
         if (receivedMessage.action == 'lose') {
             let modal = document.querySelector('#loseModal')
-            // console.log(modal)
             modal.style.display = 'block'
             setTimeout(() => {
                 modal.style.opacity = 1;
@@ -135,7 +134,18 @@ function newWebSocket() {
                 }
             })
             if (!have) {
-                let object = scene.add.sprite(item.x, item.y, item.type == 'player' ? 'bubble' : 'point');
+                let object
+                switch (item.type) {
+                    case 'player':
+                        object = scene.add.sprite(item.x, item.y, 'bubble');
+                        break;
+                    case 'point':
+                        object = scene.add.sprite(item.x, item.y, 'point');
+                        break;
+                    case 'split':
+                        object = scene.add.sprite(item.x, item.y, 'bubble');
+                        break;
+                }
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
                 object.depth = item.id
@@ -321,8 +331,8 @@ export class Boot extends Scene {
                     } else {
                         item.text.setOrigin(0.5, -0.5)
                     }
-
                     let graphics = scene.add.graphics();
+                    UICam.ignore([graphics]);
                     graphics.depth = 10009;
                     graphics.lineStyle(2 / zoomFactor, 0x5855FF);
                     graphics.fillStyle(0x0E0923, 1)

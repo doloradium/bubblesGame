@@ -46,7 +46,7 @@ html,
 body {
     -webkit-tap-highlight-color: transparent;
     overflow: hidden;
-    touch-action: none;
+    /* touch-action: none; */
 }
 
 #root {
