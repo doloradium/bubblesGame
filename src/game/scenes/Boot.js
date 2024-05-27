@@ -93,6 +93,8 @@ function newWebSocket() {
     webSocket.onmessage = function (event) {
         let receivedMessage
         event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
+        let last = Date.now() / 1000
+        ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         userStats = []
         console.log(receivedMessage)
         if (receivedMessage.action == 'lose') {
@@ -104,6 +106,7 @@ function newWebSocket() {
         }
         if (typeof (event.data.top) != undefined) {
             receivedMessage.top.forEach(async (item) => {
+                item.user_id == telegram_id ? websocketStats.score = Math.floor(item.size) : null
                 if (allUsers[item.user_id]) {
                     userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
                 } else {
@@ -113,11 +116,11 @@ function newWebSocket() {
                 }
             })
             websocketStats.users = userStats
+            // userStats.forEach((item) => {
+            //     websocketStats.score = item.size
+            // })
             websocketStats.status = receivedMessage.sent_at == 'undefined' ? 'loading' : 'ready'
         }
-
-        let last = Date.now() / 1000
-        ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         receivedMessage.p_obj.forEach((item) => {
             let have = false
             localObjects.forEach((localItem) => {
@@ -166,6 +169,7 @@ function newWebSocket() {
                     graphics.depth = 10009;
                     graphics.strokeRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 5);
                     UICam.ignore([text]);
+                    UICam.ignore([graphics]);
                     localObjects[localObjects.length - 1].player_id = item.player_id;
                     localObjects[localObjects.length - 1].text = text;
                     localObjects[localObjects.length - 1].graphics = graphics;
@@ -175,7 +179,6 @@ function newWebSocket() {
                 }
             }
         })
-
         localObjects.forEach((localItem) => {
             let have = false
             receivedMessage.p_obj.forEach((item) => {
@@ -185,6 +188,7 @@ function newWebSocket() {
                 localItem.object.destroy()
                 if (localItem.type == "player") {
                     localItem.text.destroy()
+                    localItem.graphics.destroy()
                 }
                 localObjects.splice(localObjects.indexOf(localItem), 1)
             }
