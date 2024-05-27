@@ -16,6 +16,7 @@ let localObjects = []
 let scene
 let UICam
 let ping
+let coordinates
 let background
 let halo, pointer
 let userStats = []
@@ -116,9 +117,6 @@ function newWebSocket() {
         }
 
         let last = Date.now() / 1000
-        if (receivedMessage.action == 'update') {
-            let popup = document.querySelector('#defaultModal')
-        }
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         receivedMessage.p_obj.forEach((item) => {
             let have = false
@@ -289,6 +287,11 @@ export class Boot extends Scene {
             fontSize: 20,
             color: '#ffffff'
         });
+        coordinates = scene.add.text(16, 150, 'loading', {
+            fontFamily: 'Arial',
+            fontSize: 20,
+            color: '#ffffff'
+        });
         halo = this.add.sprite(window.innerWidth, window.innerHeight, 'halo')
         halo.depth = 9998
         halo.setOrigin(0.5, 0.5)
@@ -296,7 +299,7 @@ export class Boot extends Scene {
         pointer = scene.add.sprite(0, 0, 'pointer');
         pointer.setOrigin(0.5, 0.5)
         pointer.depth = 9999
-        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, halo, pointer]);
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, halo, pointer, coordinates, ping]);
     }
 
     update() {
@@ -315,6 +318,7 @@ export class Boot extends Scene {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.2), Phaser.Math.Linear(item.object.y, item.y, 0.2))
                 item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
                 if (item.player_id == telegram_id) {
+                    coordinates.setText(`x: ${Math.round(item.x)}, y: ${Math.round(item.y)}`);
                     this.cameras.main.centerOn(item.object.x, item.object.y);
                     background.setPosition(item.object.x, item.object.y)
                     background.tilePositionX = item.object.x

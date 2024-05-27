@@ -65,17 +65,17 @@ function App({ gameState }) {
         ts = e.touches[0].clientY;
     };
 
-    // const onTouchMove = (e) => {
-    //     e.preventDefault();
-    // };
+    const onTouchMove = (e) => {
+        e.preventDefault();
+    };
 
     document.documentElement.addEventListener("touchstart", onTouchStart, {
         passive: false,
     });
 
-    // document.documentElement.addEventListener("touchmove", onTouchMove, {
-    //     passive: false,
-    // });
+    document.documentElement.addEventListener("touchmove", onTouchMove, {
+        passive: false,
+    });
 
     return (
         <div id="app">
