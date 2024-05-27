@@ -106,7 +106,7 @@ function newWebSocket() {
         }
         if (typeof (event.data.top) != undefined) {
             receivedMessage.top.forEach(async (item) => {
-                item.user_id == telegram_id ? websocketStats.score = Math.floor(item.size) : null
+                if (item.user_id == telegram_id) websocketStats.score = Math.floor(item.size)
                 if (allUsers[item.user_id]) {
                     userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
                 } else {
@@ -132,21 +132,11 @@ function newWebSocket() {
                         item.size = 20;
                     }
                     have = true
+                    // if (localItem.type == 'player') { console.log(item.type) }
                 }
             })
             if (!have) {
-                let object
-                switch (item.type) {
-                    case 'player':
-                        object = scene.add.sprite(item.x, item.y, 'bubble');
-                        break;
-                    case 'point':
-                        object = scene.add.sprite(item.x, item.y, 'point');
-                        break;
-                    case 'split':
-                        object = scene.add.sprite(item.x, item.y, 'bubble');
-                        break;
-                }
+                let object = scene.add.sprite(item.x, item.y, item.type == 'player' || item.type == 'split' ? 'bubble' : 'point')
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
                 object.depth = item.id
@@ -168,6 +158,7 @@ function newWebSocket() {
                     graphics.lineStyle(20, 0xFFFFFF, 1);
                     graphics.depth = 10009;
                     graphics.strokeRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 5);
+                    // graphics.setOrigin(0.5, 0.5)
                     UICam.ignore([text]);
                     UICam.ignore([graphics]);
                     localObjects[localObjects.length - 1].player_id = item.player_id;
@@ -333,7 +324,7 @@ export class Boot extends Scene {
                 }
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
-                    item.graphics.setPosition(item.text.x, item.text.y)
+                    item.graphics.setPosition(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y)
                     if (item.player_id == telegram_id) {
                         item.text.setOrigin(0.5, -1)
                     } else {
@@ -344,6 +335,7 @@ export class Boot extends Scene {
                     graphics.depth = 10009;
                     graphics.lineStyle(2 / zoomFactor, 0x5855FF);
                     graphics.fillStyle(0x0E0923, 1)
+                    // graphics.setOrigin(0.5, 0.5)
                     item.text.depth = 10011;
                     item.text.setScale(0.4 / zoomFactor)
                     item.text.setPosition(item.object.x, item.object.y + item.size);
