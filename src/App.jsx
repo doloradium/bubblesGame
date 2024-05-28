@@ -73,9 +73,9 @@ function App({ gameState }) {
         passive: false,
     });
 
-    document.documentElement.addEventListener("touchmove", onTouchMove, {
-        passive: false,
-    });
+    // document.documentElement.addEventListener("touchmove", onTouchMove, {
+    //     passive: false,
+    // });
 
     return (
         <div id="app">
