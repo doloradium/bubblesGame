@@ -10,7 +10,7 @@ import websocketStats from "../../data/websocketStats";
 
 import styles from "./styles.module.css";
 
-const LoseModal = ({ onChange }) => {
+const LoseModal = ({ onChange, lives = 1 }) => {
     return (
         <div className={styles.modalContainer} id="loseModal">
             <div className={styles.modalGrid}>
@@ -52,50 +52,55 @@ const LoseModal = ({ onChange }) => {
                             <br /> or exit?
                         </h2>
                         <p className={styles.modalSubheading}>
-                            Your Bet:
-                            <span>5 TON</span>
+                            <p>
+                                Your Bet: <span>5 TON</span>
+                            </p>
                         </p>
                     </div>
-                    <Button
-                        text={"START"}
-                        color={"extraWhite"}
-                        className={styles.modalButton}
-                        onClick={() => {
-                            onChange(false);
-                            let loseModal =
-                                document.querySelector("#loseModal");
-                            loseModal.style.display = "none";
-                            websocketManager.forEach((item) => {
-                                item.socket.close();
-                                clearInterval(item.timer);
-                            });
-                            websocketStats.status = "loading";
-                            setTimeout(() => {
-                                onChange(true);
-                            }, 100);
-                        }}
-                    />
-                    <Button
-                        text={"EXIT"}
-                        color={"white"}
-                        className={styles.secondaryButton}
-                        onClick={() => {
-                            onChange(false);
-                            let loseModal =
-                                document.querySelector("#loseModal");
-                            let app = document.querySelector("#app");
-                            let setup = document.querySelector("#setup");
-                            let stats = document.querySelector("#stats");
-                            app.style.display = "none";
-                            loseModal.style.display = "none";
-                            setup.style.display = "none";
-                            websocketManager.forEach((item) => {
-                                item.socket.close();
-                                clearInterval(item.timer);
-                            });
-                            websocketStats.status = "loading";
-                        }}
-                    />
+                    <div className={styles.buttonContainer}>
+                        {lives > 0 ? (
+                            <Button
+                                text={"START"}
+                                color={"extraWhite"}
+                                className={styles.modalButton}
+                                onClick={() => {
+                                    onChange(false);
+                                    let loseModal =
+                                        document.querySelector("#loseModal");
+                                    loseModal.style.display = "none";
+                                    websocketManager.forEach((item) => {
+                                        item.socket.close();
+                                        clearInterval(item.timer);
+                                    });
+                                    websocketStats.status = "loading";
+                                    setTimeout(() => {
+                                        onChange(true);
+                                    }, 100);
+                                }}
+                            />
+                        ) : null}
+                        <Button
+                            text={"EXIT"}
+                            color={"white"}
+                            className={styles.secondaryButton}
+                            onClick={() => {
+                                onChange(false);
+                                let loseModal =
+                                    document.querySelector("#loseModal");
+                                let app = document.querySelector("#app");
+                                let setup = document.querySelector("#setup");
+                                let stats = document.querySelector("#stats");
+                                app.style.display = "none";
+                                loseModal.style.display = "none";
+                                setup.style.display = "none";
+                                websocketManager.forEach((item) => {
+                                    item.socket.close();
+                                    clearInterval(item.timer);
+                                });
+                                websocketStats.status = "loading";
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
