@@ -96,7 +96,7 @@ function newWebSocket() {
         let last = Date.now() / 1000
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         userStats = []
-        console.log(receivedMessage)
+        // console.log(receivedMessage)
         if (receivedMessage.action == 'lose') {
             let modal = document.querySelector('#loseModal')
             modal.style.display = 'block'
