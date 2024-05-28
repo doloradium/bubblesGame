@@ -164,9 +164,11 @@ function newWebSocket() {
                     localObjects[localObjects.length - 1].player_id = item.player_id;
                     localObjects[localObjects.length - 1].text = text;
                     localObjects[localObjects.length - 1].graphics = graphics;
-                } else if (item.type == 'point') {
+                } else if (item.type == 'point' || item.type == 'gift') {
                     object.setDisplaySize(item.size * 20, item.size * 20)
-                    object.setTint(colors[getRandom(7)])
+                    if (item.type == 'point') {
+                        object.setTint(colors[getRandom(7)])
+                    }
                 }
             }
         })
@@ -311,7 +313,9 @@ export class Boot extends Scene {
             UICam.ignore([item.object])
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.2), Phaser.Math.Linear(item.object.y, item.y, 0.2))
-                item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
+                if (item.type == 'player' || item.type == 'split') {
+                    item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
+                }
                 if (item.player_id == telegram_id) {
                     coordinates.setText(`x: ${Math.round(item.x)}, y: ${Math.round(item.y)}`);
                     this.cameras.main.centerOn(item.object.x, item.object.y);
@@ -324,23 +328,23 @@ export class Boot extends Scene {
                 }
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
-                    item.graphics.setPosition(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y)
-                    if (item.player_id == telegram_id) {
-                        item.text.setOrigin(0.5, -1)
-                    } else {
-                        item.text.setOrigin(0.5, -0.5)
-                    }
                     let graphics = scene.add.graphics();
                     UICam.ignore([graphics]);
                     graphics.depth = 10009;
                     graphics.lineStyle(2 / zoomFactor, 0x5855FF);
                     graphics.fillStyle(0x0E0923, 1)
-                    // graphics.setOrigin(0.5, 0.5)
                     item.text.depth = 10011;
                     item.text.setScale(0.4 / zoomFactor)
                     item.text.setPosition(item.object.x, item.object.y + item.size);
-                    graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
-                    graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
+                    if (item.player_id == telegram_id) {
+                        item.text.setOrigin(0.5, -1)
+                        graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
+                        graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
+                    } else {
+                        item.text.setOrigin(0.5, -0.5)
+                        graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight / 2 - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
+                        graphics.strokeRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight / 2 - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
+                    }
                     item.graphics.destroy()
                     item.graphics = graphics;
                 }
