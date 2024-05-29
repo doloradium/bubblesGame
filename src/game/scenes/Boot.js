@@ -21,6 +21,7 @@ let background
 let halo, pointer
 let userStats = []
 let allUsers = {};
+let pop
 let lastDX = 0.5, lastDY = 0;
 let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
 
@@ -125,6 +126,9 @@ function newWebSocket() {
             let have = false
             localObjects.forEach((localItem) => {
                 if (localItem.id == item.id) {
+                    if (localItem.type == 'player' && localItem.size < item.size) {
+                        pop.play()
+                    }
                     localItem.x = item.x
                     localItem.y = item.y
                     localItem.size = item.size
@@ -234,10 +238,16 @@ export class Boot extends Scene {
         this.load.svg('pointer', 'assets/pointer.svg', { width: 40, height: 40 });
         this.load.svg('gift', 'assets/gift.svg', { width: 300, height: 300 });
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
+        this.load.audio("pop", ["sounds/gamePop.mp3"]);
+        this.load.audio("backMusic", ["sounds/background.mp3"]);
         sendFormData()
     }
 
     create() {
+        pop = this.sound.add("pop", { loop: false });
+        // pop.play()
+        let backMusic = this.sound.add("backMusic", { loop: true, volume: 0.5 });
+        backMusic.play()
         localObjects = []
         userStats = []
         this.start = this.getTime();

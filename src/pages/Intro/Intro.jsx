@@ -1,4 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { useFetch } from "../../hooks/useFetch";
+import { getTotalPlayers } from "../../api/apiBubbles";
 
 import introwebm from "../../../public/assets/intro.webm";
 import intromp4 from "../../../public/assets/intro.mp4";
@@ -8,6 +11,8 @@ import players from "../../../public/assets/players.svg";
 import styles from "./styles.module.css";
 
 const Intro = () => {
+    const { data, isLoading } = useFetch(getTotalPlayers);
+
     useEffect(() => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
@@ -49,7 +54,7 @@ const Intro = () => {
                         </div>
                     </div>
                     <div className={styles.infoParagraph}>
-                        52,865,023,178,340
+                        {data && data.player_count}
                     </div>
                 </div>
                 <div className={styles.infoBlock}>
@@ -61,7 +66,9 @@ const Intro = () => {
                         />
                         <div className={styles.infoHeading}>Total players</div>
                     </div>
-                    <div className={styles.infoParagraph}>23,000,023</div>
+                    <div className={styles.infoParagraph}>
+                        {data && data.player_count}
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,3 +76,4 @@ const Intro = () => {
 };
 
 export default Intro;
+

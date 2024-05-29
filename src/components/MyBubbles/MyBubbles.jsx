@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
+import { useFetch } from "../../hooks/useFetch";
+import { getBubbles } from "../../api/apiBubbles";
+
 import Button from "../Button/Button";
 import InfoModal from "../InfoModal/InfoModal";
 
@@ -12,14 +15,18 @@ import styles from "./styles.module.css";
 import "swiper/css/pagination";
 import "swiper/css";
 
-import data from "../../data/data";
+// import data from "../../data/data";
 
 const MyBubbles = () => {
     const [modalState, setModalState] = useState(0);
 
+    const { data, isLoading } = useFetch(getBubbles);
+
+    console.log(data);
+
     return (
         <div className={styles.bubblesWrapper}>
-            <h1 className={styles.bubblesHeader}>My Bubbles</h1>
+            {/* <h1 className={styles.bubblesHeader}>My Bubbles</h1>
             <div className={styles.bubblesContainer}>
                 <div className={styles.bubblesBackground}></div>
                 <Swiper
@@ -64,9 +71,10 @@ const MyBubbles = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-            </div>
+            </div> */}
         </div>
     );
 };
 
 export default MyBubbles;
+

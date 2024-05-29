@@ -51,11 +51,11 @@ const LoseModal = ({ onChange, lives = 1 }) => {
                             Your crypto-bubble <br /> burst. Start again
                             <br /> or exit?
                         </h2>
-                        <p className={styles.modalSubheading}>
+                        <div className={styles.modalSubheading}>
                             <p>
                                 Your Bet: <span>5 TON</span>
                             </p>
-                        </p>
+                        </div>
                     </div>
                     <div className={styles.buttonContainer}>
                         {lives > 0 ? (
