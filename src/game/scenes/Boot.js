@@ -22,6 +22,8 @@ let halo, pointer
 let userStats = []
 let allUsers = {};
 let pop, shrink
+let myTimer
+let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
 let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
 
@@ -35,8 +37,15 @@ function getRandom(max) {
     return Math.floor(Math.random() * max);
 }
 
+function vectorLength(x1, y1, x2, y2) {
+    let dx = x2 - x1;
+    let dy = y2 - y1;
+    let length = Math.sqrt(dx * dx + dy * dy);
+    return length;
+}
+
 async function sendFormData() {
-    if (webSocket) {
+    if (webSocket != null) {
         return;
     }
     try {
@@ -46,6 +55,7 @@ async function sendFormData() {
 
         if (!response.ok) {
             console.log(response)
+            webSocket = null
             throw new Error('Network response was not ok');
         }
 
@@ -70,22 +80,30 @@ async function getName(userId) {
 }
 
 function newWebSocket() {
+    if (webSocket) {
+        return
+    }
+    clearInterval(myTimer)
     webSocket = new WebSocket(
         webSocketPath
     );
 
     webSocket.onopen = function (event) {
         console.log("WebSocket is connected");
-        let myTimer = setInterval(() => {
+        myTimer = setInterval(() => {
+
             try {
-                if (deltaX != 0 || deltaY != 0) {
-                    lastDX = deltaX;
-                    lastDY = deltaY;
+                if (webSocket) {
+                    if (deltaX != 0 || deltaY != 0) {
+                        lastDX = deltaX;
+                        lastDY = deltaY;
+                    }
+                    message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
+                    webSocket.send(message)
                 }
-                message = JSON.stringify({ 'action': 'move', 'dx': deltaX, 'dy': deltaY })
-                webSocket.send(message)
             } catch (e) {
-                clearInterval(myTimer)
+                // clearInterval(myTimer)
+                console.log(e)
             }
         }, 50)
         websocketManager.push({ socket: webSocket, timer: myTimer })
@@ -117,9 +135,6 @@ function newWebSocket() {
                 }
             })
             websocketStats.users = userStats
-            // userStats.forEach((item) => {
-            //     websocketStats.score = item.size
-            // })
             websocketStats.status = receivedMessage.sent_at == 'undefined' ? 'loading' : 'ready'
         }
         receivedMessage.p_obj.forEach((item) => {
@@ -127,7 +142,22 @@ function newWebSocket() {
             localObjects.forEach((localItem) => {
                 if (localItem.id == item.id) {
                     if (localItem.type == 'player' && localItem.size < item.size) {
-                        pop.play()
+                        if (playerX != 0 && playerY != 0) {
+                            if (vectorLength(localItem.x, localItem.y, playerX, playerY) <= playerSize * 6) {
+                                let percentage
+                                if (vectorLength(localItem.x, localItem.y, playerX, playerY) == 0) {
+                                    percentage = 1
+                                } else {
+                                    percentage = 1 - (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY)) / Math.round(playerSize * 6))
+                                    percentage = +percentage.toFixed(1)
+                                }
+                                console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
+                                console.log('6rad: ', playerSize * 6)
+                                console.log('percent: ', percentage)
+                                pop.setVolume(percentage)
+                                pop.play()
+                            }
+                        }
                     } else if (localItem.type == 'player' && localItem.size > item.size) {
                         shrink.play()
                     }
@@ -138,14 +168,13 @@ function newWebSocket() {
                         item.size = 20;
                     }
                     have = true
-                    // if (localItem.type == 'player') { console.log(item.type) }
                 }
             })
             if (!have) {
                 let object = scene.add.sprite(item.x, item.y, item.type == 'player' || item.type == 'split' ? 'bubble' : 'point')
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
-                object.depth = item.id
+                object.depth = item.size
                 localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
                 if (item.type == "player") {
                     let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
@@ -169,11 +198,11 @@ function newWebSocket() {
                     localObjects[localObjects.length - 1].player_id = item.player_id;
                     localObjects[localObjects.length - 1].text = text;
                     localObjects[localObjects.length - 1].graphics = graphics;
-                } else if (item.type == 'point' || item.type == 'gift') {
+                } else if (item.type == 'point') {
                     object.setDisplaySize(item.size * 20, item.size * 20)
-                    if (item.type == 'point') {
-                        object.setTint(colors[getRandom(7)])
-                    }
+                    object.setTint(colors[getRandom(7)])
+                } else if (item.type == 'gift') {
+                    object.setDisplaySize(item.size * 4, item.size * 4)
                 }
             }
         })
@@ -198,6 +227,7 @@ function newWebSocket() {
     };
 
     webSocket.onclose = function (event) {
+        webSocket = null
         console.log("Connection is closed");
     };
 }
@@ -248,7 +278,6 @@ export class Boot extends Scene {
     create() {
         pop = this.sound.add("pop", { loop: false });
         shrink = this.sound.add("shrink", { loop: false });
-        // pop.play()
         let backMusic = this.sound.add("backMusic", { loop: true, volume: 0.5 });
         backMusic.play()
         localObjects = []
@@ -331,6 +360,9 @@ export class Boot extends Scene {
                 }
                 if (item.player_id == telegram_id) {
                     coordinates.setText(`x: ${Math.round(item.x)}, y: ${Math.round(item.y)}`);
+                    playerX = item.x
+                    playerY = item.y
+                    playerSize = item.size
                     this.cameras.main.centerOn(item.object.x, item.object.y);
                     background.setPosition(item.object.x, item.object.y)
                     background.tilePositionX = item.object.x
