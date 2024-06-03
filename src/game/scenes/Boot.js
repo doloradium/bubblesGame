@@ -21,7 +21,7 @@ let background
 let halo, pointer
 let userStats = []
 let allUsers = {};
-let pop
+let pop, shrink
 let lastDX = 0.5, lastDY = 0;
 let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
 
@@ -128,6 +128,8 @@ function newWebSocket() {
                 if (localItem.id == item.id) {
                     if (localItem.type == 'player' && localItem.size < item.size) {
                         pop.play()
+                    } else if (localItem.type == 'player' && localItem.size > item.size) {
+                        shrink.play()
                     }
                     localItem.x = item.x
                     localItem.y = item.y
@@ -162,7 +164,6 @@ function newWebSocket() {
                     graphics.lineStyle(20, 0xFFFFFF, 1);
                     graphics.depth = 10009;
                     graphics.strokeRoundedRect(item.x, item.y, text.displayWidth, text.displayHeight, 5);
-                    // graphics.setOrigin(0.5, 0.5)
                     UICam.ignore([text]);
                     UICam.ignore([graphics]);
                     localObjects[localObjects.length - 1].player_id = item.player_id;
@@ -240,11 +241,13 @@ export class Boot extends Scene {
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
         this.load.audio("pop", ["sounds/gamePop.mp3"]);
         this.load.audio("backMusic", ["sounds/background.mp3"]);
+        this.load.audio("shrink", ["sounds/shrink.mp3"]);
         sendFormData()
     }
 
     create() {
         pop = this.sound.add("pop", { loop: false });
+        shrink = this.sound.add("shrink", { loop: false });
         // pop.play()
         let backMusic = this.sound.add("backMusic", { loop: true, volume: 0.5 });
         backMusic.play()
