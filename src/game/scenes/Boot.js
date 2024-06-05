@@ -141,10 +141,9 @@ function newWebSocket() {
             let have = false
             localObjects.forEach((localItem) => {
                 if (localItem.id == item.id) {
-                    let percentage
                     if (playerX != 0 && playerY != 0) {
+                        let percentage = 0
                         if (vectorLength(localItem.x, localItem.y, playerX, playerY) <= playerSize * 6) {
-
                             if (vectorLength(localItem.x, localItem.y, playerX, playerY) == 0) {
                                 percentage = 1
                             } else {
@@ -152,21 +151,21 @@ function newWebSocket() {
                                 percentage = +percentage.toFixed(1)
                             }
                         }
-                    }
-                    if (localItem.type == 'player' && localItem.size < item.size) {
-                        console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
-                        console.log('6rad: ', playerSize * 6)
-                        console.log('percent: ', percentage)
-                        console.log('id: ', localItem.player_id)
-                        pop.setVolume(percentage)
-                        pop.play()
-                    } else if (localItem.type == 'player' && localItem.size > item.size) {
-                        console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
-                        console.log('6rad: ', playerSize * 6)
-                        console.log('percent: ', percentage)
-                        console.log('id: ', localItem.player_id)
-                        shrink.setVolume(percentage)
-                        shrink.play()
+                        if (localItem.type == 'player' && localItem.size < item.size) {
+                            console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
+                            console.log('6rad: ', playerSize * 6)
+                            console.log('percent: ', percentage)
+                            console.log('id: ', localItem.player_id)
+                            pop.setVolume(percentage)
+                            pop.play()
+                        } else if (localItem.type == 'player' && localItem.size > item.size) {
+                            console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
+                            console.log('6rad: ', playerSize * 6)
+                            console.log('percent: ', percentage)
+                            console.log('id: ', localItem.player_id)
+                            shrink.setVolume(percentage)
+                            shrink.play()
+                        }
                     }
                     localItem.x = item.x
                     localItem.y = item.y
