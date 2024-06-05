@@ -141,24 +141,31 @@ function newWebSocket() {
             let have = false
             localObjects.forEach((localItem) => {
                 if (localItem.id == item.id) {
-                    if (localItem.type == 'player' && localItem.size < item.size) {
-                        if (playerX != 0 && playerY != 0) {
-                            if (vectorLength(localItem.x, localItem.y, playerX, playerY) <= playerSize * 6) {
-                                let percentage
-                                if (vectorLength(localItem.x, localItem.y, playerX, playerY) == 0) {
-                                    percentage = 1
-                                } else {
-                                    percentage = 1 - (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY)) / Math.round(playerSize * 6))
-                                    percentage = +percentage.toFixed(1)
-                                }
-                                console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
-                                console.log('6rad: ', playerSize * 6)
-                                console.log('percent: ', percentage)
-                                pop.setVolume(percentage)
-                                pop.play()
+                    let percentage
+                    if (playerX != 0 && playerY != 0) {
+                        if (vectorLength(localItem.x, localItem.y, playerX, playerY) <= playerSize * 6) {
+
+                            if (vectorLength(localItem.x, localItem.y, playerX, playerY) == 0) {
+                                percentage = 1
+                            } else {
+                                percentage = 1 - (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY)) / Math.round(playerSize * 6))
+                                percentage = +percentage.toFixed(1)
                             }
                         }
+                    }
+                    if (localItem.type == 'player' && localItem.size < item.size) {
+                        console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
+                        console.log('6rad: ', playerSize * 6)
+                        console.log('percent: ', percentage)
+                        console.log('id: ', localItem.player_id)
+                        pop.setVolume(percentage)
+                        pop.play()
                     } else if (localItem.type == 'player' && localItem.size > item.size) {
+                        console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
+                        console.log('6rad: ', playerSize * 6)
+                        console.log('percent: ', percentage)
+                        console.log('id: ', localItem.player_id)
+                        shrink.setVolume(percentage)
                         shrink.play()
                     }
                     localItem.x = item.x
