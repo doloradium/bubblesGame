@@ -16,9 +16,9 @@ const Intro = () => {
     useEffect(() => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
-        // window.addEventListener("load", (event) => {
-        //     video.play();
-        // });
+        window.addEventListener("load", (event) => {
+            video.play();
+        });
         video.addEventListener("play", (event) => {
             setTimeout(() => {
                 videoContainer.style.opacity = "0";
@@ -41,8 +41,8 @@ const Intro = () => {
                 preload="auto"
                 id="video"
             >
-                {/* <source src={intromp4} type="video/mp4" /> */}
                 <source src={introwebm} type="video/webm" />
+                <source src={intromp4} type="video/mp4" />
             </video>
             <div className={styles.infoContainer}>
                 <div className={styles.infoBlock}>
