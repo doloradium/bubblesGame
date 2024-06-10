@@ -16,6 +16,9 @@ const Intro = () => {
     useEffect(() => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
+        window.addEventListener("load", (event) => {
+            video.play();
+        });
         video.addEventListener("play", (event) => {
             setTimeout(() => {
                 videoContainer.style.opacity = "0";

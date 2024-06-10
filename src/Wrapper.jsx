@@ -17,7 +17,7 @@ import ModalHODL from "./components/ModalHODL/ModalHODL.jsx";
 
 function Wrapper() {
     const [gameState, setGameState] = useState(false);
-    const [bet, setBet] = useState(0);
+    const [bet, setBet] = useState("");
 
     // console.log(bet);
     const overflow = 100;

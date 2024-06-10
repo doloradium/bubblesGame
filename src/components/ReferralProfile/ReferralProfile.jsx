@@ -9,7 +9,6 @@ const ReferralProfile = () => {
         <div className={styles.profileContainer}>
             <div className={styles.avatarContainer}>
                 <div className={styles.avatarImage}>VP</div>
-                <div className={styles.avatarCounter}>86</div>
                 <img
                     src={clanTag}
                     alt="Legion"
@@ -35,3 +34,4 @@ const ReferralProfile = () => {
 };
 
 export default ReferralProfile;
+

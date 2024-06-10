@@ -19,20 +19,6 @@
     font-size: 2.5rem;
 }
 
-.avatarCounter {
-    display: flex;
-    position: absolute;
-    top: -0.5rem;
-    right: -0.5rem;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
-    background-color: #f55800;
-    width: 2rem;
-    height: 2rem;
-    font-size: 1rem;
-}
-
 .avatarLegion {
     position: absolute;
     bottom: -1rem;
@@ -78,3 +64,4 @@
 .statsItem span {
     font-weight: 700;
 }
+

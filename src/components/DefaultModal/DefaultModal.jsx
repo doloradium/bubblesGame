@@ -88,7 +88,7 @@ const DefaultModal = ({ onChange, changeBet }) => {
                                 clearInterval(item.timer);
                             });
                             websocketStats.status = "loading";
-                            changeBet(0);
+                            changeBet("");
                             websocketStats.bet = 0;
                         }}
                     />

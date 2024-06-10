@@ -11,24 +11,16 @@ import websocketStats from "../../data/websocketStats";
 
 const GameMode = ({ changeBet, newBet }) => {
     const [mode, setMode] = useState("pay");
-    const [counter, setCounter] = useState("");
 
     const [play] = useSound(click);
 
     const handleChange = (e) => {
-        // if (e.target.value.match(/^\d+$/)) {
-        //     setCounter(+e.target.value);
-        //     // setBet(e.target.value);
-        //     websocketStats.bet = +e.target.value;
-        // }
         if (e.target.value.match(/^\d+\.?\d?$/)) {
-            setCounter(e.target.value);
-            // setBet(e.target.value);
+            changeBet(e.target.value);
             websocketStats.bet = +e.target.value;
         }
         if (e.target.value.length == 0) {
-            // changeBet(0);
-            setCounter("");
+            changeBet("");
             websocketStats.bet = 0;
         }
     };
@@ -41,6 +33,8 @@ const GameMode = ({ changeBet, newBet }) => {
                     className={styles.gamemodeOptions}
                     onClick={() => {
                         mode == "pay" ? setMode("free") : null;
+                        changeBet("");
+                        websocketStats.bet = 0;
                         play();
                     }}
                 >
@@ -74,11 +68,10 @@ const GameMode = ({ changeBet, newBet }) => {
                         className={styles.counterItem}
                         onClick={() => {
                             if (newBet > 0) {
-                                // setCounter(+(newBet - 0.1).toFixed(1));
-                                // setBet(+(newBet - 0.1).toFixed(1));
                                 changeBet(+(newBet - 0.1).toFixed(1));
                                 websocketStats.bet = +(newBet - 0.1).toFixed(1);
                             }
+                            newBet == 0.1 ? changeBet("") : null;
                             play();
                         }}
                     >
@@ -86,17 +79,16 @@ const GameMode = ({ changeBet, newBet }) => {
                     </div>
                     <input
                         className={styles.counterItem}
-                        value={counter}
+                        value={newBet}
                         onChange={handleChange}
                         placeholder="0"
                     />
                     <div
                         className={styles.counterItem}
                         onClick={() => {
-                            // setCounter(+(newBet + 0.1).toFixed(1));
-                            changeBet(+(newBet + 0.1).toFixed(1));
-                            // setBet(+(newBet + 0.1).toFixed(1));
-                            websocketStats.bet = +(newBet + 0.1).toFixed(1);
+                            newBet == "" ? changeBet(0.1) : null;
+                            changeBet(-(-newBet - 0.1).toFixed(1));
+                            websocketStats.bet = -(-newBet - 0.1).toFixed(1);
                             play();
                         }}
                     >
