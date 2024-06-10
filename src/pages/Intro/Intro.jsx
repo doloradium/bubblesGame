@@ -41,7 +41,7 @@ const Intro = () => {
                 preload="auto"
                 id="video"
             >
-                <source src={intromp4} type="video/mp4" />
+                {/* <source src={intromp4} type="video/mp4" /> */}
                 <source src={introwebm} type="video/webm" />
             </video>
             <div className={styles.infoContainer}>
