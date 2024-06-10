@@ -1,5 +1,8 @@
 import React from "react";
 import styles from "./styles.module.css";
+import useSound from "use-sound";
+
+import click from "../../../public/sounds/button.mp3";
 
 import Button from "../../components/Button/Button";
 
@@ -7,6 +10,8 @@ import arrowBack from "../../../public/assets/arrowBack.svg";
 import cross from "../../../public/assets/cross.svg";
 
 const Send = () => {
+    const [play] = useSound(click);
+
     return (
         <div className={styles.transactionsWrapper} id="send">
             <div className={styles.transactionsContainer}>
@@ -89,6 +94,7 @@ const Send = () => {
             <div
                 className={styles.squadName}
                 onClick={() => {
+                    play();
                     let referral = document.querySelector("#referral");
                     referral.style.display = "flex";
                     setTimeout(() => {
@@ -103,3 +109,4 @@ const Send = () => {
 };
 
 export default Send;
+

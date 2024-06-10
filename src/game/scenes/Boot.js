@@ -21,8 +21,10 @@ let background
 let halo, pointer
 let userStats = []
 let allUsers = {};
+let playerBubbles = []
 let pop, shrink
 let myTimer
+let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
 let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
@@ -30,7 +32,7 @@ let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
 const telegram_id = searchParams.get('telegram_id')
-const fetchString = 'https://agario.crypto-loto.xyz/api/join?token=' + token + '&telegram_id=' + telegram_id
+const fetchString = 'https://agario.crypto-loto.xyz/api/join'
 console.log(fetchString)
 
 function getRandom(max) {
@@ -45,12 +47,22 @@ function vectorLength(x1, y1, x2, y2) {
 }
 
 async function sendFormData() {
+    console.log(websocketStats.bet)
     if (webSocket != null) {
         return;
     }
     try {
         const response = await fetch(fetchString, {
-            method: 'GET',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: token,
+                telegram_id: telegram_id,
+                bet: websocketStats.bet,
+                skin: 0
+            })
         });
 
         if (!response.ok) {
@@ -83,6 +95,7 @@ function newWebSocket() {
     if (webSocket) {
         return
     }
+
     clearInterval(myTimer)
     webSocket = new WebSocket(
         webSocketPath
@@ -152,17 +165,9 @@ function newWebSocket() {
                             }
                         }
                         if (localItem.type == 'player' && localItem.size < item.size) {
-                            console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
-                            console.log('6rad: ', playerSize * 6)
-                            console.log('percent: ', percentage)
-                            console.log('id: ', localItem.player_id)
                             pop.setVolume(percentage)
                             pop.play()
                         } else if (localItem.type == 'player' && localItem.size > item.size) {
-                            console.log('dist: ', (Math.round(vectorLength(localItem.x, localItem.y, playerX, playerY))))
-                            console.log('6rad: ', playerSize * 6)
-                            console.log('percent: ', percentage)
-                            console.log('id: ', localItem.player_id)
                             shrink.setVolume(percentage)
                             shrink.play()
                         }
@@ -182,6 +187,9 @@ function newWebSocket() {
                 object.setOrigin(0.5, 0.5)
                 object.depth = item.size
                 localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
+                if ((item.type == 'player' || item.type == 'gift') && item.player_id == telegram_id) {
+                    playerBubbles.push({ x: item.x, y: item.y })
+                }
                 if (item.type == "player") {
                     let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
                         fontFamily: 'Inter',
@@ -219,6 +227,7 @@ function newWebSocket() {
             })
             if (have == false) {
                 localItem.object.destroy()
+                playerBubbles.splice(playerBubbles.indexOf(localItem.object), 1)
                 if (localItem.type == "player") {
                     localItem.text.destroy()
                     localItem.graphics.destroy()
@@ -357,6 +366,8 @@ export class Boot extends Scene {
         if (angle / Math.PI == 0) {
             pointer.setAlpha(0)
         }
+        playerBubbles.length = 0
+        console.log(playerBubbles)
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
@@ -369,7 +380,29 @@ export class Boot extends Scene {
                     playerX = item.x
                     playerY = item.y
                     playerSize = item.size
-                    this.cameras.main.centerOn(item.object.x, item.object.y);
+                    // cameraX = item.object.x
+                    // cameraY = item.object.y
+                    localObjects.forEach((item) => {
+                        if (item.player_id == telegram_id) playerBubbles.push({ x: item.object.x, y: item.object.y })
+                    })
+                    function Centroid(points) {
+                        let minX = 5000
+                        let minY = 5000
+                        let maxX = 0
+                        let maxY = 0
+                        points.forEach((item) => {
+                            // console.log('inner', item)
+                            if (item.x < minX) { minX = item.x }
+                            if (item.x > maxX) { maxX = item.x }
+                            if (item.y < minY) { minY = item.y }
+                            if (item.y > maxY) { maxY = item.y }
+                        })
+                        cameraX = (maxX + minX) / 2
+                        cameraY = (maxY + minY) / 2
+                    }
+                    Centroid(playerBubbles)
+                    // console.log(playerBubbles)
+                    this.cameras.main.centerOn(cameraX, cameraY);
                     background.setPosition(item.object.x, item.object.y)
                     background.tilePositionX = item.object.x
                     background.tilePositionY = item.object.y
@@ -401,7 +434,6 @@ export class Boot extends Scene {
                 }
             }
         })
-
         if (this.joyStick.forceX != this.joyStick.pointerX) {
             deltaX = this.joyStick.forceX / 60;
             deltaY = this.joyStick.forceY / 60;

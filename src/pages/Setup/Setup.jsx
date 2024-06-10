@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Button from "../../components/Button/Button";
 import cart from "../../../public/assets/cart.svg";
@@ -8,11 +8,14 @@ import styles from "./styles.module.css";
 import GameMode from "../../components/GameMode/GameMode";
 import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 
+import websocketStats from "../../data/websocketStats";
+
 import data from "../../data/data";
 
-const Setup = ({ onChange }) => {
+const Setup = ({ onChange, newBet, changeBet }) => {
     const [bubbles, setBubbles] = useState([]);
     const [dataInfo, setdataInfo] = useState(data);
+    const [currentBet, setCurrentBet] = useState(newBet);
 
     return (
         <>
@@ -31,7 +34,12 @@ const Setup = ({ onChange }) => {
                     }}
                 />
                 <ChooseBubble dataInfo={dataInfo} handleChange={setBubbles} />
-                <GameMode />
+                <GameMode
+                    setBet={setCurrentBet}
+                    currentBet={currentBet}
+                    changeBet={changeBet}
+                    newBet={newBet}
+                />
                 <Button
                     text={"BUY MORE BUBBLES"}
                     image={cart}
@@ -63,3 +71,4 @@ const Setup = ({ onChange }) => {
 };
 
 export default Setup;
+

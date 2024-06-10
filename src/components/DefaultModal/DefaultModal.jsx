@@ -10,7 +10,7 @@ import websocketStats from "../../data/websocketStats";
 
 import styles from "./styles.module.css";
 
-const DefaultModal = ({ onChange }) => {
+const DefaultModal = ({ onChange, changeBet }) => {
     return (
         <div className={styles.modalContainer} id="defaultModal">
             <div className={styles.modalGrid}>
@@ -88,6 +88,8 @@ const DefaultModal = ({ onChange }) => {
                                 clearInterval(item.timer);
                             });
                             websocketStats.status = "loading";
+                            changeBet(0);
+                            websocketStats.bet = 0;
                         }}
                     />
                 </div>

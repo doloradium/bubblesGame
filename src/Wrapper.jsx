@@ -17,7 +17,9 @@ import ModalHODL from "./components/ModalHODL/ModalHODL.jsx";
 
 function Wrapper() {
     const [gameState, setGameState] = useState(false);
+    const [bet, setBet] = useState(0);
 
+    // console.log(bet);
     const overflow = 100;
     document.body.style.overflowY = "hidden";
     document.body.style.marginTop = `${overflow}px`;
@@ -46,14 +48,14 @@ function Wrapper() {
         <div id="wrapper">
             <Main />
             <App gameState={gameState} />
-            <Setup onChange={setGameState} />
+            <Setup onChange={setGameState} newBet={bet} changeBet={setBet} />
             <BubblesShop />
             <Transactions />
             <Receive />
             <Send />
             <Legion />
             <Referral />
-            <DefaultModal onChange={setGameState} />
+            <DefaultModal onChange={setGameState} changeBet={setBet} />
             <LoseModal onChange={setGameState} />
             {/* <ModalWeekly />
             <Intro />

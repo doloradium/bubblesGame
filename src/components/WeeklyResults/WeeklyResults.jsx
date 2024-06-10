@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import useSound from "use-sound";
+
+import click from "../../../public/sounds/button.mp3";
 
 import clanTag from "../../../public/assets/clanTag.svg";
 
@@ -6,6 +9,7 @@ import styles from "./styles.module.css";
 
 const WeeklyResults = () => {
     const [period, setPeriod] = useState("weekly");
+    const [play] = useSound(click);
 
     return (
         <div className={styles.resultsContainer}>
@@ -13,6 +17,7 @@ const WeeklyResults = () => {
                 <div
                     className={period == "weekly" ? styles.toggleItem : null}
                     onClick={() => {
+                        play();
                         setPeriod("weekly");
                     }}
                 >
@@ -22,6 +27,7 @@ const WeeklyResults = () => {
                 <div
                     className={period == "daily" ? styles.toggleItem : null}
                     onClick={() => {
+                        play();
                         setPeriod("daily");
                     }}
                 >
@@ -57,3 +63,4 @@ const WeeklyResults = () => {
 };
 
 export default WeeklyResults;
+

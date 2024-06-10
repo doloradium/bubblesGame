@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
+import useSound from "use-sound";
 
 import styles from "./styles.module.css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
+
+import click from "../../../public/sounds/button.mp3";
 
 import RateItem from "../RateItem/RateItem";
 
@@ -15,6 +18,8 @@ import arrow from "../../../public/assets/arrowNextRound.svg";
 import rating from "../../data/rating";
 
 const WeeklyRate = () => {
+    const [play] = useSound(click);
+
     useEffect(() => {
         let swiper = document.querySelector("#outerPagination");
         swiper.children[0].classList.add("noMargin");
@@ -50,10 +55,20 @@ const WeeklyRate = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-                <div className="buttonNext">
+                <div
+                    className="buttonNext"
+                    onClick={() => {
+                        play();
+                    }}
+                >
                     <img src={arrow} alt="Next" />
                 </div>
-                <div className="buttonPrev">
+                <div
+                    className="buttonPrev"
+                    onClick={() => {
+                        play();
+                    }}
+                >
                     <img src={arrow} alt="Previous" />
                 </div>
             </div>
@@ -63,3 +78,4 @@ const WeeklyRate = () => {
 };
 
 export default WeeklyRate;
+

@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import clsx from "clsx";
+import useSound from "use-sound";
+
+import click from "../../../public/sounds/button.mp3";
 
 import CheckBox from "../CheckBox/CheckBox";
 
@@ -22,6 +25,8 @@ const ChooseBubble = ({
     const [colorToggle, setColorToggle] = useState("gold");
     const [bubbleId, setBubbleId] = useState([]);
     const [dataArray, setDataArray] = useState(dataInfo);
+
+    const [play] = useSound(click);
 
     return (
         <div
@@ -44,6 +49,7 @@ const ChooseBubble = ({
                         }
                         onClick={() => {
                             setColorToggle("gold");
+                            play();
                         }}
                     >
                         Silver
@@ -57,6 +63,7 @@ const ChooseBubble = ({
                         }
                         onClick={() => {
                             setColorToggle("silver");
+                            play();
                         }}
                     >
                         Gold
@@ -86,6 +93,7 @@ const ChooseBubble = ({
                             <SwiperSlide
                                 key={item.id}
                                 onClick={() => {
+                                    play();
                                     if (multipleChoice == true) {
                                         let localArray = [...bubbleId];
                                         bubbleId.indexOf(item.id) == -1
@@ -131,12 +139,12 @@ const ChooseBubble = ({
                 </Swiper>
                 <div className={styles.gradientRight}>
                     <div className="buttonNext_main">
-                        <img src={arrowRight} alt="Next" />
+                        <img src={arrowRight} alt="Next" onClick={play} />
                     </div>
                 </div>
                 <div className={styles.gradientLeft}>
                     <div className="buttonPrev_main">
-                        <img src={arrowLeft} alt="Previous" />
+                        <img src={arrowLeft} alt="Previous" onClick={play} />
                     </div>
                 </div>
             </div>
@@ -145,3 +153,4 @@ const ChooseBubble = ({
 };
 
 export default ChooseBubble;
+

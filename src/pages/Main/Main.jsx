@@ -1,4 +1,7 @@
 import React from "react";
+import useSound from "use-sound";
+
+import click from "../../../public/sounds/button.mp3";
 
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
@@ -10,6 +13,8 @@ import cart from "../../../public/assets/cart.svg";
 import styles from "./styles.module.css";
 
 const Main = () => {
+    const [play] = useSound(click);
+
     return (
         <>
             <div className={styles.pageContainer} id="main">
@@ -42,6 +47,7 @@ const Main = () => {
                 <p
                     className={styles.clanName}
                     onClick={() => {
+                        play();
                         let referral = document.querySelector("#referral");
                         referral.style.display = "flex";
                         setTimeout(() => {

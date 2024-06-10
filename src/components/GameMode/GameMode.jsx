@@ -1,17 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
+import useSound from "use-sound";
+
+import click from "../../../public/sounds/button.mp3";
 
 import CheckBox from "../CheckBox/CheckBox";
 
 import styles from "./styles.module.css";
+import websocketStats from "../../data/websocketStats";
 
-const GameMode = () => {
-    const [counter, setCounter] = useState(0);
+const GameMode = ({ changeBet, newBet }) => {
     const [mode, setMode] = useState("pay");
+    const [counter, setCounter] = useState("");
+
+    const [play] = useSound(click);
 
     const handleChange = (e) => {
-        e.target.value.match(/^[0-9]+$/) ? setCounter(e.target.value) : null;
-        e.target.value.length == 0 ? setCounter(0) : null;
+        // if (e.target.value.match(/^\d+$/)) {
+        //     setCounter(+e.target.value);
+        //     // setBet(e.target.value);
+        //     websocketStats.bet = +e.target.value;
+        // }
+        if (e.target.value.match(/^\d+\.?\d?$/)) {
+            setCounter(e.target.value);
+            // setBet(e.target.value);
+            websocketStats.bet = +e.target.value;
+        }
+        if (e.target.value.length == 0) {
+            // changeBet(0);
+            setCounter("");
+            websocketStats.bet = 0;
+        }
     };
 
     return (
@@ -22,6 +41,7 @@ const GameMode = () => {
                     className={styles.gamemodeOptions}
                     onClick={() => {
                         mode == "pay" ? setMode("free") : null;
+                        play();
                     }}
                 >
                     <div className={styles.gamemodeName}>FREE</div>
@@ -31,6 +51,7 @@ const GameMode = () => {
                     className={styles.gamemodeOptions}
                     onClick={() => {
                         mode == "free" ? setMode("pay") : null;
+                        play();
                     }}
                 >
                     <div className={styles.gamemodeName}>PAY</div>
@@ -52,20 +73,31 @@ const GameMode = () => {
                     <div
                         className={styles.counterItem}
                         onClick={() => {
-                            counter > 0 ? setCounter(counter - 1) : null;
+                            if (newBet > 0) {
+                                // setCounter(+(newBet - 0.1).toFixed(1));
+                                // setBet(+(newBet - 0.1).toFixed(1));
+                                changeBet(+(newBet - 0.1).toFixed(1));
+                                websocketStats.bet = +(newBet - 0.1).toFixed(1);
+                            }
+                            play();
                         }}
                     >
                         -
                     </div>
                     <input
                         className={styles.counterItem}
-                        value={+counter}
+                        value={counter}
                         onChange={handleChange}
+                        placeholder="0"
                     />
                     <div
                         className={styles.counterItem}
                         onClick={() => {
-                            setCounter(counter + 1);
+                            // setCounter(+(newBet + 0.1).toFixed(1));
+                            changeBet(+(newBet + 0.1).toFixed(1));
+                            // setBet(+(newBet + 0.1).toFixed(1));
+                            websocketStats.bet = +(newBet + 0.1).toFixed(1);
+                            play();
                         }}
                     >
                         +
@@ -77,3 +109,4 @@ const GameMode = () => {
 };
 
 export default GameMode;
+
