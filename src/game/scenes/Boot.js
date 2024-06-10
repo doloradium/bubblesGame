@@ -39,6 +39,22 @@ function getRandom(max) {
     return Math.floor(Math.random() * max);
 }
 
+function Centroid(points) {
+    let minX = 5000
+    let minY = 5000
+    let maxX = 0
+    let maxY = 0
+    points.forEach((item) => {
+        // console.log('inner', item)
+        if (item.x < minX) { minX = item.x }
+        if (item.x > maxX) { maxX = item.x }
+        if (item.y < minY) { minY = item.y }
+        if (item.y > maxY) { maxY = item.y }
+    })
+    cameraX = (maxX + minX) / 2
+    cameraY = (maxY + minY) / 2
+}
+
 function vectorLength(x1, y1, x2, y2) {
     let dx = x2 - x1;
     let dy = y2 - y1;
@@ -385,27 +401,12 @@ export class Boot extends Scene {
                     localObjects.forEach((item) => {
                         if (item.player_id == telegram_id) playerBubbles.push({ x: item.object.x, y: item.object.y })
                     })
-                    function Centroid(points) {
-                        let minX = 5000
-                        let minY = 5000
-                        let maxX = 0
-                        let maxY = 0
-                        points.forEach((item) => {
-                            // console.log('inner', item)
-                            if (item.x < minX) { minX = item.x }
-                            if (item.x > maxX) { maxX = item.x }
-                            if (item.y < minY) { minY = item.y }
-                            if (item.y > maxY) { maxY = item.y }
-                        })
-                        cameraX = (maxX + minX) / 2
-                        cameraY = (maxY + minY) / 2
-                    }
                     Centroid(playerBubbles)
                     // console.log(playerBubbles)
                     this.cameras.main.centerOn(cameraX, cameraY);
-                    background.setPosition(item.object.x, item.object.y)
-                    background.tilePositionX = item.object.x
-                    background.tilePositionY = item.object.y
+                    background.setPosition(cameraX, cameraY)
+                    background.tilePositionX = cameraX
+                    background.tilePositionY = cameraY
                     this.cameras.main.setZoom(175 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 175 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
                     zoomFactor = this.cameras.main.zoom
                     background.setScale(1 / zoomFactor)
