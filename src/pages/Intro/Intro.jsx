@@ -5,6 +5,7 @@ import { getTotalPlayers } from "../../api/apiBubbles";
 
 import introwebm from "../../../public/assets/intro.webm";
 import intromp4 from "../../../public/assets/intro.mp4";
+import intropng from "../../../public/assets/intro.png";
 import introTon from "../../../public/assets/introTon.svg";
 import players from "../../../public/assets/players.svg";
 
@@ -17,9 +18,9 @@ const Intro = () => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
         window.addEventListener("load", (event) => {
-            video.play();
-        });
-        video.addEventListener("play", (event) => {
+            video.addEventListener("play", (event) => {
+                video.style.zIndex = 3;
+            });
             setTimeout(() => {
                 videoContainer.style.opacity = "0";
                 setTimeout(() => {
@@ -31,6 +32,12 @@ const Intro = () => {
 
     return (
         <div className={styles.videoContainer} id="videoContainer">
+            <img
+                src={intropng}
+                alt="Intro"
+                id="image"
+                className={styles.introImage}
+            />
             <video
                 controls={false}
                 className={styles.video}
