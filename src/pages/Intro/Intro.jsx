@@ -18,15 +18,22 @@ const Intro = () => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
         window.addEventListener("load", (event) => {
-            video.addEventListener("play", (event) => {
-                video.style.zIndex = 3;
-            });
-            setTimeout(() => {
+            let oldTimeout = setTimeout(() => {
                 videoContainer.style.opacity = "0";
                 setTimeout(() => {
                     videoContainer.style.display = "none";
                 }, 500);
-            }, 7000);
+            }, 3000);
+            video.addEventListener("play", (event) => {
+                video.style.zIndex = 3;
+                clearTimeout(oldTimeout);
+                let newTimeout = setTimeout(() => {
+                    videoContainer.style.opacity = "0";
+                    setTimeout(() => {
+                        videoContainer.style.display = "none";
+                    }, 500);
+                }, 7000);
+            });
         });
     }, []);
 
