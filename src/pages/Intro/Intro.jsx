@@ -12,28 +12,26 @@ import players from "../../../public/assets/players.svg";
 import styles from "./styles.module.css";
 
 const Intro = () => {
-    const { data, isLoading } = useFetch(getTotalPlayers);
+    const { data } = useFetch(getTotalPlayers);
 
     useEffect(() => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");
-        window.addEventListener("load", (event) => {
-            let oldTimeout = setTimeout(() => {
+        let oldTimeout = setTimeout(() => {
+            videoContainer.style.opacity = "0";
+            setTimeout(() => {
+                videoContainer.style.display = "none";
+            }, 500);
+        }, 3000);
+        video.addEventListener("play", (event) => {
+            video.style.zIndex = 3;
+            clearTimeout(oldTimeout);
+            let newTimeout = setTimeout(() => {
                 videoContainer.style.opacity = "0";
                 setTimeout(() => {
                     videoContainer.style.display = "none";
                 }, 500);
-            }, 3000);
-            video.addEventListener("play", (event) => {
-                video.style.zIndex = 3;
-                clearTimeout(oldTimeout);
-                let newTimeout = setTimeout(() => {
-                    videoContainer.style.opacity = "0";
-                    setTimeout(() => {
-                        videoContainer.style.display = "none";
-                    }, 500);
-                }, 7000);
-            });
+            }, 7000);
         });
     }, []);
 
