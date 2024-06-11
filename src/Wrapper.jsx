@@ -49,7 +49,6 @@ function Wrapper() {
         <div id="wrapper">
             {/Mobile/.test(navigator.userAgent) ? (
                 <>
-                    {" "}
                     <Main />
                     <App gameState={gameState} />
                     <Setup
