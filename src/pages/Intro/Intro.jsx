@@ -14,8 +14,6 @@ import styles from "./styles.module.css";
 const Intro = () => {
     const { data, isLoading } = useFetch(getTotalPlayers);
 
-    console.log(/Mobile/.test(navigator.userAgent));
-
     useEffect(() => {
         const video = document.querySelector("#video");
         const videoContainer = document.querySelector("#videoContainer");

@@ -14,6 +14,7 @@ import Referral from "./pages/Referral/Referral.jsx";
 import ModalWeekly from "./components/ModalWeekly/ModalWeekly.jsx";
 import Intro from "./pages/Intro/Intro.jsx";
 import ModalHODL from "./components/ModalHODL/ModalHODL.jsx";
+import DeviceCheck from "./pages/DeviceCheck/DeviceCheck.jsx";
 
 function Wrapper() {
     const [gameState, setGameState] = useState(false);
@@ -46,20 +47,31 @@ function Wrapper() {
 
     return (
         <div id="wrapper">
-            <Main />
-            <App gameState={gameState} />
-            <Setup onChange={setGameState} newBet={bet} changeBet={setBet} />
-            <BubblesShop />
-            <Transactions />
-            <Receive />
-            <Send />
-            <Legion />
-            <Referral />
-            <DefaultModal onChange={setGameState} changeBet={setBet} />
-            <LoseModal onChange={setGameState} />
-            <ModalWeekly />
-            <Intro />
-            <ModalHODL />
+            {/Mobile/.test(navigator.userAgent) ? (
+                <>
+                    {" "}
+                    <Main />
+                    <App gameState={gameState} />
+                    <Setup
+                        onChange={setGameState}
+                        newBet={bet}
+                        changeBet={setBet}
+                    />
+                    <BubblesShop />
+                    <Transactions />
+                    <Receive />
+                    <Send />
+                    <Legion />
+                    <Referral />
+                    <DefaultModal onChange={setGameState} changeBet={setBet} />
+                    <LoseModal onChange={setGameState} />
+                    <ModalWeekly />
+                    <Intro />
+                    <ModalHODL />
+                </>
+            ) : (
+                <DeviceCheck />
+            )}
         </div>
     );
 }
