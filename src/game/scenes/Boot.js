@@ -396,6 +396,15 @@ export class Boot extends Scene {
                     playerX = item.x
                     playerY = item.y
                     playerSize = item.size
+                    if (playerSize < 40) {
+                        split.setAlpha(0.5)
+                        split.disableInteractive()
+                        console.log(playerSize)
+                    } else {
+                        split.setAlpha(1)
+                        split.setInteractive()
+                        console.log(playerSize)
+                    }
                     // cameraX = item.object.x
                     // cameraY = item.object.y
                     localObjects.forEach((item) => {
