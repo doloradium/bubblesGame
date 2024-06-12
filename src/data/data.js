@@ -1,7 +1,7 @@
-import ton from "../../public/assets/bubble.png";
-import btc from "../../public/assets/btc.png";
-import solana from "../../public/assets/solana.png";
-import tonTransaction from "../../public/assets/tonTransaction.svg";
+import ton from "../../public/assets/ton.svg";
+import btc from "../../public/assets/bitcoin.svg";
+import solana from "../../public/assets/solana.svg";
+// import tonTransaction from "../../public/assets/tonTransaction.svg";
 
 const data = [
     {

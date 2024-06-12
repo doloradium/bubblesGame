@@ -201,7 +201,7 @@ function newWebSocket() {
                 }
             })
             if (!have) {
-                let object = scene.add.sprite(item.x, item.y, item.type == 'player' || item.type == 'split' ? 'bubble' : 'point')
+                let object = scene.add.sprite(item.x, item.y, item.type == 'player' || item.type == 'split' ? 'xrp' : 'point')
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
                 object.depth = item.size
@@ -296,7 +296,16 @@ export class Boot extends Scene {
         this.load.plugin('rexvirtualjoystickplugin', url, true);
         this.load.svg('thumb', 'assets/thumb.svg', { width: window.innerWidth / 2, height: window.innerWidth / 2 });
         this.load.svg('base', 'assets/base.svg', { width: window.innerWidth / 0.75, height: window.innerWidth / 0.75 });
-        this.load.svg('bubble', 'assets/bubble.svg', { width: 300, height: 300 });
+        this.load.svg('ton', 'assets/ton.svg', { width: 300, height: 300 });
+        this.load.svg('bitcoin', 'assets/bitcoin.svg', { width: 300, height: 300 });
+        this.load.svg('bnb', 'assets/bnb.svg', { width: 300, height: 300 });
+        this.load.svg('doge', 'assets/doge.svg', { width: 300, height: 300 });
+        this.load.svg('ethereum', 'assets/ethereum.svg', { width: 300, height: 300 });
+        this.load.svg('polygon', 'assets/polygon.svg', { width: 300, height: 300 });
+        this.load.svg('shiba', 'assets/shiba.svg', { width: 300, height: 300 });
+        this.load.svg('solana', 'assets/solana.svg', { width: 300, height: 300 });
+        this.load.svg('tron', 'assets/tron.svg', { width: 300, height: 300 });
+        this.load.svg('xrp', 'assets/xrp.svg', { width: 300, height: 300 });
         this.load.svg('point', 'assets/food.svg', { width: 100, height: 100 });
         this.load.svg('background', 'assets/background.svg', { width: 290, height: 492 });
         this.load.svg('halo', 'assets/halo.svg', { width: 350, height: 350 });
