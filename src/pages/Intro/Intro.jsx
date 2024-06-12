@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { getTotalPlayers } from "../../api/apiBubbles";
 
+import userInfo from "../../data/userInfo";
+
 import introwebm from "../../../public/assets/intro.webm";
 import intromp4 from "../../../public/assets/intro.mp4";
 import intropng from "../../../public/assets/intro.png";
@@ -13,6 +15,11 @@ import styles from "./styles.module.css";
 
 const Intro = () => {
     const { data } = useFetch(getTotalPlayers);
+
+    const searchParams = new URLSearchParams(window.location.search);
+    userInfo.token = searchParams.get("token");
+    userInfo.telegram_id = searchParams.get("telegram_id");
+    console.log(userInfo.token, userInfo.telegram_id);
 
     useEffect(() => {
         const video = document.querySelector("#video");

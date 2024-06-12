@@ -2,6 +2,11 @@ import React from "react";
 import styles from "./styles.module.css";
 import useSound from "use-sound";
 
+import { getQR } from "../../api/apiBubbles";
+// import { useEffect } from "react";
+import { useFetch } from "../../hooks/useFetch";
+// import userInfo from "../../data/userInfo";
+
 import click from "../../../public/sounds/button.mp3";
 
 import Button from "../../components/Button/Button";
@@ -13,6 +18,11 @@ import qr from "../../../public/assets/qr.png";
 
 const Receive = () => {
     const [play] = useSound(click);
+
+    const { data } = useFetch(getQR);
+    // console.log(userInfo.token);
+    // console.log(userInfo.telegram_id);
+    console.log(data);
 
     return (
         <div className={styles.transactionsWrapper} id="receive">

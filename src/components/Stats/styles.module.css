@@ -80,6 +80,7 @@
 }
 
 .ratingItem {
+    display: flex;
     font-size: 0.8rem;
 }
 
@@ -87,7 +88,16 @@
     color: #9e8eff;
 }
 
+.ratingName {
+    display: block;
+    max-width: 100px;
+    overflow: hidden;
+    color: #6c6c6c;
+    text-overflow: ellipsis;
+}
+
 .ratingItem span {
+    margin-right: 0.5rem;
     color: #6c6c6c;
 }
 

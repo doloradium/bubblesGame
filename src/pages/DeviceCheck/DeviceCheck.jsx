@@ -1,8 +1,10 @@
 import React from "react";
+import clsx from "clsx";
 
 import redirect from "../../../public/assets/redirect.png";
 
 import styles from "./styles.module.css";
+
 import Button from "../../components/Button/Button";
 
 const DeviceCheck = () => {
@@ -19,27 +21,27 @@ const DeviceCheck = () => {
                 />
             </div>
             <div className={styles.redirectButtons}>
-                <Button
-                    onClick={() => {
-                        location.href = "https://t.me/crypto_bubble_wars ";
-                    }}
-                    color={"orange"}
-                    text={"Official TG Channel"}
-                />
-                <Button
-                    onClick={() => {
-                        location.href = "https://t.me/panamera_game_dev";
-                    }}
-                    color={"denseGreen"}
-                    text={"TG Channel CEO"}
-                />
-                <Button
-                    onClick={() => {
-                        location.href = "https://x.com/vlad_panamera ";
-                    }}
-                    color={"purple"}
-                    text={"X CEO"}
-                />
+                <a
+                    className={clsx(styles.link, styles.orange)}
+                    href="https://t.me/crypto_bubble_wars"
+                    target="_blank"
+                >
+                    Official TG Channel
+                </a>
+                <a
+                    className={clsx(styles.link, styles.denseGreen)}
+                    href="https://t.me/panamera_game_dev"
+                    target="_blank"
+                >
+                    TG Channel CEO
+                </a>
+                <a
+                    className={clsx(styles.link, styles.purple)}
+                    href="https://x.com/vlad_panamera"
+                    target="_blank"
+                >
+                    X CEO
+                </a>
             </div>
         </div>
     );

@@ -24,6 +24,7 @@ let allUsers = {};
 let playerBubbles = []
 let pop, shrink
 let myTimer
+let playerSplits = []
 let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
@@ -33,7 +34,7 @@ const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
 const telegram_id = searchParams.get('telegram_id')
 const fetchString = 'https://agario.crypto-loto.xyz/api/join'
-console.log(fetchString)
+console.log(fetchString, telegram_id, token)
 
 function getRandom(max) {
     return Math.floor(Math.random() * max);
@@ -144,7 +145,6 @@ function newWebSocket() {
         let last = Date.now() / 1000
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         userStats = []
-        // console.log(receivedMessage)
         if (receivedMessage.action == 'lose') {
             let modal = document.querySelector('#loseModal')
             modal.style.display = 'block'
@@ -154,7 +154,6 @@ function newWebSocket() {
         }
         if (typeof (event.data.top) != undefined) {
             receivedMessage.top.forEach(async (item) => {
-                if (item.user_id == telegram_id) websocketStats.score = Math.floor(item.size)
                 if (allUsers[item.user_id]) {
                     userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
                 } else {
@@ -203,8 +202,8 @@ function newWebSocket() {
                 object.setOrigin(0.5, 0.5)
                 object.depth = item.size
                 localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
-                if ((item.type == 'player' || item.type == 'gift') && item.player_id == telegram_id) {
-                    playerBubbles.push({ x: item.x, y: item.y })
+                if (item.player_id == telegram_id) {
+                    playerBubbles.push({ x: item.x, y: item.y, size: item.size })
                 }
                 if (item.type == "player") {
                     let text = scene.add.text(item.x, item.y - item.size * 1.2, '', {
@@ -373,17 +372,23 @@ export class Boot extends Scene {
     }
 
     update() {
-        pointer.setAlpha(1)
         let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
         newX = window.innerWidth + (window.innerWidth / 3.1) * Math.cos(angle);
         newY = window.innerHeight + (window.innerWidth / 3.1) * Math.sin(angle);
         pointer.setPosition(newX, newY);
         pointer.setAngle(angle * 180 / Math.PI)
-        if (angle / Math.PI == 0) {
+        if (localObjects.filter((item) => { return item.player_id == telegram_id }).length > 1) {
+            halo.setAlpha(0)
             pointer.setAlpha(0)
+        } else {
+            halo.setAlpha(1)
+            pointer.setAlpha(1)
+            if (angle / Math.PI == 0) {
+                pointer.setAlpha(0)
+            }
         }
         playerBubbles.length = 0
-        console.log(playerBubbles)
+        // console.log(playerBubbles)
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
@@ -399,7 +404,6 @@ export class Boot extends Scene {
                     if (playerSize < 40) {
                         split.setAlpha(0.5)
                         split.disableInteractive()
-                        console.log(playerSize)
                     } else {
                         split.setAlpha(1)
                         split.setInteractive()
@@ -407,9 +411,14 @@ export class Boot extends Scene {
                     }
                     // cameraX = item.object.x
                     // cameraY = item.object.y
+                    let userScore = 0
                     localObjects.forEach((item) => {
-                        if (item.player_id == telegram_id) playerBubbles.push({ x: item.object.x, y: item.object.y })
+                        if (item.player_id == telegram_id) {
+                            playerBubbles.push({ x: item.object.x, y: item.object.y })
+                            userScore += item.size
+                        }
                     })
+                    websocketStats.score = Math.round(userScore * 3)
                     Centroid(playerBubbles)
                     // console.log(playerBubbles)
                     this.cameras.main.centerOn(cameraX, cameraY);

@@ -118,8 +118,13 @@ const Stats = () => {
                         />
                         {leaderboard.map((item, key) => (
                             <div key={key} className={styles.ratingItem}>
-                                <span>{item.user_id}: </span>
-                                {item.size}
+                                <div className={styles.ratingName}>
+                                    {item.user_id}
+                                </div>
+                                <span>:</span>
+                                <div className={styles.ratingScore}>
+                                    {item.size}
+                                </div>
                             </div>
                         ))}
                     </div>
