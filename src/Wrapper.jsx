@@ -64,9 +64,9 @@ function Wrapper() {
                     <Referral />
                     <DefaultModal onChange={setGameState} changeBet={setBet} />
                     <LoseModal onChange={setGameState} />
-                    <ModalWeekly />
+                    {/* <ModalWeekly /> */}
                     <Intro />
-                    <ModalHODL />
+                    {/* <ModalHODL /> */}
                 </>
             ) : (
                 <DeviceCheck />

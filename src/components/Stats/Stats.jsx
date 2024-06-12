@@ -5,7 +5,7 @@ import Button from "../Button/Button";
 
 import styles from "./styles.module.css";
 
-import coin from "../../../public/assets/statsCoin.svg";
+import skull from "../../../public/assets/skull.svg";
 import heart from "../../../public/assets/statsHeart.svg";
 import star from "../../../public/assets/statsStar.svg";
 import crown from "../../../public/assets/statsCrown.svg";
@@ -83,8 +83,8 @@ const Stats = () => {
                         <div className={styles.statsContainer}>
                             <div className={styles.statsItem}>
                                 <img
-                                    src={coin}
-                                    alt="Coin"
+                                    src={heart}
+                                    alt="Heart"
                                     className={styles.statsImage}
                                 />
                                 <span>Health:</span>
@@ -92,11 +92,11 @@ const Stats = () => {
                             </div>
                             <div className={styles.statsItem}>
                                 <img
-                                    src={heart}
-                                    alt="Heart"
+                                    src={skull}
+                                    alt="Skill"
                                     className={styles.statsImage}
                                 />
-                                <span>Profit: </span>
+                                <span>Ate lives: </span>
                                 {websocketStats.profit}
                             </div>
                             <div className={styles.statsItem}>

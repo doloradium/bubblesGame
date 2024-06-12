@@ -1,7 +1,7 @@
 let websocketStats =
 {
-    health: '5 TON',
-    profit: '5 TON',
+    health: 0,
+    profit: 0,
     score: 0,
     status: 'loading',
     bet: 0,

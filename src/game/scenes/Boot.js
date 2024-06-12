@@ -4,6 +4,7 @@ import websocketStats from '../../data/websocketStats';
 import websocketManager from '../../data/websocketManager';
 
 let joyStickX, joyStickY;
+let mainPosition = { x: 0, y: 0 }
 let deltaX, deltaY;
 let newX, newY;
 let gift, split;
@@ -78,7 +79,7 @@ async function sendFormData() {
                 token: token,
                 telegram_id: telegram_id,
                 bet: websocketStats.bet,
-                skin: 0
+                skin: 1
             })
         });
 
@@ -100,9 +101,9 @@ async function sendFormData() {
 
 async function getName(userId) {
     try {
-        const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId);
+        const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId + '&room_id=' + room);
         const data = await response.json();
-        return { "name": data.user_name, "id": userId };
+        return { "name": data.username, "id": userId, 'skin': data.skin };
     } catch (error) {
         console.error('Error:', error);
     }
@@ -164,6 +165,8 @@ function newWebSocket() {
             })
             websocketStats.users = userStats
             websocketStats.status = receivedMessage.sent_at == 'undefined' ? 'loading' : 'ready'
+            websocketStats.health = receivedMessage.my_data.health
+            websocketStats.score = receivedMessage.my_data.score
         }
         receivedMessage.p_obj.forEach((item) => {
             let have = false
@@ -190,6 +193,7 @@ function newWebSocket() {
                     localItem.x = item.x
                     localItem.y = item.y
                     localItem.size = item.size
+                    localItem.main = item.main
                     if (localItem.type == "gift") {
                         item.size = 20;
                     }
@@ -201,7 +205,7 @@ function newWebSocket() {
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
                 object.depth = item.size
-                localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object })
+                localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object, main: item.main })
                 if (item.player_id == telegram_id) {
                     playerBubbles.push({ x: item.x, y: item.y, size: item.size })
                 }
@@ -295,7 +299,7 @@ export class Boot extends Scene {
         this.load.svg('bubble', 'assets/bubble.svg', { width: 300, height: 300 });
         this.load.svg('point', 'assets/food.svg', { width: 100, height: 100 });
         this.load.svg('background', 'assets/background.svg', { width: 290, height: 492 });
-        this.load.svg('halo', 'assets/halo.svg', { width: 500, height: 500 });
+        this.load.svg('halo', 'assets/halo.svg', { width: 350, height: 350 });
         this.load.svg('pointer', 'assets/pointer.svg', { width: 40, height: 40 });
         this.load.svg('gift', 'assets/gift.svg', { width: 300, height: 300 });
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
@@ -368,25 +372,11 @@ export class Boot extends Scene {
         pointer = scene.add.sprite(0, 0, 'pointer');
         pointer.setOrigin(0.5, 0.5)
         pointer.depth = 9999
-        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, halo, pointer, coordinates, ping]);
+        UICam.ignore([pointer, halo])
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, coordinates, ping]);
     }
 
     update() {
-        let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
-        newX = window.innerWidth + (window.innerWidth / 3.1) * Math.cos(angle);
-        newY = window.innerHeight + (window.innerWidth / 3.1) * Math.sin(angle);
-        pointer.setPosition(newX, newY);
-        pointer.setAngle(angle * 180 / Math.PI)
-        if (localObjects.filter((item) => { return item.player_id == telegram_id }).length > 1) {
-            halo.setAlpha(0)
-            pointer.setAlpha(0)
-        } else {
-            halo.setAlpha(1)
-            pointer.setAlpha(1)
-            if (angle / Math.PI == 0) {
-                pointer.setAlpha(0)
-            }
-        }
         playerBubbles.length = 0
         // console.log(playerBubbles)
         localObjects.forEach((item) => {
@@ -397,10 +387,23 @@ export class Boot extends Scene {
                     item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
                 }
                 if (item.player_id == telegram_id) {
+                    // console.log(item)
+                    if (item.main) {
+                        // console.log('asdsad')
+                        mainPosition.x = item.object.x
+                        mainPosition.y = item.object.y
+                    }
                     coordinates.setText(`x: ${Math.round(item.x)}, y: ${Math.round(item.y)}`);
                     playerX = item.x
                     playerY = item.y
                     playerSize = item.size
+                    if (playerSize < 25) {
+                        gift.setAlpha(0.5)
+                        gift.disableInteractive()
+                    } else {
+                        gift.setAlpha(1)
+                        gift.setInteractive()
+                    }
                     if (playerSize < 40) {
                         split.setAlpha(0.5)
                         split.disableInteractive()
@@ -418,14 +421,13 @@ export class Boot extends Scene {
                             userScore += item.size
                         }
                     })
-                    websocketStats.score = Math.round(userScore * 3)
                     Centroid(playerBubbles)
                     // console.log(playerBubbles)
                     this.cameras.main.centerOn(cameraX, cameraY);
                     background.setPosition(cameraX, cameraY)
                     background.tilePositionX = cameraX
                     background.tilePositionY = cameraY
-                    this.cameras.main.setZoom(175 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 175 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
+                    this.cameras.main.setZoom(125 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 125 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
                     zoomFactor = this.cameras.main.zoom
                     background.setScale(1 / zoomFactor)
                 }
@@ -439,6 +441,13 @@ export class Boot extends Scene {
                     item.text.depth = 10011;
                     item.text.setScale(0.4 / zoomFactor)
                     item.text.setPosition(item.object.x, item.object.y + item.size);
+                    if (item.main) {
+                        graphics.setAlpha(1)
+                        item.text.setAlpha(1)
+                    } else {
+                        graphics.setAlpha(0)
+                        item.text.setAlpha(0)
+                    }
                     if (item.player_id == telegram_id) {
                         item.text.setOrigin(0.5, -1)
                         graphics.fillRoundedRect(item.text.x - item.text.displayWidth / 2 - 10 / zoomFactor, item.text.y + item.text.displayHeight - 1, item.text.displayWidth + 20 / zoomFactor, item.text.displayHeight + 3, 10 / zoomFactor);
@@ -453,6 +462,18 @@ export class Boot extends Scene {
                 }
             }
         })
+        pointer.setAlpha(1)
+        halo.setDisplaySize(playerSize * 2 + playerSize / 2, playerSize * 2 + playerSize / 2)
+        pointer.setDisplaySize(playerSize / 2, playerSize / 2)
+        let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
+        newX = mainPosition.x + (playerSize + playerSize / 2.75) * Math.cos(angle);
+        newY = mainPosition.y + (playerSize + playerSize / 2.75) * Math.sin(angle);
+        halo.setPosition(mainPosition.x, mainPosition.y)
+        pointer.setPosition(newX, newY);
+        pointer.setAngle(angle * 180 / Math.PI)
+        if (angle / Math.PI == 0) {
+            pointer.setAlpha(0)
+        }
         if (this.joyStick.forceX != this.joyStick.pointerX) {
             deltaX = this.joyStick.forceX / 60;
             deltaY = this.joyStick.forceY / 60;
