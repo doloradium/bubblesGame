@@ -26,6 +26,7 @@ let allUsers = {};
 let playerBubbles = []
 let pop, shrink
 let myTimer
+let userSkins = []
 let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
@@ -80,7 +81,7 @@ async function sendFormData() {
                 token: token,
                 telegram_id: telegram_id,
                 bet: websocketStats.bet,
-                skin: 1
+                skin: 3
             })
         });
 
@@ -202,17 +203,20 @@ function newWebSocket() {
                 }
             })
             if (!have) {
-                let skin = -1
                 // console.log(item.player_id)
-                // let skinData = getName(item.player_id).then((value) => {
-                //     skin = value.skin
-                //     console.log(skin)
-                // });
+                if (item.player_id) {
+                    getName(item.player_id).then((value) => {
+                        if (value.id) {
+                            userSkins.push({ id: value.id, skin: value.skin })
+                        }
+                        console.log(userSkins)
+                    });
+                }
                 let object
                 if (item.type == 'point' || item.type == 'gift') {
                     object = scene.add.sprite(item.x, item.y, 'point')
                 } else if (item.type == 'player' || item.type == 'split') {
-                    object = scene.add.sprite(item.x, item.y, bubbles[skin + 1].name)
+                    object = scene.add.sprite(item.x, item.y, 'shiba')
                 }
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
@@ -448,6 +452,9 @@ export class Boot extends Scene {
                 }
                 if (item.type == 'player') {
                     item.text.setText(allUsers[item.player_id] ?? "");
+                    userSkins.forEach((skinItem) => {
+                        if (item.player_id == skinItem.id) { item.object.setTexture(bubbles[skinItem.skin - 1].name) }
+                    })
                     let graphics = scene.add.graphics();
                     UICam.ignore([graphics]);
                     graphics.depth = 10009;
