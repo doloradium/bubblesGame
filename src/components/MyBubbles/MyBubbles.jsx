@@ -15,18 +15,24 @@ import styles from "./styles.module.css";
 import "swiper/css/pagination";
 import "swiper/css";
 
-// import data from "../../data/data";
+import bubbles from "../../data/bubbles";
 
-const MyBubbles = () => {
+const MyBubbles = ({ bubbleList, myBubbles }) => {
     const [modalState, setModalState] = useState(0);
 
-    const { data, isLoading } = useFetch(getBubbles);
+    console.log(bubbleList);
+    console.log(myBubbles);
 
-    console.log(data);
+    let result = [];
+
+    if (bubbleList) {
+        result = bubbleList.filter((item) => myBubbles.includes(item.ID));
+        console.log(result);
+    }
 
     return (
         <div className={styles.bubblesWrapper}>
-            {/* <h1 className={styles.bubblesHeader}>My Bubbles</h1>
+            <h1 className={styles.bubblesHeader}>My Bubbles</h1>
             <div className={styles.bubblesContainer}>
                 <div className={styles.bubblesBackground}></div>
                 <Swiper
@@ -38,19 +44,17 @@ const MyBubbles = () => {
                     slidesPerView={1}
                     style={{ height: "100%" }}
                 >
-                    {data.map((item) => (
+                    {result.map((item) => (
                         <SwiperSlide key={item.id}>
                             <InfoModal
                                 modalState={modalState}
-                                strength={item.strength}
-                                earn={item.earn}
-                                modes={item.modes}
+                                earn={item.Earn}
                             />
                             <div className={styles.slideContainer}>
-                                <div className={styles.coin}>{item.coin}</div>
+                                <div className={styles.coin}>{item.Name}</div>
                                 <img
                                     className={styles.slideImage}
-                                    src={item.image}
+                                    src={bubbles[item.ID - 1].image}
                                     alt="Bubble"
                                 />
                                 <Button
@@ -71,7 +75,7 @@ const MyBubbles = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-            </div> */}
+            </div>
         </div>
     );
 };

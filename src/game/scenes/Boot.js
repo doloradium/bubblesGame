@@ -25,7 +25,6 @@ let allUsers = {};
 let playerBubbles = []
 let pop, shrink
 let myTimer
-let playerSplits = []
 let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
@@ -47,7 +46,6 @@ function Centroid(points) {
     let maxX = 0
     let maxY = 0
     points.forEach((item) => {
-        // console.log('inner', item)
         if (item.x < minX) { minX = item.x }
         if (item.x > maxX) { maxX = item.x }
         if (item.y < minY) { minY = item.y }
@@ -133,7 +131,6 @@ function newWebSocket() {
                     webSocket.send(message)
                 }
             } catch (e) {
-                // clearInterval(myTimer)
                 console.log(e)
             }
         }, 50)
@@ -201,7 +198,50 @@ function newWebSocket() {
                 }
             })
             if (!have) {
-                let object = scene.add.sprite(item.x, item.y, item.type == 'player' || item.type == 'split' ? 'xrp' : 'point')
+                let skin
+                getName(item.player_id).then((value) => {
+
+                });
+                let object
+                if (item.type == 'point') {
+                    object = scene.add.sprite(item.x, item.y, 'point')
+                } else if (item.type == 'player' || item.type == 'split') {
+                    switch (skin) {
+                        case 1:
+                            object = scene.add.sprite(item.x, item.y, 'shiba')
+                            break;
+                        case 2:
+                            object = scene.add.sprite(item.x, item.y, 'doge')
+                            break;
+                        case 3:
+                            object = scene.add.sprite(item.x, item.y, 'xrp')
+                            break;
+                        case 4:
+                            object = scene.add.sprite(item.x, item.y, 'tron')
+                            break;
+                        case 5:
+                            object = scene.add.sprite(item.x, item.y, 'polygon')
+                            break;
+                        case 6:
+                            object = scene.add.sprite(item.x, item.y, 'ton')
+                            break;
+                        case 7:
+                            object = scene.add.sprite(item.x, item.y, 'solana')
+                            break;
+                        case 8:
+                            object = scene.add.sprite(item.x, item.y, 'bnb')
+                            break;
+                        case 9:
+                            object = scene.add.sprite(item.x, item.y, 'ethereum')
+                            break;
+                        case 10:
+                            object = scene.add.sprite(item.x, item.y, 'bitcoin')
+                            break;
+                        default:
+                            object = scene.add.sprite(item.x, item.y, 'point')
+                            break;
+                    }
+                }
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
                 object.depth = item.size
@@ -326,7 +366,7 @@ export class Boot extends Scene {
         localObjects = []
         userStats = []
         this.start = this.getTime();
-        background = this.add.tileSprite(0, 0, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
+        background = this.add.tileSprite(window.innerWidth, window.innerHeight, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
         gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
         gift.setDisplaySize(150, 150)
         gift.setScrollFactor(0)
@@ -387,7 +427,6 @@ export class Boot extends Scene {
 
     update() {
         playerBubbles.length = 0
-        // console.log(playerBubbles)
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
@@ -396,9 +435,7 @@ export class Boot extends Scene {
                     item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
                 }
                 if (item.player_id == telegram_id) {
-                    // console.log(item)
                     if (item.main) {
-                        // console.log('asdsad')
                         mainPosition.x = item.object.x
                         mainPosition.y = item.object.y
                     }
@@ -421,8 +458,6 @@ export class Boot extends Scene {
                         split.setInteractive()
                         console.log(playerSize)
                     }
-                    // cameraX = item.object.x
-                    // cameraY = item.object.y
                     let userScore = 0
                     localObjects.forEach((item) => {
                         if (item.player_id == telegram_id) {
@@ -431,7 +466,6 @@ export class Boot extends Scene {
                         }
                     })
                     Centroid(playerBubbles)
-                    // console.log(playerBubbles)
                     this.cameras.main.centerOn(cameraX, cameraY);
                     background.setPosition(cameraX, cameraY)
                     background.tilePositionX = cameraX

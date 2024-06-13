@@ -65,7 +65,7 @@ function Wrapper() {
                     <DefaultModal onChange={setGameState} changeBet={setBet} />
                     <LoseModal onChange={setGameState} />
                     {/* <ModalWeekly /> */}
-                    <Intro />
+                    {/* <Intro /> */}
                     {/* <ModalHODL /> */}
                 </>
             ) : (

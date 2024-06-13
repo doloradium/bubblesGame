@@ -4,18 +4,19 @@ import Button from "../../components/Button/Button";
 import cart from "../../../public/assets/cart.svg";
 import arrowBack from "../../../public/assets/arrowBack.svg";
 
+import { useFetch } from "../../hooks/useFetch";
+import { getBubbles } from "../../api/apiBubbles";
+
 import styles from "./styles.module.css";
 import GameMode from "../../components/GameMode/GameMode";
 import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 
-import websocketStats from "../../data/websocketStats";
-
-import data from "../../data/data";
-
 const Setup = ({ onChange, newBet, changeBet }) => {
     const [bubbles, setBubbles] = useState([]);
-    const [dataInfo, setdataInfo] = useState(data);
+    // const [dataInfo, setdataInfo] = useState(data);
     const [currentBet, setCurrentBet] = useState(newBet);
+
+    const dataBubbles = useFetch(getBubbles).data;
 
     return (
         <>
@@ -33,7 +34,12 @@ const Setup = ({ onChange, newBet, changeBet }) => {
                         }, 100);
                     }}
                 />
-                <ChooseBubble dataInfo={dataInfo} handleChange={setBubbles} />
+                <ChooseBubble
+                    bubbleList={dataBubbles?.bubbles}
+                    myBubbles={dataBubbles?.my}
+                    // dataInfo={dataInfo}
+                    handleChange={setBubbles}
+                />
                 <GameMode
                     setBet={setCurrentBet}
                     currentBet={currentBet}

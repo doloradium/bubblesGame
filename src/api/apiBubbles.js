@@ -12,7 +12,28 @@ export const getTotalPlayers = async () => {
 
 export const getBubbles = async () => {
     try {
-        const response = await axios.get("https://agario.crypto-loto.xyz/api/bubbles")
+        const response = await axios.get("https://agario.crypto-loto.xyz/api/bubbles",
+            {
+                params: {
+                    token: userInfo.token,
+                    telegram_id: userInfo.telegram_id
+                }
+            })
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getMe = async () => {
+    try {
+        const response = await axios.get("https://agario.crypto-loto.xyz/api/me",
+            {
+                params: {
+                    token: userInfo.token,
+                    telegram_id: userInfo.telegram_id
+                }
+            })
         return response.data
     } catch (error) {
         console.log(error)

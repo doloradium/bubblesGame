@@ -2,25 +2,34 @@ import React, { useState, useEffect } from "react";
 
 import arrowBack from "../../../public/assets/arrowBack.svg";
 
+import { useFetch } from "../../hooks/useFetch";
+import { getBubbles } from "../../api/apiBubbles";
+
 import styles from "./styles.module.css";
 import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 import Button from "../../components/Button/Button";
 import BubbleInfo from "../../components/BubbleInfo/BubbleInfo";
 
-import data from "../../data/data";
+// import data from "../../data/bubbles";
 
 const BubblesShop = () => {
     const [bubbles, setBubbles] = useState([]);
-    const [dataInfo, setdataInfo] = useState(data);
+    // const [dataInfo, setdataInfo] = useState(data);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    useEffect(() => {
-        let innerPrice = 0;
-        bubbles.forEach((item) => {
-            innerPrice += +data[item].price;
-        });
-        setTotalPrice(innerPrice);
-    }, [bubbles]);
+    const dataBubbles = useFetch(getBubbles).data;
+
+    // useEffect(() => {
+    //     let innerPrice = 0;
+    //     bubbles.forEach((item) => {
+    //         // console.log(dataBubbles.bubbles[item].Cost);
+    //         let result = dataBubbles.bubbles.filter(
+    //             (item) => item.ID == bubbleNumber
+    //         );
+    //         innerPrice += +dataBubbles.bubbles[item].Cost;
+    //     });
+    //     setTotalPrice(innerPrice);
+    // }, [bubbles]);
 
     return (
         <div className={styles.shopContainer} id="bubbles-shop">
@@ -40,14 +49,12 @@ const BubblesShop = () => {
             <div className={styles.shopBlock}>
                 <div className={styles.shopBackground}></div>
                 <BubbleInfo
-                    bubbleData={
-                        bubbles.length == 0
-                            ? data[0]
-                            : data[bubbles[bubbles.length - 1]]
-                    }
+                    bubbleList={dataBubbles?.bubbles}
+                    bubbleNumber={bubbles[bubbles.length - 1] ?? 1}
                 />
                 <ChooseBubble
-                    dataInfo={dataInfo}
+                    bubbleList={dataBubbles?.bubbles}
+                    myBubbles={dataBubbles?.my}
                     handleChange={setBubbles}
                     noBackground
                     noTitle
@@ -67,3 +74,4 @@ const BubblesShop = () => {
 };
 
 export default BubblesShop;
+

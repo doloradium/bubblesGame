@@ -11,6 +11,8 @@ import CheckBox from "../CheckBox/CheckBox";
 import arrowRight from "../../../public/assets/arrowRight.svg";
 import arrowLeft from "../../../public/assets/arrowLeft.svg";
 
+import bubbles from "../../data/bubbles";
+
 import styles from "./styles.module.css";
 import "swiper/css/navigation";
 import "swiper/css";
@@ -20,11 +22,23 @@ const ChooseBubble = ({
     noTitle = false,
     multipleChoice = false,
     handleChange,
-    dataInfo = [],
+    bubbleList,
+    myBubbles,
 }) => {
-    const [colorToggle, setColorToggle] = useState("gold");
+    const [colorToggle, setColorToggle] = useState(false);
     const [bubbleId, setBubbleId] = useState([]);
-    const [dataArray, setDataArray] = useState(dataInfo);
+    // const [dataArray, setDataArray] = useState(dataInfo);
+
+    let result = [];
+
+    if (bubbleList) {
+        result = bubbleList.filter((item) =>
+            multipleChoice == true
+                ? !myBubbles.includes(item.ID)
+                : myBubbles.includes(item.ID)
+        );
+        console.log(result);
+    }
 
     const [play] = useSound(click);
 
@@ -43,12 +57,12 @@ const ChooseBubble = ({
                 <div className={styles.colorToggle}>
                     <span
                         className={
-                            colorToggle == "silver"
+                            colorToggle == true
                                 ? styles.colorInactive
                                 : styles.colorActive
                         }
                         onClick={() => {
-                            setColorToggle("gold");
+                            setColorToggle(false);
                             play();
                         }}
                     >
@@ -57,12 +71,12 @@ const ChooseBubble = ({
                     |{" "}
                     <span
                         className={
-                            colorToggle == "gold"
+                            colorToggle == false
                                 ? styles.colorInactive
                                 : styles.colorActive
                         }
                         onClick={() => {
-                            setColorToggle("silver");
+                            setColorToggle(true);
                             play();
                         }}
                     >
@@ -88,52 +102,91 @@ const ChooseBubble = ({
                     spaceBetween={10}
                     id="swiper-select"
                 >
-                    {dataArray.map((item) =>
-                        item.color == colorToggle ? (
-                            <SwiperSlide
-                                key={item.id}
-                                onClick={() => {
-                                    play();
-                                    if (multipleChoice == true) {
-                                        let localArray = [...bubbleId];
-                                        bubbleId.indexOf(item.id) == -1
-                                            ? localArray.push(item.id)
-                                            : localArray.splice(
-                                                  bubbleId.indexOf(item.id),
-                                                  1
-                                              );
-                                        handleChange(localArray);
-                                        setBubbleId(localArray);
-                                    } else {
-                                        let localArray = [item.id];
-                                        handleChange(localArray);
-                                        setBubbleId(localArray);
-                                    }
-                                }}
-                            >
-                                <div
-                                    className={
-                                        bubbleId.indexOf(item.id) !== -1
-                                            ? styles.imageContainer
-                                            : styles.imageInactive
-                                    }
+                    {result.map(
+                        (item) =>
+                            item.IsGold == colorToggle ? (
+                                <SwiperSlide
+                                    key={item.ID}
+                                    onClick={() => {
+                                        play();
+                                        if (multipleChoice == true) {
+                                            let localArray = [...bubbleId];
+                                            bubbleId.indexOf(item.ID) == -1
+                                                ? localArray.push(item.ID)
+                                                : localArray.splice(
+                                                      bubbleId.indexOf(item.ID),
+                                                      1
+                                                  );
+                                            console.log(item.ID);
+                                            handleChange(localArray);
+                                            setBubbleId(localArray);
+                                        } else {
+                                            let localArray = [item.ID];
+                                            handleChange(localArray);
+                                            setBubbleId(localArray);
+                                        }
+                                    }}
                                 >
                                     <img
                                         className={styles.slideImage}
-                                        src={item.image}
+                                        src={bubbles[item.ID - 1].image}
                                         alt="Bubble"
                                     />
                                     <CheckBox
                                         className={styles.checkbox}
                                         isChecked={
-                                            bubbleId.indexOf(item.id) !== -1
+                                            bubbleId.indexOf(item.ID) !== -1
                                                 ? true
                                                 : false
                                         }
                                     />
-                                </div>
-                            </SwiperSlide>
-                        ) : null
+                                </SwiperSlide>
+                            ) : null
+                        // item.isGold == colorToggle ? (
+                        //     <SwiperSlide
+                        //         key={item.ID}
+                        //         onClick={() => {
+                        //             play();
+                        //             if (multipleChoice == true) {
+                        //                 let localArray = [...bubbleId];
+                        //                 bubbleId.indexOf(item.id) == -1
+                        //                     ? localArray.push(item.id)
+                        //                     : localArray.splice(
+                        //                           bubbleId.indexOf(item.id),
+                        //                           1
+                        //                       );
+                        //                 handleChange(localArray);
+                        //                 setBubbleId(localArray);
+                        //             } else {
+                        //                 let localArray = [item.id];
+                        //                 handleChange(localArray);
+                        //                 setBubbleId(localArray);
+                        //             }
+                        //         }}
+                        //     >
+                        //         <div
+                        //             className={
+                        //                 bubbleId.indexOf(item.ID) !== -1
+                        //                     ? styles.imageContainer
+                        //                     : styles.imageInactive
+                        //             }
+                        //         >
+                        //             <img
+                        //                 className={styles.slideImage}
+                        //                 src={bubbles[item.ID - 1].image}
+                        //                 alt="Bubble"
+                        //             />
+                        //             <CheckBox
+                        //                 className={styles.checkbox}
+                        //                 isChecked={
+                        //                     bubbleId.indexOf(item.id) !== -1
+                        //                         ? true
+                        //                         : false
+                        //                 }
+                        //             />
+                        //         </div>
+                        //     </SwiperSlide>
+                        // ) : null
                     )}
                     <SwiperSlide></SwiperSlide>
                 </Swiper>

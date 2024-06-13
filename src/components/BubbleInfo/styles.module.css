@@ -7,8 +7,9 @@
 }
 
 .infoName {
-    position: absolute;
-    top: 1rem;
+    border-bottom: 1px solid #ffffff40;
+    padding-bottom: 1rem;
+    font-weight: 700;
 }
 
 .infoImage {
@@ -27,17 +28,10 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    padding: 0.5rem 0;
+    border-bottom: 1px solid #ffffff40;
+    padding: 1rem 0;
     color: #c5c5c5;
     font-size: 0.8rem;
-}
-
-.infoBlock:first-child {
-    padding: 0 0 0.25rem;
-}
-
-.infoBlock:nth-child(3) {
-    border-bottom: 1px solid #ffffff40;
 }
 
 .infoBlock span {
@@ -46,5 +40,6 @@
 }
 
 .infoPrice {
-    padding: 0.5rem 0 0;
+    padding: 1rem 0 0;
 }
+

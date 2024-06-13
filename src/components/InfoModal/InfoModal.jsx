@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import styles from "./styles.module.css";
 
-const InfoModal = ({ modalState, strength, earn, modes }) => {
+const InfoModal = ({ modalState, earn }) => {
     const [innerModalState, setInnerModalState] = useState(modalState);
 
     useEffect(() => {
@@ -16,19 +16,12 @@ const InfoModal = ({ modalState, strength, earn, modes }) => {
             }
         >
             <div className={styles.modalBlock}>
-                <span>Strength</span>
-                {strength}
-            </div>
-            <div className={styles.modalBlock}>
                 <span>Earn</span>
-                {earn}
-            </div>
-            <div className={styles.modalBlock}>
-                <span>Modes</span>
-                {modes}
+                Eating foe's life yields {earn}% of their stake
             </div>
         </div>
     );
 };
 
 export default InfoModal;
+
