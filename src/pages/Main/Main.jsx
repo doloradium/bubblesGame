@@ -28,7 +28,7 @@ const Main = () => {
     const searchParams = new URLSearchParams(window.location.search);
     userInfo.token = searchParams.get("token");
     userInfo.telegram_id = searchParams.get("telegram_id");
-    console.log(userInfo.token, userInfo.telegram_id);
+    // console.log(userInfo.token, userInfo.telegram_id);
 
     return (
         <>

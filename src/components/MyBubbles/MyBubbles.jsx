@@ -20,14 +20,14 @@ import bubbles from "../../data/bubbles";
 const MyBubbles = ({ bubbleList, myBubbles }) => {
     const [modalState, setModalState] = useState(0);
 
-    console.log(bubbleList);
-    console.log(myBubbles);
+    // console.log(bubbleList);
+    // console.log(myBubbles);
 
     let result = [];
 
     if (bubbleList) {
         result = bubbleList.filter((item) => myBubbles.includes(item.ID));
-        console.log(result);
+        // console.log(result);
     }
 
     return (
@@ -45,7 +45,7 @@ const MyBubbles = ({ bubbleList, myBubbles }) => {
                     style={{ height: "100%" }}
                 >
                     {result.map((item) => (
-                        <SwiperSlide key={item.id}>
+                        <SwiperSlide key={item.ID}>
                             <InfoModal
                                 modalState={modalState}
                                 earn={item.Earn}

@@ -10,26 +10,26 @@ import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 import Button from "../../components/Button/Button";
 import BubbleInfo from "../../components/BubbleInfo/BubbleInfo";
 
-// import data from "../../data/bubbles";
-
 const BubblesShop = () => {
     const [bubbles, setBubbles] = useState([]);
-    // const [dataInfo, setdataInfo] = useState(data);
     const [totalPrice, setTotalPrice] = useState(0);
 
     const dataBubbles = useFetch(getBubbles).data;
 
-    // useEffect(() => {
-    //     let innerPrice = 0;
-    //     bubbles.forEach((item) => {
-    //         // console.log(dataBubbles.bubbles[item].Cost);
-    //         let result = dataBubbles.bubbles.filter(
-    //             (item) => item.ID == bubbleNumber
-    //         );
-    //         innerPrice += +dataBubbles.bubbles[item].Cost;
-    //     });
-    //     setTotalPrice(innerPrice);
-    // }, [bubbles]);
+    useEffect(() => {
+        let innerPrice = 0;
+
+        bubbles.forEach((item) => {
+            if (dataBubbles) {
+                let result = dataBubbles.bubbles.filter(
+                    (serverItem) => serverItem.ID == item
+                );
+                console.log(result[0].Cost);
+                innerPrice += result[0].Cost;
+            }
+        });
+        setTotalPrice(innerPrice);
+    }, [bubbles]);
 
     return (
         <div className={styles.shopContainer} id="bubbles-shop">

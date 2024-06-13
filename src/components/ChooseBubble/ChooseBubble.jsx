@@ -27,7 +27,6 @@ const ChooseBubble = ({
 }) => {
     const [colorToggle, setColorToggle] = useState(false);
     const [bubbleId, setBubbleId] = useState([]);
-    // const [dataArray, setDataArray] = useState(dataInfo);
 
     let result = [];
 
@@ -37,7 +36,6 @@ const ChooseBubble = ({
                 ? !myBubbles.includes(item.ID)
                 : myBubbles.includes(item.ID)
         );
-        console.log(result);
     }
 
     const [play] = useSound(click);
@@ -94,6 +92,7 @@ const ChooseBubble = ({
                 <Swiper
                     style={{ height: "100%" }}
                     modules={[Navigation]}
+                    watchOverflow={false}
                     navigation={{
                         nextEl: ".buttonNext_main",
                         prevEl: ".buttonPrev_main",
@@ -102,91 +101,44 @@ const ChooseBubble = ({
                     spaceBetween={10}
                     id="swiper-select"
                 >
-                    {result.map(
-                        (item) =>
-                            item.IsGold == colorToggle ? (
-                                <SwiperSlide
-                                    key={item.ID}
-                                    onClick={() => {
-                                        play();
-                                        if (multipleChoice == true) {
-                                            let localArray = [...bubbleId];
-                                            bubbleId.indexOf(item.ID) == -1
-                                                ? localArray.push(item.ID)
-                                                : localArray.splice(
-                                                      bubbleId.indexOf(item.ID),
-                                                      1
-                                                  );
-                                            console.log(item.ID);
-                                            handleChange(localArray);
-                                            setBubbleId(localArray);
-                                        } else {
-                                            let localArray = [item.ID];
-                                            handleChange(localArray);
-                                            setBubbleId(localArray);
-                                        }
-                                    }}
-                                >
-                                    <img
-                                        className={styles.slideImage}
-                                        src={bubbles[item.ID - 1].image}
-                                        alt="Bubble"
-                                    />
-                                    <CheckBox
-                                        className={styles.checkbox}
-                                        isChecked={
-                                            bubbleId.indexOf(item.ID) !== -1
-                                                ? true
-                                                : false
-                                        }
-                                    />
-                                </SwiperSlide>
-                            ) : null
-                        // item.isGold == colorToggle ? (
-                        //     <SwiperSlide
-                        //         key={item.ID}
-                        //         onClick={() => {
-                        //             play();
-                        //             if (multipleChoice == true) {
-                        //                 let localArray = [...bubbleId];
-                        //                 bubbleId.indexOf(item.id) == -1
-                        //                     ? localArray.push(item.id)
-                        //                     : localArray.splice(
-                        //                           bubbleId.indexOf(item.id),
-                        //                           1
-                        //                       );
-                        //                 handleChange(localArray);
-                        //                 setBubbleId(localArray);
-                        //             } else {
-                        //                 let localArray = [item.id];
-                        //                 handleChange(localArray);
-                        //                 setBubbleId(localArray);
-                        //             }
-                        //         }}
-                        //     >
-                        //         <div
-                        //             className={
-                        //                 bubbleId.indexOf(item.ID) !== -1
-                        //                     ? styles.imageContainer
-                        //                     : styles.imageInactive
-                        //             }
-                        //         >
-                        //             <img
-                        //                 className={styles.slideImage}
-                        //                 src={bubbles[item.ID - 1].image}
-                        //                 alt="Bubble"
-                        //             />
-                        //             <CheckBox
-                        //                 className={styles.checkbox}
-                        //                 isChecked={
-                        //                     bubbleId.indexOf(item.id) !== -1
-                        //                         ? true
-                        //                         : false
-                        //                 }
-                        //             />
-                        //         </div>
-                        //     </SwiperSlide>
-                        // ) : null
+                    {result.map((item) =>
+                        item.IsGold == colorToggle ? (
+                            <SwiperSlide
+                                key={item.ID}
+                                onClick={() => {
+                                    play();
+                                    if (multipleChoice == true) {
+                                        let localArray = [...bubbleId];
+                                        bubbleId.indexOf(item.ID) == -1
+                                            ? localArray.push(item.ID)
+                                            : localArray.splice(
+                                                  bubbleId.indexOf(item.ID),
+                                                  1
+                                              );
+                                        handleChange(localArray);
+                                        setBubbleId(localArray);
+                                    } else {
+                                        let localArray = [item.ID];
+                                        handleChange(localArray);
+                                        setBubbleId(localArray);
+                                    }
+                                }}
+                            >
+                                <img
+                                    className={styles.slideImage}
+                                    src={bubbles[item.ID - 1].image}
+                                    alt="Bubble"
+                                />
+                                <CheckBox
+                                    className={styles.checkbox}
+                                    isChecked={
+                                        bubbleId.indexOf(item.ID) !== -1
+                                            ? true
+                                            : false
+                                    }
+                                />
+                            </SwiperSlide>
+                        ) : null
                     )}
                     <SwiperSlide></SwiperSlide>
                 </Swiper>

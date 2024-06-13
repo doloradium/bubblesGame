@@ -22,7 +22,7 @@ const Receive = () => {
     const { data } = useFetch(getQR);
     // console.log(userInfo.token);
     // console.log(userInfo.telegram_id);
-    console.log(data);
+    // console.log(data);
 
     return (
         <div className={styles.transactionsWrapper} id="receive">
