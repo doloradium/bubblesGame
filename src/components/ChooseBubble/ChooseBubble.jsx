@@ -29,6 +29,8 @@ const ChooseBubble = ({
     const [bubbleId, setBubbleId] = useState([]);
 
     let result = [];
+    let silverCounter = 0;
+    let goldCounter = 0;
 
     if (bubbleList) {
         result = bubbleList.filter((item) =>
@@ -36,6 +38,11 @@ const ChooseBubble = ({
                 ? !myBubbles.includes(item.ID)
                 : myBubbles.includes(item.ID)
         );
+        silverCounter = 0;
+        goldCounter = 0;
+        result.forEach((item) => {
+            item.IsGold ? goldCounter++ : silverCounter++;
+        });
     }
 
     const [play] = useSound(click);
@@ -89,6 +96,16 @@ const ChooseBubble = ({
                         : clsx(styles.swiperContainer, styles.maxHeight)
                 }
             >
+                <div
+                    className={
+                        (colorToggle == true && goldCounter == 0) ||
+                        (colorToggle == false && silverCounter == 0)
+                            ? styles.swiperAlert
+                            : styles.swiperInvisible
+                    }
+                >
+                    {multipleChoice ? "Nothing to buy!" : "Nothing to show"}
+                </div>
                 <Swiper
                     style={{ height: "100%" }}
                     modules={[Navigation]}

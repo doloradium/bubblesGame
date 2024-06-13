@@ -19,6 +19,21 @@
     width: 100%;
 }
 
+.swiperAlert {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 0.5rem;
+    background-color: #ffffff10;
+    padding: 1rem;
+}
+
+.swiperInvisible {
+    display: none;
+}
+
 .imageInactive {
     position: absolute;
     top: 50%;
@@ -131,3 +146,4 @@
     width: 1.5rem;
     height: 1.5rem;
 }
+

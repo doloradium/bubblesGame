@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import arrowBack from "../../../public/assets/arrowBack.svg";
 
 import { useFetch } from "../../hooks/useFetch";
-import { getBubbles } from "../../api/apiBubbles";
+import { getBubbles, buyBubbles } from "../../api/apiBubbles";
 
 import styles from "./styles.module.css";
 import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
@@ -14,7 +14,7 @@ const BubblesShop = () => {
     const [bubbles, setBubbles] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    const dataBubbles = useFetch(getBubbles).data;
+    let dataBubbles = useFetch(getBubbles).data;
 
     useEffect(() => {
         let innerPrice = 0;
@@ -24,7 +24,7 @@ const BubblesShop = () => {
                 let result = dataBubbles.bubbles.filter(
                     (serverItem) => serverItem.ID == item
                 );
-                console.log(result[0].Cost);
+                // console.log(result[0].Cost);
                 innerPrice += result[0].Cost;
             }
         });
@@ -50,7 +50,7 @@ const BubblesShop = () => {
                 <div className={styles.shopBackground}></div>
                 <BubbleInfo
                     bubbleList={dataBubbles?.bubbles}
-                    bubbleNumber={bubbles[bubbles.length - 1] ?? 1}
+                    bubbleNumber={bubbles[bubbles.length - 1] ?? -1}
                 />
                 <ChooseBubble
                     bubbleList={dataBubbles?.bubbles}
@@ -67,7 +67,16 @@ const BubblesShop = () => {
                     Total price
                     <span>{totalPrice} TON</span>
                 </div>
-                <Button color={"purple"} text={"BUY BUBBLES"} />
+                <Button
+                    color={"purple"}
+                    text={"BUY BUBBLES"}
+                    onClick={() => {
+                        buyBubbles(bubbles).then(async function (value) {
+                            dataBubbles = await getBubbles().data;
+                            console.log(dataBubbles);
+                        });
+                    }}
+                />
             </div>
         </div>
     );

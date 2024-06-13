@@ -12,43 +12,53 @@ import xrp from '../../public/assets/xrp.svg'
 const bubbles = [
     {
         id: 1,
-        image: shiba
+        image: shiba,
+        name: 'shiba'
     },
     {
         id: 2,
-        image: doge
+        image: doge,
+        name: 'doge'
     },
     {
         id: 3,
-        image: xrp
+        image: xrp,
+        name: 'xrp'
     },
     {
         id: 4,
-        image: tron
+        image: tron,
+        name: 'tron'
     },
     {
         id: 5,
-        image: polygon
+        image: polygon,
+        name: 'polygon'
     },
     {
         id: 6,
-        image: ton
+        image: ton,
+        name: 'ton'
     },
     {
         id: 7,
-        image: solana
+        image: solana,
+        name: 'solana'
     },
     {
         id: 8,
-        image: bnb
+        image: bnb,
+        name: 'bnb'
     },
     {
         id: 9,
-        image: ethereum
+        image: ethereum,
+        name: 'ethereum'
     },
     {
         id: 10,
-        image: bitcoin
+        image: bitcoin,
+        name: 'bitcoin'
     }
 ]
 

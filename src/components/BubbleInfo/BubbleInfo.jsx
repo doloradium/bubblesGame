@@ -12,19 +12,29 @@ const BubbleInfo = ({ bubbleList, bubbleNumber }) => {
 
     return (
         <div className={styles.infoContainer}>
-            <img
-                src={bubbles[bubbleNumber - 1].image}
-                className={styles.infoImage}
-                alt="Bubble"
-            />
-            <div className={styles.infoStatistics}>
-                <div className={styles.infoName}>{result[0].Name}</div>
-                <div className={styles.infoBlock}>
-                    <span>Earn</span>
-                    {result[0].Earn}% of the stake
+            {bubbleNumber == -1 ? (
+                <div className={styles.infoAlert}>
+                    Choose a bubble <br /> to see it's preview
                 </div>
-                <div className={styles.infoPrice}>{result[0].Cost} TON</div>
-            </div>
+            ) : (
+                <>
+                    <img
+                        src={bubbles[bubbleNumber - 1].image}
+                        className={styles.infoImage}
+                        alt="Bubble"
+                    />
+                    <div className={styles.infoStatistics}>
+                        <div className={styles.infoName}>{result[0].Name}</div>
+                        <div className={styles.infoBlock}>
+                            <span>Earn</span>
+                            {result[0].Earn}% of the stake
+                        </div>
+                        <div className={styles.infoPrice}>
+                            {result[0].Cost} TON
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

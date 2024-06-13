@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 
 import websocketStats from '../../data/websocketStats';
 import websocketManager from '../../data/websocketManager';
+import bubbles from '../../data/bubbles';
 
 let joyStickX, joyStickY;
 let mainPosition = { x: 0, y: 0 }
@@ -29,6 +30,8 @@ let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
 let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
+
+import { getNameNew } from '../../api/apiBubbles';
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
@@ -101,6 +104,7 @@ async function getName(userId) {
     try {
         const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId + '&room_id=' + room);
         const data = await response.json();
+        // console.log(data)
         return { "name": data.username, "id": userId, 'skin': data.skin };
     } catch (error) {
         console.error('Error:', error);
@@ -198,49 +202,17 @@ function newWebSocket() {
                 }
             })
             if (!have) {
-                let skin
-                getName(item.player_id).then((value) => {
-
-                });
+                let skin = -1
+                // console.log(item.player_id)
+                // let skinData = getName(item.player_id).then((value) => {
+                //     skin = value.skin
+                //     console.log(skin)
+                // });
                 let object
-                if (item.type == 'point') {
+                if (item.type == 'point' || item.type == 'gift') {
                     object = scene.add.sprite(item.x, item.y, 'point')
                 } else if (item.type == 'player' || item.type == 'split') {
-                    switch (skin) {
-                        case 1:
-                            object = scene.add.sprite(item.x, item.y, 'shiba')
-                            break;
-                        case 2:
-                            object = scene.add.sprite(item.x, item.y, 'doge')
-                            break;
-                        case 3:
-                            object = scene.add.sprite(item.x, item.y, 'xrp')
-                            break;
-                        case 4:
-                            object = scene.add.sprite(item.x, item.y, 'tron')
-                            break;
-                        case 5:
-                            object = scene.add.sprite(item.x, item.y, 'polygon')
-                            break;
-                        case 6:
-                            object = scene.add.sprite(item.x, item.y, 'ton')
-                            break;
-                        case 7:
-                            object = scene.add.sprite(item.x, item.y, 'solana')
-                            break;
-                        case 8:
-                            object = scene.add.sprite(item.x, item.y, 'bnb')
-                            break;
-                        case 9:
-                            object = scene.add.sprite(item.x, item.y, 'ethereum')
-                            break;
-                        case 10:
-                            object = scene.add.sprite(item.x, item.y, 'bitcoin')
-                            break;
-                        default:
-                            object = scene.add.sprite(item.x, item.y, 'point')
-                            break;
-                    }
+                    object = scene.add.sprite(item.x, item.y, bubbles[skin + 1].name)
                 }
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
@@ -443,7 +415,7 @@ export class Boot extends Scene {
                     playerX = item.x
                     playerY = item.y
                     playerSize = item.size
-                    if (playerSize < 25) {
+                    if (playerSize < 30) {
                         gift.setAlpha(0.5)
                         gift.disableInteractive()
                     } else {
@@ -456,7 +428,7 @@ export class Boot extends Scene {
                     } else {
                         split.setAlpha(1)
                         split.setInteractive()
-                        console.log(playerSize)
+                        // console.log(playerSize)
                     }
                     let userScore = 0
                     localObjects.forEach((item) => {
