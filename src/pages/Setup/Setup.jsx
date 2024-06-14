@@ -12,11 +12,16 @@ import GameMode from "../../components/GameMode/GameMode";
 import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 
 const Setup = ({ onChange, newBet, changeBet }) => {
-    const [bubbles, setBubbles] = useState([]);
+    const [bubbles, setBubbles] = useState([1]);
     // const [dataInfo, setdataInfo] = useState(data);
     const [currentBet, setCurrentBet] = useState(newBet);
 
+    console.log(bubbles);
+
     const dataBubbles = useFetch(getBubbles).data;
+    // if (bubbles == []) {
+    //     setBubbles(dataBubbles.my[0]);
+    // }
 
     return (
         <>

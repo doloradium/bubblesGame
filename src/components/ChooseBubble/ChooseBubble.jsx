@@ -48,10 +48,15 @@ const ChooseBubble = ({
         });
     }
 
-    // if (multipleChoice == false && localBubbles == []) {
-    //     setBubbleId([1]);
-    //     handleChange([1]);
-    // }
+    useEffect(() => {
+        if (!multipleChoice && myBubbles) {
+            // console.log("bubbles", Math.min(...myBubbles));
+            let smallestId = Math.min(...myBubbles);
+            // console.log("small", smallestId);
+            handleChange([smallestId]);
+            setBubbleId([smallestId]);
+        }
+    }, [myBubbles]);
 
     useEffect(() => {
         console.log(multipleChoice == false && bubbleId == []);

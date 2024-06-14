@@ -10,7 +10,14 @@ import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 import Button from "../../components/Button/Button";
 import BubbleInfo from "../../components/BubbleInfo/BubbleInfo";
 
-const BubblesShop = ({ seeKey, setKey, mainState, setMainState }) => {
+const BubblesShop = ({
+    setupKey,
+    mainKey,
+    setSetupKey,
+    setMainKey,
+    mainState,
+    setMainState,
+}) => {
     const [bubbles, setBubbles] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [myBubbles, setMyBubbles] = useState([]);
@@ -42,7 +49,21 @@ const BubblesShop = ({ seeKey, setKey, mainState, setMainState }) => {
                 className={styles.buttonBack}
                 color={"white"}
                 onClick={() => {
-                    setKey((seeKey += 1));
+                    let mainBase = "main";
+                    let setupBase = "setup";
+                    let mainNumber = mainKey.slice(
+                        mainKey.length - 1,
+                        mainKey.length
+                    );
+                    let setupNumber = setupKey.slice(
+                        setupKey.length - 1,
+                        setupKey.length
+                    );
+                    mainNumber++;
+                    setupNumber++;
+                    setMainKey(mainBase + mainNumber);
+                    setSetupKey(setupBase + mainNumber);
+                    // console.log(keyBase + keyNumber);
                     let bubblesShop = document.querySelector("#bubbles-shop");
                     bubblesShop.style.opacity = 0;
                     setTimeout(() => {
