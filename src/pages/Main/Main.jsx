@@ -24,6 +24,8 @@ const Main = () => {
     const dataBubbles = useFetch(getBubbles).data;
     const dataMe = useFetch(getMe).data;
 
+    // console.log(dataMe);
+
     const searchParams = new URLSearchParams(window.location.search);
     userInfo.token = searchParams.get("token");
     userInfo.telegram_id = searchParams.get("telegram_id");
@@ -74,7 +76,7 @@ const Main = () => {
                     MY SQUAD
                 </p>
             </div>
-            <StartupModal />
+            <StartupModal lastUpdate={dataMe?.last_update} />
         </>
     );
 };

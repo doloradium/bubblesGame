@@ -6,8 +6,10 @@ import styles from "./styles.module.css";
 
 import startup from "../../../public/assets/modal.png";
 
-const StartupModal = () => {
-    return (
+const StartupModal = ({ lastUpdate }) => {
+    console.log(lastUpdate);
+
+    return lastUpdate == 0 ? (
         <div className={styles.startupWrapper} id="startupContainer">
             <div className={styles.startupContainer}>
                 <img
@@ -29,7 +31,8 @@ const StartupModal = () => {
                 />
             </div>
         </div>
-    );
+    ) : null;
 };
 
 export default StartupModal;
+

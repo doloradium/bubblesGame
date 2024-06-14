@@ -24,6 +24,7 @@ const ChooseBubble = ({
     handleChange,
     bubbleList,
     myBubbles,
+    localBubbles,
 }) => {
     const [colorToggle, setColorToggle] = useState(false);
     const [bubbleId, setBubbleId] = useState([]);
@@ -47,16 +48,18 @@ const ChooseBubble = ({
         });
     }
 
-    if (multipleChoice == false && bubbleId == []) {
-        setBubbleId([1]);
-        handleChange([1]);
-    }
+    // if (multipleChoice == false && localBubbles == []) {
+    //     setBubbleId([1]);
+    //     handleChange([1]);
+    // }
 
-    // useEffect(() => {
-    //     if ((multipleChoice = false)) {
-    //         setBubbleId(1);
-    //     }
-    // }, []);
+    useEffect(() => {
+        console.log(multipleChoice == false && bubbleId == []);
+        if (multipleChoice == false && bubbleId == []) {
+            setBubbleId([1]);
+            handleChange([1]);
+        }
+    }, []);
 
     const [play] = useSound(click);
 

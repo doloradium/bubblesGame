@@ -37,6 +37,7 @@ const Setup = ({ onChange, newBet, changeBet }) => {
                 <ChooseBubble
                     bubbleList={dataBubbles?.bubbles}
                     myBubbles={dataBubbles?.my}
+                    localBubbles={bubbles}
                     // dataInfo={dataInfo}
                     handleChange={setBubbles}
                 />
