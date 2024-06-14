@@ -10,7 +10,7 @@ import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
 import Button from "../../components/Button/Button";
 import BubbleInfo from "../../components/BubbleInfo/BubbleInfo";
 
-const BubblesShop = () => {
+const BubblesShop = ({ seeKey, setKey, mainState, setMainState }) => {
     const [bubbles, setBubbles] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [myBubbles, setMyBubbles] = useState([]);
@@ -42,6 +42,7 @@ const BubblesShop = () => {
                 className={styles.buttonBack}
                 color={"white"}
                 onClick={() => {
+                    setKey((seeKey += 1));
                     let bubblesShop = document.querySelector("#bubbles-shop");
                     bubblesShop.style.opacity = 0;
                     setTimeout(() => {
@@ -79,6 +80,7 @@ const BubblesShop = () => {
                             getBubbles().then((value) => {
                                 setMyBubbles([...value.my]);
                                 setBubbles([]);
+                                setMainState((mainState += 1));
                             });
                         });
                     }}

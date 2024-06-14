@@ -81,7 +81,7 @@ async function sendFormData() {
                 token: token,
                 telegram_id: telegram_id,
                 bet: websocketStats.bet,
-                skin: 3
+                skin: 1
             })
         });
 

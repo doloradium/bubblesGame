@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useSound from "use-sound";
 
 import click from "../../../public/sounds/button.mp3";

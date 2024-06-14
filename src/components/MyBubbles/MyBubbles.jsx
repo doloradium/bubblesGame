@@ -24,8 +24,11 @@ const MyBubbles = ({ bubbleList, myBubbles }) => {
     // console.log(myBubbles);
 
     useEffect(() => {
-        let swiper = document.querySelector("#mainSwiper");
-        // swiper.destroy();
+        let swiper = document.querySelector("#mainSwiper").swiper;
+        // swiper.init();
+        console.log(swiper);
+        modalState ? swiper.disable() : swiper.enable();
+        // swiper.disable();
         // swiper.init();
         // swiper.enabled = false;
     }, [modalState]);

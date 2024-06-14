@@ -19,6 +19,7 @@ import DeviceCheck from "./pages/DeviceCheck/DeviceCheck.jsx";
 function Wrapper() {
     const [gameState, setGameState] = useState(false);
     const [bet, setBet] = useState("");
+    const [key, setKey] = useState(0);
 
     // console.log(bet);
     const overflow = 100;
@@ -49,14 +50,14 @@ function Wrapper() {
         <div id="wrapper">
             {/Mobile/.test(navigator.userAgent) ? (
                 <>
-                    <Main />
+                    <Main key={key} />
                     <App gameState={gameState} />
                     <Setup
                         onChange={setGameState}
                         newBet={bet}
                         changeBet={setBet}
                     />
-                    <BubblesShop />
+                    <BubblesShop seeKey={key} setKey={setKey} />
                     <Transactions />
                     <Receive />
                     <Send />
