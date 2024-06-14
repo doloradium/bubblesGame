@@ -2,14 +2,21 @@ import React from "react";
 
 import arrows from "../../../public/assets/arrowsTwo.svg";
 
+import userInfo from "../../data/userInfo";
+
 import Button from "../Button/Button";
 
 import styles from "./styles.module.css";
 
-const Header = ({ name, balance }) => {
+const Header = ({ balance }) => {
     return (
         <div className={styles.headerContainer}>
-            <div className={styles.avatar}>{name}</div>
+            <img
+                src={`https://api.dicebear.com/8.x/bottts-neutral/svg?seed=${userInfo.telegram_id}`}
+                alt="Avatar"
+                className={styles.avatar}
+            />
+            {/* {avatar} */}
             <div className={styles.balanceContainer}>
                 My balance <br />
                 <span>{balance}</span>
@@ -43,3 +50,4 @@ const Header = ({ name, balance }) => {
 };
 
 export default Header;
+

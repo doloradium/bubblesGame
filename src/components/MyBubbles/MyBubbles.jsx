@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
@@ -23,6 +23,13 @@ const MyBubbles = ({ bubbleList, myBubbles }) => {
     // console.log(bubbleList);
     // console.log(myBubbles);
 
+    useEffect(() => {
+        let swiper = document.querySelector("#mainSwiper");
+        // swiper.destroy();
+        // swiper.init();
+        // swiper.enabled = false;
+    }, [modalState]);
+
     let result = [];
 
     if (bubbleList) {
@@ -36,6 +43,9 @@ const MyBubbles = ({ bubbleList, myBubbles }) => {
             <div className={styles.bubblesContainer}>
                 <div className={styles.bubblesBackground}></div>
                 <Swiper
+                    id="mainSwiper"
+                    observer={true}
+                    rewind={true}
                     spaceBetween={0}
                     onSlideChange={() => setModalState(0)}
                     enabled={!modalState}

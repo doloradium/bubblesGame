@@ -23,17 +23,15 @@ const Main = () => {
 
     const dataBubbles = useFetch(getBubbles).data;
     const dataMe = useFetch(getMe).data;
-    // console.log(aa);
 
     const searchParams = new URLSearchParams(window.location.search);
     userInfo.token = searchParams.get("token");
     userInfo.telegram_id = searchParams.get("telegram_id");
-    // console.log(userInfo.token, userInfo.telegram_id);
 
     return (
         <>
             <div className={styles.pageContainer} id="main">
-                <Header name={"VP"} balance={dataMe?.balance + " TON"} />
+                <Header balance={dataMe?.balance + " TON"} />
                 <MyBubbles
                     bubbleList={dataBubbles?.bubbles}
                     myBubbles={dataBubbles?.my}

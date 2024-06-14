@@ -13,10 +13,15 @@ import BubbleInfo from "../../components/BubbleInfo/BubbleInfo";
 const BubblesShop = () => {
     const [bubbles, setBubbles] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [myBubbles, setMyBubbles] = useState([]);
 
     let dataBubbles = useFetch(getBubbles).data;
 
     useEffect(() => {
+        getBubbles().then((value) => {
+            setMyBubbles([...value.my]);
+        });
+
         let innerPrice = 0;
 
         bubbles.forEach((item) => {
@@ -24,7 +29,6 @@ const BubblesShop = () => {
                 let result = dataBubbles.bubbles.filter(
                     (serverItem) => serverItem.ID == item
                 );
-                // console.log(result[0].Cost);
                 innerPrice += result[0].Cost;
             }
         });
@@ -54,7 +58,7 @@ const BubblesShop = () => {
                 />
                 <ChooseBubble
                     bubbleList={dataBubbles?.bubbles}
-                    myBubbles={dataBubbles?.my}
+                    myBubbles={myBubbles}
                     handleChange={setBubbles}
                     noBackground
                     noTitle
@@ -72,8 +76,10 @@ const BubblesShop = () => {
                     text={"BUY BUBBLES"}
                     onClick={() => {
                         buyBubbles(bubbles).then(async function (value) {
-                            dataBubbles = await getBubbles().data;
-                            console.log(dataBubbles);
+                            getBubbles().then((value) => {
+                                setMyBubbles([...value.my]);
+                                setBubbles([]);
+                            });
                         });
                     }}
                 />

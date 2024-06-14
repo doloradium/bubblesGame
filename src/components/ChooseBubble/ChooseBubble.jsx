@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import clsx from "clsx";
@@ -27,12 +27,14 @@ const ChooseBubble = ({
 }) => {
     const [colorToggle, setColorToggle] = useState(false);
     const [bubbleId, setBubbleId] = useState([]);
+    const [innerBubbles, setInnerBubbles] = useState(myBubbles);
 
     let result = [];
     let silverCounter = 0;
     let goldCounter = 0;
 
     if (bubbleList) {
+        // console.log("bubbles", myBubbles);
         result = bubbleList.filter((item) =>
             multipleChoice == true
                 ? !myBubbles.includes(item.ID)
@@ -44,6 +46,17 @@ const ChooseBubble = ({
             item.IsGold ? goldCounter++ : silverCounter++;
         });
     }
+
+    if (multipleChoice == false && bubbleId == []) {
+        setBubbleId([1]);
+        handleChange([1]);
+    }
+
+    // useEffect(() => {
+    //     if ((multipleChoice = false)) {
+    //         setBubbleId(1);
+    //     }
+    // }, []);
 
     const [play] = useSound(click);
 
