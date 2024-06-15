@@ -15,8 +15,6 @@ import StartupModal from "../../components/StartupModal/StartupModal";
 
 import cart from "../../../public/assets/cart.svg";
 
-import david from "../../../public/assets/david.svg";
-
 import styles from "./styles.module.css";
 
 const Main = () => {
@@ -37,7 +35,6 @@ const Main = () => {
                     bubbleList={dataBubbles?.bubbles}
                     myBubbles={dataBubbles?.my}
                 />
-                <img src={david} alt="asd" />
                 <Button
                     text={"BUY MORE BUBBLES"}
                     image={cart}
