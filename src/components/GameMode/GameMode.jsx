@@ -9,7 +9,7 @@ import CheckBox from "../CheckBox/CheckBox";
 import styles from "./styles.module.css";
 import websocketStats from "../../data/websocketStats";
 
-const GameMode = ({ changeBet, newBet }) => {
+const GameMode = ({ balance, changeBet, newBet }) => {
     const [mode, setMode] = useState("pay");
 
     const [play] = useSound(click);
@@ -61,7 +61,8 @@ const GameMode = ({ changeBet, newBet }) => {
             >
                 <h2 className={styles.gamemodeHeading}>YOUR BET</h2>
                 <div className={styles.gamemodeInfo}>
-                    <span>My Balance</span> 100 TON
+                    <span>My Balance</span>
+                    {balance} TON
                 </div>
                 <div className={styles.counter}>
                     <div
@@ -86,9 +87,13 @@ const GameMode = ({ changeBet, newBet }) => {
                     <div
                         className={styles.counterItem}
                         onClick={() => {
+                            if (newBet < balance) {
+                                changeBet(-(-newBet - 0.1).toFixed(1));
+                                websocketStats.bet = -(-newBet - 0.1).toFixed(
+                                    1
+                                );
+                            }
                             newBet == "" ? changeBet(0.1) : null;
-                            changeBet(-(-newBet - 0.1).toFixed(1));
-                            websocketStats.bet = -(-newBet - 0.1).toFixed(1);
                             play();
                         }}
                     >

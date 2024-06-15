@@ -5,7 +5,7 @@ import cart from "../../../public/assets/cart.svg";
 import arrowBack from "../../../public/assets/arrowBack.svg";
 
 import { useFetch } from "../../hooks/useFetch";
-import { getBubbles } from "../../api/apiBubbles";
+import { getBubbles, getMe } from "../../api/apiBubbles";
 
 import styles from "./styles.module.css";
 import GameMode from "../../components/GameMode/GameMode";
@@ -17,6 +17,7 @@ const Setup = ({ onChange, newBet, changeBet }) => {
     const [currentBet, setCurrentBet] = useState(newBet);
 
     const dataBubbles = useFetch(getBubbles).data;
+    const dataMe = useFetch(getMe).data;
 
     return (
         <>
@@ -45,6 +46,7 @@ const Setup = ({ onChange, newBet, changeBet }) => {
                     currentBet={currentBet}
                     changeBet={changeBet}
                     newBet={newBet}
+                    balance={dataMe?.balance}
                 />
                 <Button
                     text={"BUY MORE BUBBLES"}
@@ -63,14 +65,19 @@ const Setup = ({ onChange, newBet, changeBet }) => {
                     color={"white"}
                     text={"START GAME"}
                     onClick={() => {
-                        websocketStats.skin = bubbles[0];
-                        console.log(websocketStats.skin);
-                        onChange(true);
-                        let app = document.querySelector("#app");
-                        app.style.display = "block";
-                        setTimeout(() => {
-                            app.style.opacity = 1;
-                        }, 100);
+                        console.log("balance", dataMe?.balance);
+                        console.log("bet", websocketStats.bet);
+                        if (dataMe?.balance < websocketStats.bet) {
+                            alert("You dont have enough money!");
+                        } else {
+                            websocketStats.skin = bubbles[0];
+                            onChange(true);
+                            let app = document.querySelector("#app");
+                            app.style.display = "block";
+                            setTimeout(() => {
+                                app.style.opacity = 1;
+                            }, 100);
+                        }
                     }}
                 />
             </div>
