@@ -18,7 +18,7 @@ import DeviceCheck from "./pages/DeviceCheck/DeviceCheck.jsx";
 
 function Wrapper() {
     const [gameState, setGameState] = useState(false);
-    const [bet, setBet] = useState("");
+    const [bet, setBet] = useState(0.1);
     const [mainKey, setMainKey] = useState("main0");
     const [setupKey, setSetupKey] = useState("setup0");
 

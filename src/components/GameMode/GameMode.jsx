@@ -45,6 +45,7 @@ const GameMode = ({ balance, changeBet, newBet }) => {
                     className={styles.gamemodeOptions}
                     onClick={() => {
                         mode == "free" ? setMode("pay") : null;
+                        changeBet(0.1);
                         play();
                     }}
                 >
@@ -68,11 +69,10 @@ const GameMode = ({ balance, changeBet, newBet }) => {
                     <div
                         className={styles.counterItem}
                         onClick={() => {
-                            if (newBet > 0) {
+                            if (newBet > 0.1) {
                                 changeBet(+(newBet - 0.1).toFixed(1));
                                 websocketStats.bet = +(newBet - 0.1).toFixed(1);
                             }
-                            newBet == 0.1 ? changeBet("") : null;
                             play();
                         }}
                     >

@@ -4,7 +4,7 @@ let websocketStats =
     profit: 0,
     score: 0,
     status: 'loading',
-    bet: 0,
+    bet: 0.1,
     skin: 1,
     users: []
 }

@@ -69,10 +69,10 @@ const Setup = ({ onChange, newBet, changeBet }) => {
                         console.log("bet", websocketStats.bet);
                         if (dataMe?.balance < websocketStats.bet) {
                             window.Telegram.WebApp.showPopup({
-                                title: "Now enough money",
+                                title: "Not enough money",
                                 message:
                                     "Either lower your bet or get more TONs on your wallet",
-                                buttons: [{ type: "close", text: "Okay" }],
+                                buttons: [{ type: "close", text: "Close" }],
                             });
                         } else {
                             websocketStats.skin = bubbles[0];
