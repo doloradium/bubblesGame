@@ -63,7 +63,6 @@ const BubblesShop = ({
                     setupNumber++;
                     setMainKey(mainBase + mainNumber);
                     setSetupKey(setupBase + mainNumber);
-                    // console.log(keyBase + keyNumber);
                     let bubblesShop = document.querySelector("#bubbles-shop");
                     bubblesShop.style.opacity = 0;
                     setTimeout(() => {

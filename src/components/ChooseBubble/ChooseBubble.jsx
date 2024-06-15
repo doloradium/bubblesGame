@@ -24,18 +24,15 @@ const ChooseBubble = ({
     handleChange,
     bubbleList,
     myBubbles,
-    localBubbles,
 }) => {
     const [colorToggle, setColorToggle] = useState(false);
     const [bubbleId, setBubbleId] = useState([]);
-    const [innerBubbles, setInnerBubbles] = useState(myBubbles);
 
     let result = [];
     let silverCounter = 0;
     let goldCounter = 0;
 
     if (bubbleList) {
-        // console.log("bubbles", myBubbles);
         result = bubbleList.filter((item) =>
             multipleChoice == true
                 ? !myBubbles.includes(item.ID)
@@ -50,21 +47,11 @@ const ChooseBubble = ({
 
     useEffect(() => {
         if (!multipleChoice && myBubbles) {
-            // console.log("bubbles", Math.min(...myBubbles));
             let smallestId = Math.min(...myBubbles);
-            // console.log("small", smallestId);
             handleChange([smallestId]);
             setBubbleId([smallestId]);
         }
     }, [myBubbles]);
-
-    useEffect(() => {
-        console.log(multipleChoice == false && bubbleId == []);
-        if (multipleChoice == false && bubbleId == []) {
-            setBubbleId([1]);
-            handleChange([1]);
-        }
-    }, []);
 
     const [play] = useSound(click);
 

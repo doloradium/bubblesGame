@@ -81,7 +81,7 @@ async function sendFormData() {
                 token: token,
                 telegram_id: telegram_id,
                 bet: websocketStats.bet,
-                skin: 1
+                skin: websocketStats.skin
             })
         });
 
@@ -105,7 +105,6 @@ async function getName(userId) {
     try {
         const response = await fetch('https://agario.crypto-loto.xyz/api/getname?telegram_id=' + userId + '&room_id=' + room);
         const data = await response.json();
-        // console.log(data)
         return { "name": data.username, "id": userId, 'skin': data.skin };
     } catch (error) {
         console.error('Error:', error);
@@ -203,7 +202,6 @@ function newWebSocket() {
                 }
             })
             if (!have) {
-                // console.log(item.player_id)
                 if (item.player_id) {
                     getName(item.player_id).then((value) => {
                         if (value.id) {
@@ -432,7 +430,6 @@ export class Boot extends Scene {
                     } else {
                         split.setAlpha(1)
                         split.setInteractive()
-                        // console.log(playerSize)
                     }
                     let userScore = 0
                     localObjects.forEach((item) => {

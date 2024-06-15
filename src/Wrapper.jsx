@@ -22,7 +22,6 @@ function Wrapper() {
     const [mainKey, setMainKey] = useState("main0");
     const [setupKey, setSetupKey] = useState("setup0");
 
-    // console.log(bet);
     const overflow = 100;
     document.body.style.overflowY = "hidden";
     document.body.style.marginTop = `${overflow}px`;

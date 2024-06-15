@@ -10,18 +10,13 @@ import { getBubbles } from "../../api/apiBubbles";
 import styles from "./styles.module.css";
 import GameMode from "../../components/GameMode/GameMode";
 import ChooseBubble from "../../components/ChooseBubble/ChooseBubble";
+import websocketStats from "../../data/websocketStats";
 
 const Setup = ({ onChange, newBet, changeBet }) => {
     const [bubbles, setBubbles] = useState([1]);
-    // const [dataInfo, setdataInfo] = useState(data);
     const [currentBet, setCurrentBet] = useState(newBet);
 
-    console.log(bubbles);
-
     const dataBubbles = useFetch(getBubbles).data;
-    // if (bubbles == []) {
-    //     setBubbles(dataBubbles.my[0]);
-    // }
 
     return (
         <>
@@ -43,7 +38,6 @@ const Setup = ({ onChange, newBet, changeBet }) => {
                     bubbleList={dataBubbles?.bubbles}
                     myBubbles={dataBubbles?.my}
                     localBubbles={bubbles}
-                    // dataInfo={dataInfo}
                     handleChange={setBubbles}
                 />
                 <GameMode
@@ -69,6 +63,8 @@ const Setup = ({ onChange, newBet, changeBet }) => {
                     color={"white"}
                     text={"START GAME"}
                     onClick={() => {
+                        websocketStats.skin = bubbles[0];
+                        console.log(websocketStats.skin);
                         onChange(true);
                         let app = document.querySelector("#app");
                         app.style.display = "block";

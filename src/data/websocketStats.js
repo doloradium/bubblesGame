@@ -5,6 +5,7 @@ let websocketStats =
     score: 0,
     status: 'loading',
     bet: 0,
+    skin: 1,
     users: []
 }
 

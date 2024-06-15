@@ -5,8 +5,6 @@ import redirect from "../../../public/assets/redirect.png";
 
 import styles from "./styles.module.css";
 
-import Button from "../../components/Button/Button";
-
 const DeviceCheck = () => {
     return (
         <div className={styles.wrapper}>

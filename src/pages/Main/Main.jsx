@@ -16,15 +16,12 @@ import StartupModal from "../../components/StartupModal/StartupModal";
 import cart from "../../../public/assets/cart.svg";
 
 import styles from "./styles.module.css";
-import bubbles from "../../data/bubbles";
 
 const Main = () => {
     const [play] = useSound(click);
 
     const dataBubbles = useFetch(getBubbles).data;
     const dataMe = useFetch(getMe).data;
-
-    // console.log(dataMe);
 
     const searchParams = new URLSearchParams(window.location.search);
     userInfo.token = searchParams.get("token");

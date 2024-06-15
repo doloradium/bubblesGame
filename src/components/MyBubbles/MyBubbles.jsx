@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
-import { useFetch } from "../../hooks/useFetch";
-import { getBubbles } from "../../api/apiBubbles";
-
 import Button from "../Button/Button";
 import InfoModal from "../InfoModal/InfoModal";
 
@@ -20,24 +17,15 @@ import bubbles from "../../data/bubbles";
 const MyBubbles = ({ bubbleList, myBubbles }) => {
     const [modalState, setModalState] = useState(0);
 
-    // console.log(bubbleList);
-    // console.log(myBubbles);
-
     useEffect(() => {
         let swiper = document.querySelector("#mainSwiper").swiper;
-        // swiper.init();
-        console.log(swiper);
         modalState ? swiper.disable() : swiper.enable();
-        // swiper.disable();
-        // swiper.init();
-        // swiper.enabled = false;
     }, [modalState]);
 
     let result = [];
 
     if (bubbleList) {
         result = bubbleList.filter((item) => myBubbles.includes(item.ID));
-        // console.log(result);
     }
 
     return (
