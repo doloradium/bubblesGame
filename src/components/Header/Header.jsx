@@ -18,7 +18,7 @@ const Header = ({ balance }) => {
             />
             <div className={styles.balanceContainer}>
                 My balance <br />
-                <span>{0 ?? balance.toFixed(3)} TON</span>
+                <span>{balance.toFixed(3) ?? 0} TON</span>
             </div>
             <Button
                 color={"green"}

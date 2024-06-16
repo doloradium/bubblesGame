@@ -63,7 +63,7 @@ const GameMode = ({ balance, changeBet, newBet }) => {
                 <h2 className={styles.gamemodeHeading}>YOUR BET</h2>
                 <div className={styles.gamemodeInfo}>
                     <span>My Balance</span>
-                    {0 ?? balance.toFixed(3)} TON
+                    {balance.toFixed(3) ?? 0} TON
                 </div>
                 <div className={styles.counter}>
                     <div
