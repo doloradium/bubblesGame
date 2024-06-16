@@ -61,43 +61,47 @@ const GameMode = ({ balance, changeBet, newBet }) => {
                 }
             >
                 <h2 className={styles.gamemodeHeading}>YOUR BET</h2>
-                <div className={styles.gamemodeInfo}>
-                    <span>My Balance</span>
-                    {balance.toFixed(3) ?? 0} TON
-                </div>
-                <div className={styles.counter}>
-                    <div
-                        className={styles.counterItem}
-                        onClick={() => {
-                            if (newBet > 0.1) {
-                                changeBet(+(newBet - 0.1).toFixed(1));
-                                websocketStats.bet = +(newBet - 0.1).toFixed(1);
-                            }
-                            play();
-                        }}
-                    >
-                        -
+                <div className={styles.gamemodeFlex}>
+                    <div className={styles.gamemodeInfo}>
+                        <span>My Balance</span>
+                        {balance ? balance.toFixed(3) : 0} TON
                     </div>
-                    <input
-                        className={styles.counterItem}
-                        value={newBet}
-                        onChange={handleChange}
-                        placeholder="0"
-                    />
-                    <div
-                        className={styles.counterItem}
-                        onClick={() => {
-                            if (newBet < balance) {
-                                changeBet(-(-newBet - 0.1).toFixed(1));
-                                websocketStats.bet = -(-newBet - 0.1).toFixed(
-                                    1
-                                );
-                            }
-                            newBet == "" ? changeBet(0.1) : null;
-                            play();
-                        }}
-                    >
-                        +
+                    <div className={styles.counter}>
+                        <div
+                            className={styles.counterItem}
+                            onClick={() => {
+                                if (newBet > 0.1) {
+                                    changeBet(+(newBet - 0.1).toFixed(1));
+                                    websocketStats.bet = +(
+                                        newBet - 0.1
+                                    ).toFixed(1);
+                                }
+                                play();
+                            }}
+                        >
+                            -
+                        </div>
+                        <input
+                            className={styles.counterItem}
+                            value={newBet}
+                            onChange={handleChange}
+                            placeholder="0"
+                        />
+                        <div
+                            className={styles.counterItem}
+                            onClick={() => {
+                                if (newBet < balance) {
+                                    changeBet(-(-newBet - 0.1).toFixed(1));
+                                    websocketStats.bet = -(
+                                        -newBet - 0.1
+                                    ).toFixed(1);
+                                }
+                                newBet == "" ? changeBet(0.1) : null;
+                                play();
+                            }}
+                        >
+                            +
+                        </div>
                     </div>
                 </div>
             </div>
