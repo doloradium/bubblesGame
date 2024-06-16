@@ -30,7 +30,7 @@ const Main = () => {
     return (
         <>
             <div className={styles.pageContainer} id="main">
-                <Header balance={dataMe?.balance + " TON"} />
+                <Header balance={dataMe?.balance} />
                 <MyBubbles
                     bubbleList={dataBubbles?.bubbles}
                     myBubbles={dataBubbles?.my}

@@ -144,6 +144,7 @@ function newWebSocket() {
     webSocket.onmessage = function (event) {
         let receivedMessage
         event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
+        console.log(receivedMessage)
         let last = Date.now() / 1000
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         userStats = []
@@ -194,6 +195,7 @@ function newWebSocket() {
                     localItem.x = item.x
                     localItem.y = item.y
                     localItem.size = item.size
+                    localItem.object.depth = Math.round(item.size)
                     localItem.main = item.main
                     if (localItem.type == "gift") {
                         item.size = 20;
@@ -215,10 +217,12 @@ function newWebSocket() {
                     object = scene.add.sprite(item.x, item.y, 'point')
                 } else if (item.type == 'player' || item.type == 'split') {
                     object = scene.add.sprite(item.x, item.y, 'shiba')
+                } else if (item.type == 'safe') {
+                    object = scene.add.sprite(item.x, item.y, 'shiba')
                 }
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
-                object.depth = item.size
+                object.depth = Math.round(item.size)
                 localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object, main: item.main })
                 if (item.player_id == telegram_id) {
                     playerBubbles.push({ x: item.x, y: item.y, size: item.size })
@@ -326,6 +330,9 @@ export class Boot extends Scene {
         this.load.svg('pointer', 'assets/pointer.svg', { width: 40, height: 40 });
         this.load.svg('gift', 'assets/gift.svg', { width: 300, height: 300 });
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
+        this.load.svg('hodl', 'assets/hodl.svg', { width: 300, height: 300 });
+        this.load.svg('shield', 'assets/shield.svg', { width: 50, height: 50 });
+        this.load.svg('indicator', 'assets/indicator.svg', { width: window.innerWidth * 2, height: 20 });
         this.load.audio("pop", ["sounds/gamePop.mp3"]);
         this.load.audio("backMusic", ["sounds/background.mp3"]);
         this.load.audio("shrink", ["sounds/shrink.mp3"]);

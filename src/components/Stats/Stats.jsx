@@ -105,7 +105,7 @@ const Stats = () => {
                                     className={styles.statsImage}
                                 />
                                 <span>Score: </span>
-                                {websocketStats.score}
+                                {Math.round(websocketStats.score)}
                             </div>
                         </div>
                     </div>
