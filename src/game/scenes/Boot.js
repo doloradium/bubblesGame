@@ -196,6 +196,7 @@ function newWebSocket() {
                     localItem.size = item.size
                     localItem.object.depth = Math.round(item.size)
                     localItem.main = item.main
+                    localItem.timer = item.timer
                     if (localItem.type == "gift") {
                         item.size = 20;
                     }
@@ -222,7 +223,7 @@ function newWebSocket() {
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
                 object.depth = Math.round(item.size)
-                localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object, main: item.main })
+                localObjects.push({ id: item.id, type: item.type, x: item.x, y: item.y, size: item.size, object: object, main: item.main, timer: item.timer, timerMax: item.timer })
                 if (item.player_id == telegram_id) {
                     playerBubbles.push({ x: item.x, y: item.y, size: item.size })
                 }
@@ -423,6 +424,7 @@ export class Boot extends Scene {
                 let shieldDY = (item.y - playerY) / vectorLength(playerX, playerY, item.x, item.y)
                 if (Math.abs(shieldDX) > Math.abs(shieldDY)) {
                     indicator.setAngle(90)
+                    indicator.setDisplaySize(((window.innerWidth) * (item.timer / item.timerMax)), 40)
                     if (shieldDX > 0) {
                         shield.setPosition(window.innerWidth * 2 - 25, window.innerHeight + window.innerHeight * shieldDY)
                     } else {
@@ -430,6 +432,7 @@ export class Boot extends Scene {
                     }
                 } else {
                     indicator.setAngle(0)
+                    indicator.setDisplaySize(((window.innerHeight) * (item.timer / item.timerMax)), 40)
                     if (shieldDY < 0) {
                         shield.setPosition(window.innerWidth + window.innerWidth * shieldDX, 25)
                     } else {
@@ -437,7 +440,6 @@ export class Boot extends Scene {
                     }
                 }
                 indicator.setPosition(shield.x, shield.y)
-                // indicator.setDisplaySize(((window.innerWidth / 100) * (60 / item.timer * 100)), 40)
                 shield.depth = indicator.depth + 1
                 console.log('width', window.innerWidth)
                 console.log('x:', shieldDX, 'y', shieldDY)
