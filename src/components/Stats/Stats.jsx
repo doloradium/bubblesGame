@@ -87,7 +87,9 @@ const Stats = () => {
                                     className={styles.statsImage}
                                 />
                                 <span>Health:</span>
-                                {websocketStats.health}
+                                {websocketStats.health != undefined
+                                    ? websocketStats.health
+                                    : 1}
                             </div>
                             <div className={styles.statsItem}>
                                 <img

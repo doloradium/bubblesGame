@@ -20,19 +20,18 @@ let UICam
 let ping
 let coordinates
 let background
-let halo, pointer
+let halo, pointer, shield, indicator
 let userStats = []
 let allUsers = {};
 let playerBubbles = []
 let pop, shrink
 let myTimer
 let userSkins = []
+let shieldX = 0, shieldY = 0
 let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
 let colors = ['0xE400BF', '0xFF7A00', '0x8236FF', '0x0075FF', '0x43D2CA', '0x04C800', '0xFFF500']
-
-import { getNameNew } from '../../api/apiBubbles';
 
 const searchParams = new URLSearchParams(window.location.search);
 const token = searchParams.get('token');
@@ -218,7 +217,7 @@ function newWebSocket() {
                 } else if (item.type == 'player' || item.type == 'split') {
                     object = scene.add.sprite(item.x, item.y, 'shiba')
                 } else if (item.type == 'safe') {
-                    object = scene.add.sprite(item.x, item.y, 'shiba')
+                    object = scene.add.sprite(item.x, item.y, 'hodl')
                 }
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
@@ -332,7 +331,7 @@ export class Boot extends Scene {
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
         this.load.svg('hodl', 'assets/hodl.svg', { width: 300, height: 300 });
         this.load.svg('shield', 'assets/shield.svg', { width: 50, height: 50 });
-        this.load.svg('indicator', 'assets/indicator.svg', { width: window.innerWidth * 2, height: 20 });
+        this.load.svg('indicator', 'assets/indicator.svg', { width: window.innerWidth * 2, height: 40 });
         this.load.audio("pop", ["sounds/gamePop.mp3"]);
         this.load.audio("backMusic", ["sounds/background.mp3"]);
         this.load.audio("shrink", ["sounds/shrink.mp3"]);
@@ -400,29 +399,63 @@ export class Boot extends Scene {
         halo.setOrigin(0.5, 0.5)
         halo.setScale(0.5)
         pointer = scene.add.sprite(0, 0, 'pointer');
+        shield = this.add.sprite(0, 0, 'shield')
+        shield.setOrigin(0.5, 0.5)
+        indicator = this.add.sprite(0, 0, 'indicator')
+        indicator.setDisplaySize(window.innerWidth * 2, 40)
+        indicator.setOrigin(0.5, 0.5)
         pointer.setOrigin(0.5, 0.5)
         pointer.depth = 9999
         UICam.ignore([pointer, halo])
-        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, coordinates, ping]);
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, coordinates, ping, shield, indicator]);
     }
 
     update() {
+        shield.setPosition(0, 0)
         playerBubbles.length = 0
+        shield.setAlpha(0)
+        console.log(localObjects)
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
+            if (item.type == 'safe') {
+                shield.setAlpha(1)
+                let shieldDX = (item.x - playerX) / vectorLength(playerX, playerY, item.x, item.y)
+                let shieldDY = (item.y - playerY) / vectorLength(playerX, playerY, item.x, item.y)
+                if (Math.abs(shieldDX) > Math.abs(shieldDY)) {
+                    indicator.setAngle(90)
+                    if (shieldDX > 0) {
+                        shield.setPosition(window.innerWidth * 2 - 25, window.innerHeight + window.innerHeight * shieldDY)
+                    } else {
+                        shield.setPosition(25, window.innerHeight + window.innerHeight * shieldDY)
+                    }
+                } else {
+                    indicator.setAngle(0)
+                    if (shieldDY < 0) {
+                        shield.setPosition(window.innerWidth + window.innerWidth * shieldDX, 25)
+                    } else {
+                        shield.setPosition(window.innerWidth + window.innerWidth * shieldDX, window.innerHeight * 2 - 25)
+                    }
+                }
+                indicator.setPosition(shield.x, shield.y)
+                // indicator.setDisplaySize(((window.innerWidth / 100) * (60 / item.timer * 100)), 40)
+                shield.depth = indicator.depth + 1
+                console.log('width', window.innerWidth)
+                console.log('x:', shieldDX, 'y', shieldDY)
+            }
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.2), Phaser.Math.Linear(item.object.y, item.y, 0.2))
                 if (item.type == 'player' || item.type == 'split') {
                     item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
                 }
                 if (item.player_id == telegram_id) {
+                    // let line = this.add.line(item.x, item.y, item.x, item.y, window.innerWidth * 2, 0, 0xff0000)
                     if (item.main) {
                         mainPosition.x = item.object.x
                         mainPosition.y = item.object.y
                     }
                     coordinates.setText(`x: ${Math.round(item.x)}, y: ${Math.round(item.y)}`);
-                    playerX = item.x
-                    playerY = item.y
+                    playerX = item.object.x
+                    playerY = item.object.y
                     playerSize = item.size
                     if (playerSize < 30) {
                         gift.setAlpha(0.5)
