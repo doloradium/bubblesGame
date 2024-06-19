@@ -219,6 +219,10 @@ function newWebSocket() {
                     object = scene.add.sprite(item.x, item.y, 'shiba')
                 } else if (item.type == 'safe') {
                     object = scene.add.sprite(item.x, item.y, 'hodl')
+                } else if (item.type == 'bonus') {
+                    object = scene.add.sprite(item.x, item.y, 'bonus')
+                } else if (item.type == 'trap') {
+                    object = scene.add.sprite(item.x, item.y, 'trap')
                 }
                 object.setDisplaySize(item.size * 2, item.size * 2)
                 object.setOrigin(0.5, 0.5)
@@ -332,6 +336,8 @@ export class Boot extends Scene {
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
         this.load.svg('hodl', 'assets/hodl.svg', { width: 300, height: 300 });
         this.load.svg('shield', 'assets/shield.svg', { width: 50, height: 50 });
+        this.load.svg('trap', 'assets/trap.svg', { width: 50, height: 50 });
+        this.load.svg('bonus', 'assets/bonus.svg', { width: 50, height: 50 });
         this.load.svg('indicator', 'assets/indicator.svg', { width: window.innerWidth * 2, height: 40 });
         this.load.audio("pop", ["sounds/gamePop.mp3"]);
         this.load.audio("backMusic", ["sounds/background.mp3"]);
@@ -346,6 +352,7 @@ export class Boot extends Scene {
         backMusic.play()
         localObjects = []
         userStats = []
+        mainPosition = { x: 0, y: 0 }
         this.start = this.getTime();
         background = this.add.tileSprite(window.innerWidth, window.innerHeight, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
         gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
@@ -415,16 +422,20 @@ export class Boot extends Scene {
         shield.setPosition(0, 0)
         playerBubbles.length = 0
         shield.setAlpha(0)
+        indicator.setAlpha(0)
         console.log(localObjects)
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'safe') {
-                shield.setAlpha(1)
+                if (vectorLength(item.x, item.y, playerX, playerY) >= playerSize * 5) {
+                    shield.setAlpha(1)
+                    indicator.setAlpha(1)
+                }
                 let shieldDX = (item.x - playerX) / vectorLength(playerX, playerY, item.x, item.y)
                 let shieldDY = (item.y - playerY) / vectorLength(playerX, playerY, item.x, item.y)
                 if (Math.abs(shieldDX) > Math.abs(shieldDY)) {
                     indicator.setAngle(90)
-                    indicator.setDisplaySize(((window.innerWidth) * (item.timer / item.timerMax)), 40)
+                    indicator.setDisplaySize(((window.innerWidth * 2) * (item.timer / item.timerMax)), 40)
                     if (shieldDX > 0) {
                         shield.setPosition(window.innerWidth * 2 - 25, window.innerHeight + window.innerHeight * shieldDY)
                     } else {
@@ -432,7 +443,7 @@ export class Boot extends Scene {
                     }
                 } else {
                     indicator.setAngle(0)
-                    indicator.setDisplaySize(((window.innerHeight) * (item.timer / item.timerMax)), 40)
+                    indicator.setDisplaySize(((window.innerWidth * 2) * (item.timer / item.timerMax)), 40)
                     if (shieldDY < 0) {
                         shield.setPosition(window.innerWidth + window.innerWidth * shieldDX, 25)
                     } else {
@@ -441,8 +452,6 @@ export class Boot extends Scene {
                 }
                 indicator.setPosition(shield.x, shield.y)
                 shield.depth = indicator.depth + 1
-                console.log('width', window.innerWidth)
-                console.log('x:', shieldDX, 'y', shieldDY)
             }
             if (item.type == 'player' || item.type == 'split' || item.type == 'gift') {
                 item.object.setPosition(Phaser.Math.Linear(item.object.x, item.x, 0.2), Phaser.Math.Linear(item.object.y, item.y, 0.2))
@@ -450,7 +459,6 @@ export class Boot extends Scene {
                     item.object.setDisplaySize(Phaser.Math.Linear(item.object.displayWidth, item.size * 2, 0.2), Phaser.Math.Linear(item.object.displayHeight, item.size * 2, 0.2))
                 }
                 if (item.player_id == telegram_id) {
-                    // let line = this.add.line(item.x, item.y, item.x, item.y, window.innerWidth * 2, 0, 0xff0000)
                     if (item.main) {
                         mainPosition.x = item.object.x
                         mainPosition.y = item.object.y
