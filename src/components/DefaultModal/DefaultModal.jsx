@@ -10,7 +10,14 @@ import websocketStats from "../../data/websocketStats";
 
 import styles from "./styles.module.css";
 
-const DefaultModal = ({ onChange, changeBet }) => {
+const DefaultModal = ({
+    mainKey,
+    setupKey,
+    setSetupKey,
+    setMainKey,
+    onChange,
+    changeBet,
+}) => {
     return (
         <div className={styles.modalContainer} id="defaultModal">
             <div className={styles.modalGrid}>
@@ -74,6 +81,20 @@ const DefaultModal = ({ onChange, changeBet }) => {
                         color={"white"}
                         className={styles.secondaryButton}
                         onClick={() => {
+                            let mainBase = "main";
+                            let setupBase = "setup";
+                            let mainNumber = mainKey.slice(
+                                mainKey.length - 1,
+                                mainKey.length
+                            );
+                            let setupNumber = setupKey.slice(
+                                setupKey.length - 1,
+                                setupKey.length
+                            );
+                            mainNumber++;
+                            setupNumber++;
+                            setMainKey(mainBase + mainNumber);
+                            setSetupKey(setupBase + mainNumber);
                             onChange(false);
                             let defaultModal =
                                 document.querySelector("#defaultModal");

@@ -69,7 +69,14 @@ function Wrapper() {
                     <Send />
                     <Legion />
                     <Referral />
-                    <DefaultModal onChange={setGameState} changeBet={setBet} />
+                    <DefaultModal
+                        onChange={setGameState}
+                        changeBet={setBet}
+                        setSetupKey={setSetupKey}
+                        setMainKey={setMainKey}
+                        mainKey={mainKey}
+                        setupKey={setupKey}
+                    />
                     <LoseModal onChange={setGameState} />
                     {/* <ModalWeekly /> */}
                     {/* <Intro /> */}

@@ -26,8 +26,8 @@ let allUsers = {};
 let playerBubbles = []
 let pop, shrink
 let myTimer
+let shieldTimer = 0
 let userSkins = []
-let shieldX = 0, shieldY = 0
 let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
@@ -143,7 +143,7 @@ function newWebSocket() {
     webSocket.onmessage = function (event) {
         let receivedMessage
         event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
-        console.log(receivedMessage)
+        // console.log(receivedMessage)
         let last = Date.now() / 1000
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         userStats = []
@@ -209,7 +209,7 @@ function newWebSocket() {
                         if (value.id) {
                             userSkins.push({ id: value.id, skin: value.skin })
                         }
-                        console.log(userSkins)
+                        // console.log(userSkins)
                     });
                 }
                 let object
@@ -353,6 +353,8 @@ export class Boot extends Scene {
         localObjects = []
         userStats = []
         mainPosition = { x: 0, y: 0 }
+        cameraX = 0, cameraY = 0
+        playerX = 0, playerY = 0, playerSize = 0
         this.start = this.getTime();
         background = this.add.tileSprite(window.innerWidth, window.innerHeight, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
         gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
@@ -409,6 +411,7 @@ export class Boot extends Scene {
         pointer = scene.add.sprite(0, 0, 'pointer');
         shield = this.add.sprite(0, 0, 'shield')
         shield.setOrigin(0.5, 0.5)
+        shield.setAlpha(1)
         indicator = this.add.sprite(0, 0, 'indicator')
         indicator.setDisplaySize(window.innerWidth * 2, 40)
         indicator.setOrigin(0.5, 0.5)
@@ -419,14 +422,15 @@ export class Boot extends Scene {
     }
 
     update() {
-        shield.setPosition(0, 0)
         playerBubbles.length = 0
         shield.setAlpha(0)
         indicator.setAlpha(0)
-        console.log(localObjects)
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'safe') {
+                if (item.timer != undefined) {
+                    shieldTimer = Phaser.Math.Linear(shieldTimer, item.timer, 0.1)
+                }
                 if (vectorLength(item.x, item.y, playerX, playerY) >= playerSize * 5) {
                     shield.setAlpha(1)
                     indicator.setAlpha(1)
@@ -435,7 +439,7 @@ export class Boot extends Scene {
                 let shieldDY = (item.y - playerY) / vectorLength(playerX, playerY, item.x, item.y)
                 if (Math.abs(shieldDX) > Math.abs(shieldDY)) {
                     indicator.setAngle(90)
-                    indicator.setDisplaySize(((window.innerWidth * 2) * (item.timer / item.timerMax)), 40)
+                    indicator.setDisplaySize(((window.innerWidth * 2) * (shieldTimer / item.timerMax)), 40)
                     if (shieldDX > 0) {
                         shield.setPosition(window.innerWidth * 2 - 25, window.innerHeight + window.innerHeight * shieldDY)
                     } else {
@@ -443,7 +447,7 @@ export class Boot extends Scene {
                     }
                 } else {
                     indicator.setAngle(0)
-                    indicator.setDisplaySize(((window.innerWidth * 2) * (item.timer / item.timerMax)), 40)
+                    indicator.setDisplaySize(((window.innerWidth * 2) * (shieldTimer / item.timerMax)), 40)
                     if (shieldDY < 0) {
                         shield.setPosition(window.innerWidth + window.innerWidth * shieldDX, 25)
                     } else {
