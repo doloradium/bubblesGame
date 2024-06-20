@@ -17,8 +17,7 @@ let webSocket;
 let localObjects = []
 let scene
 let UICam
-let ping
-let coordinates
+let ping, coordinates, splitTimer
 let background
 let halo, pointer, shield, indicator
 let userStats = []
@@ -144,6 +143,8 @@ function newWebSocket() {
         let receivedMessage
         event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
         // console.log(receivedMessage)
+        splitTimer.setText(`Reunion in \n${receivedMessage.my_data.timer_split}s`)
+        splitTimer.setPosition(window.innerWidth - splitTimer.width / 2, window.innerHeight / 2)
         let last = Date.now() / 1000
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
         userStats = []
@@ -404,6 +405,12 @@ export class Boot extends Scene {
             fontSize: 20,
             color: '#ffffff'
         });
+        splitTimer = scene.add.text(0, 0, 'Union in: ', {
+            fontFamily: 'Arial',
+            fontSize: 48,
+            color: '#ffffff',
+            align: 'center'
+        })
         halo = this.add.sprite(window.innerWidth, window.innerHeight, 'halo')
         halo.depth = 9998
         halo.setOrigin(0.5, 0.5)
@@ -418,7 +425,7 @@ export class Boot extends Scene {
         pointer.setOrigin(0.5, 0.5)
         pointer.depth = 9999
         UICam.ignore([pointer, halo])
-        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, coordinates, ping, shield, indicator]);
+        this.cameras.main.ignore([this.joyStick.base, this.joyStick.thumb, split, gift, coordinates, ping, splitTimer, shield, indicator]);
     }
 
     update() {
