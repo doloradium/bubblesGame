@@ -9,13 +9,15 @@ let mainPosition = { x: 0, y: 0 }
 let deltaX, deltaY;
 let newX, newY;
 let gift, split;
+let receivedMessage
 let message;
 let room;
-let zoomFactor;
+let zoomFactor = 100;
 let webSocketPath;
 let webSocket;
 let localObjects = []
 let scene
+let interpolatedSize = 0
 let UICam
 let ping, coordinates, splitTimer
 let background
@@ -27,6 +29,7 @@ let pop, shrink
 let myTimer
 let shieldTimer = 0
 let userSkins = []
+let splitDistance = 0
 let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
 let lastDX = 0.5, lastDY = 0;
@@ -47,14 +50,19 @@ function Centroid(points) {
     let minY = 5000
     let maxX = 0
     let maxY = 0
-    points.forEach((item) => {
-        if (item.x < minX) { minX = item.x }
-        if (item.x > maxX) { maxX = item.x }
-        if (item.y < minY) { minY = item.y }
-        if (item.y > maxY) { maxY = item.y }
+    let lengthX = 0
+    let lengthY = 0
+    points.forEach((point) => {
+        if (point.x < minX) { minX = point.x }
+        if (point.x > maxX) { maxX = point.x }
+        if (point.y < minY) { minY = point.y }
+        if (point.y > maxY) { maxY = point.y }
     })
     cameraX = (maxX + minX) / 2
     cameraY = (maxY + minY) / 2
+    lengthX = Math.abs(maxX - minX)
+    lengthY = Math.abs(maxY - minY)
+    lengthX > lengthY ? splitDistance = lengthX : splitDistance = lengthY
 }
 
 function vectorLength(x1, y1, x2, y2) {
@@ -140,10 +148,9 @@ function newWebSocket() {
     };
 
     webSocket.onmessage = function (event) {
-        let receivedMessage
         event.data.length > 0 ? receivedMessage = JSON.parse(event.data) : null
-        // console.log(receivedMessage)
-        splitTimer.setText(`Reunion in \n${receivedMessage.my_data.timer_split}s`)
+        receivedMessage.my_data.timer_split >= 0 ? splitTimer.setAlpha(1) : splitTimer.setAlpha(0)
+        splitTimer.setText(`Reunion\nin ${receivedMessage.my_data.timer_split}s`)
         splitTimer.setPosition(window.innerWidth - splitTimer.width / 2, window.innerHeight / 2)
         let last = Date.now() / 1000
         ping.setText(`ping: ${Math.round((last - receivedMessage.sent_at) * 1000)} ms`);
@@ -220,9 +227,9 @@ function newWebSocket() {
                     object = scene.add.sprite(item.x, item.y, 'shiba')
                 } else if (item.type == 'safe') {
                     object = scene.add.sprite(item.x, item.y, 'hodl')
-                } else if (item.type == 'bonus') {
+                } else if (item.type == 'gem') {
                     object = scene.add.sprite(item.x, item.y, 'bonus')
-                } else if (item.type == 'trap') {
+                } else if (item.type == 'humster') {
                     object = scene.add.sprite(item.x, item.y, 'trap')
                 }
                 object.setDisplaySize(item.size * 2, item.size * 2)
@@ -337,8 +344,8 @@ export class Boot extends Scene {
         this.load.svg('split', 'assets/split.svg', { width: 300, height: 300 });
         this.load.svg('hodl', 'assets/hodl.svg', { width: 300, height: 300 });
         this.load.svg('shield', 'assets/shield.svg', { width: 50, height: 50 });
-        this.load.svg('trap', 'assets/trap.svg', { width: 50, height: 50 });
-        this.load.svg('bonus', 'assets/bonus.svg', { width: 50, height: 50 });
+        this.load.svg('trap', 'assets/trap.svg', { width: 200, height: 200 });
+        this.load.svg('bonus', 'assets/bonus.svg', { width: 100, height: 100 });
         this.load.svg('indicator', 'assets/indicator.svg', { width: window.innerWidth * 2, height: 40 });
         this.load.audio("pop", ["sounds/gamePop.mp3"]);
         this.load.audio("backMusic", ["sounds/background.mp3"]);
@@ -351,11 +358,20 @@ export class Boot extends Scene {
         shrink = this.sound.add("shrink", { loop: false });
         let backMusic = this.sound.add("backMusic", { loop: true, volume: 0.5 });
         backMusic.play()
-        localObjects = []
-        userStats = []
         mainPosition = { x: 0, y: 0 }
+        newX, newY;
+        zoomFactor = 100;
+        localObjects = []
+        interpolatedSize = 0
+        userStats = []
+        allUsers = {};
+        playerBubbles = []
+        shieldTimer = 0
+        userSkins = []
+        splitDistance = 0
         cameraX = 0, cameraY = 0
         playerX = 0, playerY = 0, playerSize = 0
+        lastDX = 0.5, lastDY = 0;
         this.start = this.getTime();
         background = this.add.tileSprite(window.innerWidth, window.innerHeight, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
         gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
@@ -429,6 +445,8 @@ export class Boot extends Scene {
     }
 
     update() {
+        // console.log(localObjects)
+        pointer.setAlpha(1)
         playerBubbles.length = 0
         shield.setAlpha(0)
         indicator.setAlpha(0)
@@ -436,7 +454,7 @@ export class Boot extends Scene {
             UICam.ignore([item.object])
             if (item.type == 'safe') {
                 if (item.timer != undefined) {
-                    shieldTimer = Phaser.Math.Linear(shieldTimer, item.timer, 0.1)
+                    shieldTimer = Phaser.Math.Linear(shieldTimer, item.timer, 0.03)
                 }
                 if (vectorLength(item.x, item.y, playerX, playerY) >= playerSize * 5) {
                     shield.setAlpha(1)
@@ -473,19 +491,32 @@ export class Boot extends Scene {
                     if (item.main) {
                         mainPosition.x = item.object.x
                         mainPosition.y = item.object.y
+                        halo.setDisplaySize(item.size * 2 + item.size / 2, item.size * 2 + item.size / 2)
+                        pointer.setDisplaySize(item.size / 2, item.size / 2)
+                        let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
+                        newX = mainPosition.x + (item.size + item.size / 2.75) * Math.cos(angle);
+                        newY = mainPosition.y + (item.size + item.size / 2.75) * Math.sin(angle);
+                        pointer.setAngle(angle * 180 / Math.PI)
+                        if (angle == 0) {
+                            pointer.setAlpha(0)
+                        }
                     }
                     coordinates.setText(`x: ${Math.round(item.x)}, y: ${Math.round(item.y)}`);
                     playerX = item.object.x
                     playerY = item.object.y
-                    playerSize = item.size
-                    if (playerSize < 30) {
+                    if (playerBubbles.length > 1) {
+                        playerSize = splitDistance
+                    } else {
+                        playerSize = item.size
+                    }
+                    if (receivedMessage.my_data.score < receivedMessage.my_data.min_gift) {
                         gift.setAlpha(0.5)
                         gift.disableInteractive()
                     } else {
                         gift.setAlpha(1)
                         gift.setInteractive()
                     }
-                    if (playerSize < 40) {
+                    if (receivedMessage.my_data.score < receivedMessage.my_data.min_size_split) {
                         split.setAlpha(0.5)
                         split.disableInteractive()
                     } else {
@@ -504,8 +535,10 @@ export class Boot extends Scene {
                     background.setPosition(cameraX, cameraY)
                     background.tilePositionX = cameraX
                     background.tilePositionY = cameraY
-                    this.cameras.main.setZoom(125 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2), 125 / Phaser.Math.Linear(item.object.displayWidth, item.size, 0.2));
+                    interpolatedSize = Phaser.Math.Linear(interpolatedSize, playerSize, 0.2)
+                    this.cameras.main.setZoom(65 / interpolatedSize, 65 / interpolatedSize);
                     zoomFactor = this.cameras.main.zoom
+                    // console.log(interpolatedSize)
                     background.setScale(1 / zoomFactor)
                 }
                 if (item.type == 'player') {
@@ -542,18 +575,8 @@ export class Boot extends Scene {
                 }
             }
         })
-        pointer.setAlpha(1)
-        halo.setDisplaySize(playerSize * 2 + playerSize / 2, playerSize * 2 + playerSize / 2)
-        pointer.setDisplaySize(playerSize / 2, playerSize / 2)
-        let angle = scene.calculateAngleInRadians(joyStickX, joyStickY, scene.joyStick.thumb.x, scene.joyStick.thumb.y)
-        newX = mainPosition.x + (playerSize + playerSize / 2.75) * Math.cos(angle);
-        newY = mainPosition.y + (playerSize + playerSize / 2.75) * Math.sin(angle);
         halo.setPosition(mainPosition.x, mainPosition.y)
         pointer.setPosition(newX, newY);
-        pointer.setAngle(angle * 180 / Math.PI)
-        if (angle / Math.PI == 0) {
-            pointer.setAlpha(0)
-        }
         if (this.joyStick.forceX != this.joyStick.pointerX) {
             deltaX = this.joyStick.forceX / 60;
             deltaY = this.joyStick.forceY / 60;

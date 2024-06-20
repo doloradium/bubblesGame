@@ -64,12 +64,6 @@
     font-family: "Inter", "sans-serif";
 }
 
-.receiveImage {
-    display: block;
-    border-radius: 0.5rem;
-    width: 80%;
-}
-
 .buttonBack {
     background-color: #ffffff20;
     aspect-ratio: 1 /1;
@@ -122,3 +116,4 @@
 .red {
     color: #f55800;
 }
+

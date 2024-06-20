@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import useSound from "use-sound";
 
-import { getQR } from "../../api/apiBubbles";
+import userInfo from "../../data/userInfo";
+
+import { getMe } from "../../api/apiBubbles";
 import { useFetch } from "../../hooks/useFetch";
 
 import click from "../../../public/sounds/button.mp3";
@@ -16,8 +18,6 @@ import qr from "../../../public/assets/qr.png";
 
 const Receive = () => {
     const [play] = useSound(click);
-
-    const { data } = useFetch(getQR);
 
     return (
         <div className={styles.transactionsWrapper} id="receive">
@@ -52,9 +52,13 @@ const Receive = () => {
                         }}
                     />
                 </div>
-                <div className={styles.receiveBlock}>
+                <div className={styles.receiveBlock} id="append">
                     <div className={styles.receiveText}>Chain type: TON</div>
-                    <img src={qr} alt="QR" className={styles.receiveImage} />
+                    {/* <img
+                        src={`http://qrcoder.ru/code/${wallet}&10&0`}
+                        alt="QR"
+                        className={styles.receiveImage}
+                    /> */}
                 </div>
                 <div className={styles.receiveBlock}>
                     <div className={styles.receiveText}>Wallet adress</div>
