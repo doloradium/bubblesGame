@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useSound from "use-sound";
 
 import click from "../../../public/sounds/button.mp3";
@@ -26,6 +26,8 @@ const Main = () => {
     const searchParams = new URLSearchParams(window.location.search);
     userInfo.token = searchParams.get("token");
     userInfo.telegram_id = searchParams.get("telegram_id");
+
+    getMe().then((value) => (userInfo.wallet = value.wallet));
 
     return (
         <>

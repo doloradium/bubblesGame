@@ -4,17 +4,12 @@ import useSound from "use-sound";
 
 import userInfo from "../../data/userInfo";
 
-import { getMe } from "../../api/apiBubbles";
-import { useFetch } from "../../hooks/useFetch";
-
 import click from "../../../public/sounds/button.mp3";
 
 import Button from "../../components/Button/Button";
 
 import arrowBack from "../../../public/assets/arrowBack.svg";
 import cross from "../../../public/assets/cross.svg";
-
-import qr from "../../../public/assets/qr.png";
 
 const Receive = () => {
     const [play] = useSound(click);
@@ -54,17 +49,17 @@ const Receive = () => {
                 </div>
                 <div className={styles.receiveBlock} id="append">
                     <div className={styles.receiveText}>Chain type: TON</div>
-                    {/* <img
-                        src={`http://qrcoder.ru/code/${wallet}&10&0`}
+                    <img
+                        src={`http://qrcoder.ru/code/?${userInfo.wallet}&10&0`}
                         alt="QR"
                         className={styles.receiveImage}
-                    /> */}
+                    />
                 </div>
                 <div className={styles.receiveBlock}>
                     <div className={styles.receiveText}>Wallet adress</div>
                     <input
                         type="text"
-                        value="1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF"
+                        value={userInfo.wallet}
                         className={styles.receiveInput}
                         readOnly
                     />
