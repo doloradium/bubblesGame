@@ -24,12 +24,12 @@ let ping, coordinates, splitTimer
 let background
 let halo, pointer, shield, indicator
 let userStats = []
-let allUsers = {};
+let allUsers = [];
 let playerBubbles = []
 let pop, shrink
 let myTimer
 let shieldTimer = 0
-let userSkins = []
+// let userSkins = []
 let splitDistance = 0
 let cameraX = 0, cameraY = 0
 let playerX = 0, playerY = 0, playerSize = 0
@@ -165,11 +165,11 @@ function newWebSocket() {
         }
         if (typeof (event.data.top) != undefined) {
             receivedMessage.top.forEach(async (item) => {
-                if (allUsers[item.user_id]) {
-                    userStats.push({ user_id: allUsers[item.user_id], size: Math.floor(item.size) })
+                if (allUsers.find(filter => filter.id === item.user_id)) {
+                    userStats.push({ user_id: allUsers.find(filter => filter.id === item.user_id).name, size: Math.floor(item.size) })
                 } else {
                     getName(item.user_id).then((value) => {
-                        allUsers[value["id"]] = value["name"];
+                        allUsers.push({ id: value.id, name: value.name, skin: value.skin })
                     });
                 }
             })
@@ -215,10 +215,7 @@ function newWebSocket() {
             if (!have) {
                 if (item.player_id) {
                     getName(item.player_id).then((value) => {
-                        if (value.id) {
-                            userSkins.push({ id: value.id, skin: value.skin })
-                        }
-                        // console.log(userSkins)
+                        allUsers.push({ id: value.id, name: value.name, skin: value.skin })
                     });
                 }
                 let object
@@ -246,11 +243,11 @@ function newWebSocket() {
                     });
                     text.depth = 10010;
                     text.setAlign("center");
-                    if (allUsers[item.player_id] == null) {
-                        getName(item.player_id).then((value) => {
-                            allUsers[value["id"]] = value["name"];
-                        });
-                    }
+                    // if (allUsers.find(filter => filter.id === item.player_id)) {
+                    //     getName(item.player_id).then((value) => {
+                    //         allUsers[value["id"]] = { name: value["name"], skin: value['skin'] }
+                    //     });
+                    // }
                     text.setFontSize(96);
                     let graphics = scene.add.graphics();
                     graphics.fillStyle(0xFF0000, 1);
@@ -365,10 +362,10 @@ export class Boot extends Scene {
         localObjects = []
         interpolatedSize = 0
         userStats = []
-        allUsers = {};
+        allUsers = [];
         playerBubbles = []
         shieldTimer = 0
-        userSkins = []
+        // userSkins = []
         splitDistance = 0
         cameraX = 0, cameraY = 0
         playerX = 0, playerY = 0, playerSize = 0
@@ -557,13 +554,20 @@ export class Boot extends Scene {
                     // console.log(background.scale)
                 }
                 if (item.type == 'player') {
+                    let user = allUsers.find(filter => filter.id === item.player_id) ?? { id: '', name: '', skin: 1 }
                     if (item.text.text == "") {
-                        item.text.setText(allUsers[item.player_id])
+                        item.text.setText(user.name)
                     }
-                    console.log(item.text.text)
-                    userSkins.forEach((skinItem) => {
-                        if (item.player_id == skinItem.id) { item.object.setTexture(bubbles[skinItem.skin - 1].name) }
-                    })
+                    console.log(user.skin)
+                    // let userSkin = allUsers.find(filter => filter.id === item.player_id) ?? { skin: 1 }
+                    item.object.setTexture(bubbles[user.skin - 1].name)
+                    // item.object.setTexture(bubbles[5].name)
+                    // console.log(allUsers[item.player_id])
+                    // item.object.setTexture(bubbles[allUsers[item.player_id].skin - 1].name)
+                    // console.log(item.text.text)
+                    // userSkins.forEach((skinItem) => {
+                    //     if (item.player_id == skinItem.id) { item.object.setTexture(bubbles[skinItem.skin - 1].name) }
+                    // })
                     let graphics = scene.add.graphics();
                     UICam.ignore([graphics]);
                     graphics.depth = 10009;
@@ -621,6 +625,5 @@ export class Boot extends Scene {
                 deltaY = -1
             }
         }
-        console.log(allUsers)
     }
 }
