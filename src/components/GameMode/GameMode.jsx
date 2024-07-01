@@ -64,7 +64,7 @@ const GameMode = ({ balance, changeBet, newBet }) => {
                 <div className={styles.gamemodeFlex}>
                     <div className={styles.gamemodeInfo}>
                         <span>My Balance</span>
-                        {balance ? balance.toFixed(3) : 0} TON
+                        {balance ? parseFloat(balance.toFixed(3)) : 0} TON
                     </div>
                     <div className={styles.counter}>
                         <div

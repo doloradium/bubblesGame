@@ -12,6 +12,7 @@ let gift, split;
 let receivedMessage
 let message;
 let room;
+let safeDX = 0, safeDY = 0
 let zoomFactor = 100;
 let webSocketPath;
 let webSocket;
@@ -373,7 +374,8 @@ export class Boot extends Scene {
         playerX = 0, playerY = 0, playerSize = 0
         lastDX = 0.5, lastDY = 0;
         this.start = this.getTime();
-        background = this.add.tileSprite(window.innerWidth, window.innerHeight, window.innerWidth * 2, window.innerHeight * 2, 'background').setOrigin(0.5, 0.5);
+        background = this.add.tileSprite(window.innerWidth, window.innerHeight, window.innerWidth * 2, window.innerHeight * 2, 'background');
+        background.setOrigin(0.5, 0.5)
         gift = this.add.sprite(102, (window.innerHeight - 91) * 2, 'gift').setInteractive();
         gift.setDisplaySize(150, 150)
         gift.setScrollFactor(0)
@@ -453,6 +455,17 @@ export class Boot extends Scene {
         localObjects.forEach((item) => {
             UICam.ignore([item.object])
             if (item.type == 'safe') {
+                safeDX = (item.x - playerX) / vectorLength(playerX, playerY, item.x, item.y)
+                safeDY = (item.y - playerY) / vectorLength(playerX, playerY, item.x, item.y)
+                if (playerSize + item.size > vectorLength(item.x, item.y, mainPosition.x, mainPosition.y) && websocketStats.autoMove == false) {
+                    deltaX = 0
+                    deltaY = 0
+                    let modal = document.querySelector('#modal-hodl')
+                    modal.style.display = 'block'
+                    setTimeout(() => {
+                        modal.style.opacity = 1;
+                    }, 100);
+                }
                 if (item.timer != undefined) {
                     shieldTimer = Phaser.Math.Linear(shieldTimer, item.timer, 0.03)
                 }
@@ -504,8 +517,10 @@ export class Boot extends Scene {
                     coordinates.setText(`x: ${Math.round(item.x)}, y: ${Math.round(item.y)}`);
                     playerX = item.object.x
                     playerY = item.object.y
-                    if (playerBubbles.length > 1) {
-                        playerSize = splitDistance
+                    if (playerBubbles.length > 1 && playerBubbles.length < 4) {
+                        playerSize = splitDistance / 2
+                    } else if (playerBubbles.length > 3) {
+                        playerSize = splitDistance / 4
                     } else {
                         playerSize = item.size
                     }
@@ -531,18 +546,21 @@ export class Boot extends Scene {
                         }
                     })
                     Centroid(playerBubbles)
-                    this.cameras.main.centerOn(cameraX, cameraY);
-                    background.setPosition(cameraX, cameraY)
-                    background.tilePositionX = cameraX
-                    background.tilePositionY = cameraY
+                    zoomFactor = this.cameras.main.zoom
                     interpolatedSize = Phaser.Math.Linear(interpolatedSize, playerSize, 0.2)
                     this.cameras.main.setZoom(65 / interpolatedSize, 65 / interpolatedSize);
-                    zoomFactor = this.cameras.main.zoom
-                    // console.log(interpolatedSize)
+                    this.cameras.main.centerOn(cameraX, cameraY);
+                    background.setPosition(cameraX, cameraY)
+                    background.tilePositionX = cameraX * zoomFactor
+                    background.tilePositionY = cameraY * zoomFactor
                     background.setScale(1 / zoomFactor)
+                    // console.log(background.scale)
                 }
                 if (item.type == 'player') {
-                    item.text.setText(allUsers[item.player_id] ?? "");
+                    if (item.text.text == "") {
+                        item.text.setText(allUsers[item.player_id])
+                    }
+                    console.log(item.text.text)
                     userSkins.forEach((skinItem) => {
                         if (item.player_id == skinItem.id) { item.object.setTexture(bubbles[skinItem.skin - 1].name) }
                     })
@@ -554,7 +572,7 @@ export class Boot extends Scene {
                     item.text.depth = 10011;
                     item.text.setScale(0.4 / zoomFactor)
                     item.text.setPosition(item.object.x, item.object.y + item.size);
-                    if (item.main) {
+                    if (item.main || item.player_id < 0) {
                         graphics.setAlpha(1)
                         item.text.setAlpha(1)
                     } else {
@@ -577,25 +595,32 @@ export class Boot extends Scene {
         })
         halo.setPosition(mainPosition.x, mainPosition.y)
         pointer.setPosition(newX, newY);
-        if (this.joyStick.forceX != this.joyStick.pointerX) {
-            deltaX = this.joyStick.forceX / 60;
-            deltaY = this.joyStick.forceY / 60;
+        if (websocketStats.autoMove == true) {
+            deltaX = -safeDX
+            deltaY = -safeDY
+        } else {
+            if (this.joyStick.forceX != this.joyStick.pointerX) {
+                deltaX = this.joyStick.forceX / 60;
+                deltaY = this.joyStick.forceY / 60;
+                // console.log(this.joyStick.forceX)
+            }
+            else {
+                deltaX = 0;
+                deltaY = 0;
+            }
+            if (deltaX > 1) {
+                deltaX = 1
+            }
+            if (deltaX < -1) {
+                deltaX = -1
+            }
+            if (deltaY > 1) {
+                deltaY = 1
+            }
+            if (deltaY < -1) {
+                deltaY = -1
+            }
         }
-        else {
-            deltaX = 0;
-            deltaY = 0;
-        }
-        if (deltaX > 1) {
-            deltaX = 1
-        }
-        if (deltaX < -1) {
-            deltaX = -1
-        }
-        if (deltaY > 1) {
-            deltaY = 1
-        }
-        if (deltaY < -1) {
-            deltaY = -1
-        }
+        console.log(allUsers)
     }
 }

@@ -6,7 +6,8 @@ let websocketStats =
     status: 'loading',
     bet: 0.1,
     skin: 1,
-    users: []
+    users: [],
+    autoMove: false
 }
 
 export default websocketStats

@@ -80,7 +80,7 @@ function Wrapper() {
                     <LoseModal onChange={setGameState} />
                     {/* <ModalWeekly /> */}
                     {/* <Intro /> */}
-                    {/* <ModalHODL /> */}
+                    <ModalHODL />
                 </>
             ) : (
                 <DeviceCheck />

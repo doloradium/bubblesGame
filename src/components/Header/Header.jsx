@@ -18,7 +18,7 @@ const Header = ({ balance }) => {
             />
             <div className={styles.balanceContainer}>
                 My balance <br />
-                <span>{balance ? balance.toFixed(3) : 0} TON</span>
+                <span>{balance ? parseFloat(balance.toFixed(3)) : 0} TON</span>
             </div>
             <Button
                 color={"green"}

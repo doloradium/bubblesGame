@@ -5,6 +5,8 @@ import styles from "./styles.module.css";
 
 import Button from "../Button/Button";
 
+import websocketStats from "../../data/websocketStats";
+
 import coin from "../../../public/assets/coin.svg";
 import hodl from "../../../public/assets/hodl.svg";
 import star from "../../../public/assets/star.svg";
@@ -24,6 +26,10 @@ const ModalHODL = () => {
                         setTimeout(() => {
                             modal.style.display = "none";
                         }, 100);
+                        websocketStats.autoMove = true;
+                        setTimeout(() => {
+                            websocketStats.autoMove = false;
+                        }, 1000);
                     }}
                 />
                 <h2 className={styles.modalHeading}>Save Mode</h2>
@@ -80,3 +86,4 @@ const ModalHODL = () => {
 };
 
 export default ModalHODL;
+
